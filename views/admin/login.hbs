@@ -1,0 +1,270 @@
+{{!-- views/admin/login.hbs --}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Login</title>
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="/admin/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/admin/img/favicon.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/admin.css" rel="stylesheet" />
+    
+    <style>
+        .login-page {
+            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .login-card {
+            min-width: 360px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15);
+        }
+        
+        .login-card .card-header {
+            background: transparent;
+            padding: 2rem 2rem 0;
+            border: 0;
+            text-align: center;
+        }
+        
+        .login-card .card-body {
+            padding: 2rem;
+        }
+        
+        .login-card .card-footer {
+            background: transparent;
+            padding: 0 2rem 2rem;
+            border: 0;
+        }
+        
+        .brand-logo {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 1rem;
+            object-fit: contain;
+        }
+        
+        .input-group-text {
+            background: transparent;
+            border-right: none;
+        }
+        
+        .form-control {
+            border-left: none;
+        }
+        
+        .input-group .form-control:focus {
+            border-color: #dee2e6;
+            box-shadow: none;
+        }
+        
+        .btn-login {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        
+        .forgot-password {
+            font-size: 0.875rem;
+            color: #8898aa;
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            color: #5e72e4;
+        }
+        
+        .form-check-input:checked {
+            background-color: #5e72e4;
+            border-color: #5e72e4;
+        }
+        
+        .alert {
+            border: 0;
+            border-radius: 0.5rem;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(87deg, #f5365c 0, #f56036 100%);
+        }
+        
+        /* Animation */
+        .login-card {
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .login-card {
+                min-width: 300px;
+            }
+            
+            .login-page {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="card login-card">
+                        <div class="card-header text-center">
+                            <img src="/admin/img/logo.png" class="brand-logo" alt="Logo">
+                            <h4 class="font-weight-bolder">Admin Login</h4>
+                            <p class="text-muted">Enter your credentials to continue</p>
+                        </div>
+                        <form action="/admin/login" method="POST" class="needs-validation" novalidate>
+                            <div class="card-body">
+                                {{#if error}}
+                                <div class="alert alert-danger text-white" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        {{error}}
+                                    </div>
+                                </div>
+                                {{/if}}
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control" name="username" 
+                                               placeholder="Enter your username" required>
+                                        <div class="invalid-feedback">
+                                            Please enter your username
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label class="form-label">Password</label>
+                                        
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <input type="password" class="form-control" name="password" 
+                                               placeholder="Enter your password" required>
+                                        <span class="input-group-text cursor-pointer toggle-password"
+                                              onclick="togglePassword(this)">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <div class="invalid-feedback">
+                                            Please enter your password
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
+                                    <label class="form-check-label" for="rememberMe">
+                                        Remember me
+                                    </label>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-login w-100">
+                                        Sign in
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="card-footer text-center pt-0">
+                            <p class="mb-0 text-sm">
+                                <a href="/" class="text-primary font-weight-bold">← Back to home</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Core JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
+        // Toggle password visibility
+        function togglePassword(button) {
+            const input = button.parentElement.querySelector('input');
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Add loading state to form on submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (this.checkValidity()) {
+                const button = this.querySelector('button[type="submit"]');
+                button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
+                button.disabled = true;
+            }
+        });
+    </script>
+</body>
+
+</html>

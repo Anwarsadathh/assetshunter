@@ -1,0 +1,507 @@
+{{!-- views/admin/properties/edit.hbs --}}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">Edit Property</h6>
+                        <a href="/admin/properties" class="btn btn-outline-primary btn-sm ms-auto mb-0">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="propertyForm" action="/admin/properties/edit/{{property._id}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Project Name</label>
+                                    <input type="text" class="form-control" name="projectName" value="{{property.projectName}}" required>
+                                    <div class="invalid-feedback">Please enter project name.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Location</label>
+                                    <input type="text" class="form-control" name="location" value="{{property.location}}" required>
+                                    <div class="invalid-feedback">Please enter location.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Area</label>
+                                    <input type="text" class="form-control" name="area" value="{{property.area}}" required>
+                                    <div class="invalid-feedback">Please enter area.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Property Type</label>
+                                    <select class="form-control" name="propertyType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="1BHK" {{#if (eq property.propertyType '1BHK')}}selected{{/if}}>1 BHK</option>
+                                        <option value="2BHK" {{#if (eq property.propertyType '2BHK')}}selected{{/if}}>2 BHK</option>
+                                        <option value="3BHK" {{#if (eq property.propertyType '3BHK')}}selected{{/if}}>3 BHK</option>
+                                        <option value="4BHK" {{#if (eq property.propertyType '4BHK')}}selected{{/if}}>4 BHK</option>
+                                        <option value="Villa" {{#if (eq property.propertyType 'Villa')}}selected{{/if}}>Villa</option>
+                                        <option value="Plot" {{#if (eq property.propertyType 'Plot')}}selected{{/if}}>Plot</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select property type.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Price (in Lakhs)</label>
+                                    <input type="number" class="form-control" name="price" value="{{property.price}}" required>
+                                    <div class="invalid-feedback">Please enter price.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Price Per Sq Ft</label>
+                                    <input type="number" class="form-control" name="pricePerSqFt" value="{{property.pricePerSqFt}}" required>
+                                    <div class="invalid-feedback">Please enter price per sq ft.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Status</label>
+                                    <select class="form-control" name="status" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Ready to Move" {{#if (eq property.status 'Ready to Move')}}selected{{/if}}>Ready to Move</option>
+                                        <option value="Under Construction" {{#if (eq property.status 'Under Construction')}}selected{{/if}}>Under Construction</option>
+                                        <option value="Pre Launch" {{#if (eq property.status 'Pre Launch')}}selected{{/if}}>Pre Launch</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select status.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Total Units</label>
+                                    <input type="number" class="form-control" name="totalUnits" value="{{property.totalUnits}}" required>
+                                    <div class="invalid-feedback">Please enter total units.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Available Units</label>
+                                    <input type="number" class="form-control" name="availableUnits" value="{{property.availableUnits}}" required>
+                                    <div class="invalid-feedback">Please enter available units.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Total Area (in sq ft)</label>
+                                    <input type="number" class="form-control" name="totalArea" value="{{property.totalArea}}" required>
+                                    <div class="invalid-feedback">Please enter total area.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Carpet Area (in sq ft)</label>
+                                    <input type="number" class="form-control" name="carpetArea" value="{{property.carpetArea}}" required>
+                                    <div class="invalid-feedback">Please enter carpet area.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Amenities</label>
+                                    <select class="form-control select2" name="amenities[]" multiple required>
+                                        <option value="Swimming Pool" {{#if (includes property.amenities 'Swimming Pool')}}selected{{/if}}>Swimming Pool</option>
+                                        <option value="Gym" {{#if (includes property.amenities 'Gym')}}selected{{/if}}>Gym</option>
+                                        <option value="Club House" {{#if (includes property.amenities 'Club House')}}selected{{/if}}>Club House</option>
+                                        <option value="Garden" {{#if (includes property.amenities 'Garden')}}selected{{/if}}>Garden</option>
+                                        <option value="Children's Play Area" {{#if (includes property.amenities "Children's Play Area")}}selected{{/if}}>Children's Play Area</option>
+                                        <option value="Indoor Games" {{#if (includes property.amenities 'Indoor Games')}}selected{{/if}}>Indoor Games</option>
+                                        <option value="Parking" {{#if (includes property.amenities 'Parking')}}selected{{/if}}>Parking</option>
+                                        <option value="Security" {{#if (includes property.amenities 'Security')}}selected{{/if}}>24/7 Security</option>
+                                        <option value="Power Backup" {{#if (includes property.amenities 'Power Backup')}}selected{{/if}}>Power Backup</option>
+                                        <option value="Lift" {{#if (includes property.amenities 'Lift')}}selected{{/if}}>Lift</option>
+                                        <option value="Jogging Track" {{#if (includes property.amenities 'Jogging Track')}}selected{{/if}}>Jogging Track</option>
+                                        <option value="Sports Facility" {{#if (includes property.amenities 'Sports Facility')}}selected{{/if}}>Sports Facility</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select at least one amenity.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Description</label>
+                                    <textarea class="form-control" name="description" rows="4" required>{{property.description}}</textarea>
+                                    <div class="invalid-feedback">Please enter property description.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Specification</label>
+                                    <textarea class="form-control" name="specification" rows="4" required>{{property.specification}}</textarea>
+                                    <div class="invalid-feedback">Please enter specifications.</div>
+                                </div>
+                            </div>
+                           
+                        </div>
+<!-- Floor Plan Section -->
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Current Floor Plan Images</label>
+            <div class="d-flex flex-wrap gap-2">
+                {{#each property.floorPlanImages}}
+                <div class="position-relative" id="floorplan-{{@index}}">
+                    <img src="{{this}}" class="img-thumbnail" style="width: 200px; height: 200px; object-fit: contain;">
+                    <div class="floor-plan-label">Floor Plan {{inc @index 1}}</div>
+                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                            onclick="removeExistingFloorPlan({{@index}})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <input type="hidden" name="existingFloorPlans[]" value="{{this}}">
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Add New Floor Plans</label>
+            <input type="file" class="form-control" name="floorPlanImages" multiple accept="image/*">
+            <small class="form-text text-muted">Upload floor plan images. Supported formats: JPG, PNG</small>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div id="floorPlanPreviewContainer" class="d-flex flex-wrap gap-2 mt-2">
+            <!-- Floor plan previews will be displayed here -->
+        </div>
+    </div>
+</div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Current Images</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {{#each property.images}}
+                                        <div class="position-relative" id="image-{{@index}}">
+                                            <img src="{{this}}" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                                                    onclick="removeExistingImage({{@index}})">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                            <input type="hidden" name="existingImages[]" value="{{this}}">
+                                        </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Add New Images</label>
+                                    <input type="file" class="form-control" name="images" multiple accept="image/*">
+                                    <small class="form-text text-muted">You can select additional images. Supported formats: JPG, PNG</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div id="newImagePreviewContainer" class="d-flex flex-wrap gap-2 mt-2">
+                                    <!-- New image previews will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="featured" id="featured" {{#if property.featured}}checked{{/if}}>
+                                    <label class="form-check-label" for="featured">
+                                        Mark as Featured Property
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i> Update Property
+                                </button>
+                                <a href="/admin/properties" class="btn btn-secondary ms-2">
+                                    <i class="fas fa-times me-2"></i> Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Wait for document ready and ensure jQuery is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if jQuery is loaded
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery is not loaded! Please ensure jQuery is loaded before this script.');
+        return;
+    }
+
+    // Now we can safely use jQuery
+    $(function() {
+        // Initialize Select2
+        if (typeof $.fn.select2 !== 'undefined') {
+            $('.select2').select2({
+                theme: "classic"
+            });
+        }
+
+        // Property Images Preview
+        $('input[name="images"]').change(function() {
+            const files = Array.from(this.files);
+            const container = $('#newImagePreviewContainer');
+            container.empty();
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.append(`
+                        <div class="position-relative">
+                            <img src="${e.target.result}" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" onclick="removeNewPreview(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Floor Plan Images Preview
+        $('input[name="floorPlanImages"]').change(function() {
+            const files = Array.from(this.files);
+            const container = $('#floorPlanPreviewContainer');
+            container.empty();
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.append(`
+                        <div class="position-relative preview-container">
+                            <img src="${e.target.result}" class="img-thumbnail" 
+                                 style="width: 200px; height: 200px; object-fit: contain;">
+                            <div class="floor-plan-label">New Floor Plan ${index + 1}</div>
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                                    onclick="removeNewFloorPlan(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Form validation
+        const form = document.getElementById('propertyForm');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // Show loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Updating...';
+                    }
+                }
+                form.classList.add('was-validated');
+            }, false);
+        }
+    });
+});
+
+// Global functions for property images
+window.removeNewPreview = function(button) {
+    $(button).parent().remove();
+    
+    if ($('#newImagePreviewContainer').children().length === 0) {
+        $('input[name="images"]').val('');
+    }
+}
+
+window.removeExistingImage = function(index) {
+    const imageDiv = $(`#image-${index}`);
+    const imagePath = imageDiv.find('input[name="existingImages[]"]').val();
+    
+    const removedImagesInput = $('input[name="removedImages"]');
+    let removedImages = removedImagesInput.length ? 
+        removedImagesInput.val().split(',').filter(Boolean) : [];
+    
+    if (!removedImages.includes(imagePath)) {
+        removedImages.push(imagePath);
+    }
+
+    if (removedImagesInput.length) {
+        removedImagesInput.val(removedImages.join(','));
+    } else {
+        $('#propertyForm').append(`
+            <input type="hidden" name="removedImages" value="${removedImages.join(',')}">
+        `);
+    }
+
+    imageDiv.remove();
+
+    if ($('input[name="existingImages[]"]').length === 0) {
+        const container = imageDiv.parent();
+        container.append('<p class="text-muted mt-2">No images available. Please upload new images.</p>');
+    }
+}
+
+// Global functions for floor plans
+window.removeNewFloorPlan = function(button) {
+    $(button).closest('.preview-container').remove();
+    
+    if ($('#floorPlanPreviewContainer').children().length === 0) {
+        $('input[name="floorPlanImages"]').val('');
+    }
+};
+
+window.removeExistingFloorPlan = function(index) {
+    const floorPlanDiv = $(`#floorplan-${index}`);
+    const floorPlanPath = floorPlanDiv.find('input[name="existingFloorPlans[]"]').val();
+    
+    const removedFloorPlansInput = $('input[name="removedFloorPlans"]');
+    let removedFloorPlans = removedFloorPlansInput.length ? 
+        removedFloorPlansInput.val().split(',').filter(Boolean) : [];
+    
+    if (!removedFloorPlans.includes(floorPlanPath)) {
+        removedFloorPlans.push(floorPlanPath);
+    }
+
+    if (removedFloorPlansInput.length) {
+        removedFloorPlansInput.val(removedFloorPlans.join(','));
+    } else {
+        $('#propertyForm').append(`
+            <input type="hidden" name="removedFloorPlans" value="${removedFloorPlans.join(',')}">
+        `);
+    }
+
+    floorPlanDiv.remove();
+
+    if ($('input[name="existingFloorPlans[]"]').length === 0) {
+        const container = floorPlanDiv.parent();
+        container.append('<p class="text-muted mt-2">No floor plans available. Please upload new floor plans.</p>');
+    }
+};
+
+// Handle form submission and validation
+$(document).ready(function() {
+    $('#propertyForm').submit(function(e) {
+        const existingImages = $('input[name="existingImages[]"]')
+            .map(function() { return $(this).val(); })
+            .get();
+        
+        const removedImages = $('input[name="removedImages"]').val() || '';
+        
+        if ($('input[name="images"]')[0].files.length === 0 && existingImages.length === 0) {
+            e.preventDefault();
+            if (typeof alertify !== 'undefined') {
+                alertify.error('Please upload at least one image for the property');
+            } else {
+                alert('Please upload at least one image for the property');
+            }
+            return false;
+        }
+
+        const submitBtn = $(this).find('button[type="submit"]');
+        submitBtn.prop('disabled', true)
+            .html('<i class="fas fa-spinner fa-spin me-2"></i> Updating...');
+
+        return true;
+    });
+
+    // Image validation for both property images and floor plans
+    $('input[type="file"]').change(function() {
+        const files = Array.from(this.files);
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        let hasError = false;
+
+        files.forEach(file => {
+            if (file.size > maxSize) {
+                if (typeof alertify !== 'undefined') {
+                    alertify.error(`File ${file.name} is too large. Maximum size is 5MB`);
+                } else {
+                    alert(`File ${file.name} is too large. Maximum size is 5MB`);
+                }
+                hasError = true;
+            }
+            if (!allowedTypes.includes(file.type)) {
+                if (typeof alertify !== 'undefined') {
+                    alertify.error(`File ${file.name} is not a supported image type`);
+                } else {
+                    alert(`File ${file.name} is not a supported image type`);
+                }
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            this.value = '';
+            if (this.name === 'images') {
+                $('#newImagePreviewContainer').empty();
+            } else if (this.name === 'floorPlanImages') {
+                $('#floorPlanPreviewContainer').empty();
+            }
+        }
+    });
+
+    // Initialize tooltips if Bootstrap is available
+    if (typeof bootstrap !== 'undefined') {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
+
+    // Handler for remove confirmation
+    $('.remove-image, .remove-floorplan').click(function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to remove this image?')) {
+            $(this).closest('.image-container').remove();
+        }
+    });
+});
+</script>

@@ -1,0 +1,187 @@
+{{!-- views/partials/enquiry-modal.hbs --}}
+<!-- Enquiry Modal -->
+<div class="modal fade" id="enquiryModal" tabindex="-1" aria-labelledby="enquiryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="enquiryModalLabel">
+                    <i class="fas fa-envelope me-2"></i>Enquire Now
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/submit-form" method="POST" id="enquiryForm" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" required>
+                                <div class="invalid-feedback">Please enter your name</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="email" required>
+                                <div class="invalid-feedback">Please enter a valid email</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" required>
+                                <div class="invalid-feedback">Please enter a valid 10-digit mobile number</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Interested In</label>
+                                <select class="form-control" name="interestedIn">
+                                    <option value="">Select Property Type</option>
+                                    <option value="1BHK">1 BHK</option>
+                                    <option value="2BHK">2 BHK</option>
+                                    <option value="3BHK">3 BHK</option>
+                                    <option value="4BHK">4 BHK</option>
+                                    <option value="Villa">Villa</option>
+                                    <option value="Plot">Plot</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" name="message" rows="3" placeholder="Your requirements..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Enquiry
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-check-circle me-2"></i>Thank You!
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-check-circle text-success mb-3" style="font-size: 3rem;"></i>
+                <h4 class="mb-3">Enquiry Submitted Successfully!</h4>
+                <p class="mb-0">Our team will contact you shortly.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this to your CSS -->
+<style>
+.modal-content {
+    border: none;
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.form-control:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+}
+
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+@keyframes success-icon {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#successModal .fa-check-circle {
+    animation: success-icon 0.5s ease-in-out;
+}
+</style>
+
+<!-- Add this to your JavaScript -->
+<script>
+// Show enquiry modal after 5 seconds
+let modalShown = sessionStorage.getItem('modalShown');
+
+if (!modalShown) {
+    setTimeout(function() {
+        $('#enquiryModal').modal('show');
+        sessionStorage.setItem('modalShown', 'true');
+    }, 5000);
+}
+
+// Form submission handling
+$('#enquiryForm').on('submit', function(e) {
+    e.preventDefault();
+
+    if (this.checkValidity()) {
+        let form = $(this);
+        let submitBtn = form.find('button[type="submit"]');
+        
+        // Disable submit button and show loading state
+        submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Submitting...');
+
+        $.ajax({
+            url: form.attr('action'),
+            method: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    // Hide enquiry modal
+                    $('#enquiryModal').modal('hide');
+                    
+                    // Show success modal
+                    setTimeout(function() {
+                        $('#successModal').modal('show');
+                    }, 500);
+
+                    // Reset form
+                    form[0].reset();
+                } else {
+                    alert(response.message || 'Something went wrong. Please try again.');
+                }
+            },
+            error: function() {
+                alert('Something went wrong. Please try again.');
+            },
+            complete: function() {
+                // Re-enable submit button
+                submitBtn.prop('disabled', false).html('<i class="fas fa-paper-plane me-2"></i>Submit Enquiry');
+            }
+        });
+    }
+    
+    $(this).addClass('was-validated');
+});
+
+// Reset validation on modal close
+$('#enquiryModal').on('hidden.bs.modal', function() {
+    $('#enquiryForm').removeClass('was-validated')[0].reset();
+});
+</script>

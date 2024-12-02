@@ -1,0 +1,796 @@
+{{!-- views/user/home.hbs --}}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-image"></div>
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-subtitle">Discover Your Dream Home</span>
+            <h1 class="hero-title">Luxury Living, Elevated.</h1>
+            <div class="hero-action">
+                <a href="/proprties" class="minimal-button">Explore Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Featured Properties Section -->
+<section class="featured-properties ">
+    <div class="container">
+        <div class="section-heading">
+            <span class="overline">Featured</span>
+            <h2>Featured Properties</h2>
+        </div>
+        <div class="property-grid">
+           {{#each featuredProperties}}
+<div class="property-card" data-aos="fade-up" data-aos-delay="{{multiply @index 100}}">
+    <div class="property-image">
+        {{#if images}}
+            <img src="{{images.[0]}}" alt="{{projectName}}" loading="lazy" 
+                 onerror="this.onerror=null; this.src='/images/placeholder.jpg'">
+        {{else}}
+            <img src="/images/placeholder.jpg" alt="{{projectName}}" loading="lazy">
+        {{/if}}
+        <div class="property-tag">{{propertyType}}</div>
+        <div class="property-overlay">
+            <div class="overlay-content">
+                <a href="/properties/{{_id}}" class="view-details">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="property-info">
+        <div class="property-header">
+            <h3>{{projectName}}</h3>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> {{location}}</p>
+        </div>
+        <div class="property-specs">
+            <div class="spec">
+                <span class="spec-label">Area</span>
+                <span class="spec-value">{{carpetArea}} sq.ft</span>
+            </div>
+            <div class="spec">
+                <span class="spec-label">Status</span>
+                <span class="spec-value status-{{getStatusColor status}}">{{status}}</span>
+            </div>
+        </div>
+        <div class="property-footer">
+            <div class="price-info">
+                <span class="price">₹{{price}} Lakhs</span>
+                <span class="price-per-sqft">₹{{pricePerSqFt}}/sq.ft</span>
+            </div>
+            <a href="/properties/{{_id}}" class="text-link">Explore →</a>
+        </div>
+    </div>
+</div>
+{{/each}}
+        </div>
+        <div class="pagination">
+            <button class="pagination-button prev-button">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="current-page">1</span>
+            <span> of </span>
+            <span class="total-pages">{{ceil (length featuredProperties) 3}}</span>
+            <button class="pagination-button next-button">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Property Categories -->
+<section class="categories-section">
+    <div class="container">
+        <div class="section-heading mb-3">
+            <span class="overline">Discover</span>
+            <h2>Our Collections</h2>
+        </div>
+        <div class="category-grid" >
+            <div class="category-card" >
+                <span class="category-number">01</span>
+                <h3>Luxury Apartments</h3>
+                <p>Premium living spaces with modern amenities</p>
+                <a href="/properties/apartments" class="text-link">Explore →</a>
+            </div>
+            <div class="category-card" style="background-image: url('/images/b.jpg'); !important">
+                <span class="category-number">02</span>
+                <h3>Premium Villas</h3>
+                <p>Exclusive standalone homes in prime locations</p>
+                <a href="/properties/villas" class="text-link">Explore →</a>
+            </div>
+            <div class="category-card" style="background-image: url('/images/a.jpg'); !important">
+                <span class="category-number">03</span>
+                <h3>Smart Homes</h3>
+                <p>Technology-enabled contemporary living</p>
+                <a href="/properties/smart-homes" class="text-link">Explore →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Properties -->
+<section class="latest-properties">
+    <div class="container">
+        <div class="section-heading">
+            <span class="overline">Latest</span>
+            <h2>Recent Properties</h2>
+        </div>
+        <div class="property-grid">
+           {{#each latestProperties}}
+            <div class="property-card">
+                <div class="property-image">
+                    <img src="{{images.[0]}}" alt="{{projectName}}">
+                    <div class="property-tag">{{propertyType}}</div>
+                </div>
+                <div class="property-info">
+                    <h3>{{projectName}}</h3>
+                    <p class="location">{{location}}</p>
+                    <div class="property-specs">
+                        <span>{{carpetArea}} sq.ft</span>
+                        <span class="price">₹{{price}} Lakhs</span>
+                    </div>
+                    <a href="/properties/{{_id}}" class="text-link">View Details →</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="pagination">
+            <button class="pagination-button prev-button">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="current-page">1</span>
+            <span> of </span>
+            <span class="total-pages">{{ceil (length latestProperties) 3}}</span>
+            <button class="pagination-button next-button">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-wrapper">
+            <div class="contact-content">
+                <span class="overline">Contact</span>
+                <h2>Let's Connect</h2>
+                <p>Schedule a viewing or discuss your requirements with our experts.</p>
+                <div class="contact-form">
+                    <form action="/submit-form" method="POST" class="minimal-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <input type="text" name="name" required placeholder="Your Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" required placeholder="Email Address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" required placeholder="Your Message"></textarea>
+                        </div>
+                        <button type="submit" class="minimal-button">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@font-face {
+font-family: 'Catchy Mager';
+src: url('/fonts/catchy-mager.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+:root {
+--primary-bg: #F1F0EA;
+--text-color: #816D5D;
+--accent-color: #B6AA9E;
+--hover-color: #534741;
+--white: #FFFFFF;
+--darkb: #f4a91f;
+}
+/* Base Styles */
+body {
+background-color: var(--primary-bg);
+color: var(--text-color);
+font-family: 'HK Grotesk', sans-serif;
+line-height: 1.6;
+}
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: 0 2rem;
+}
+/* Typography */
+h1, h2, h3 {
+font-family: 'Catchy Mager', serif;
+font-weight: normal;
+text-align: center;
+font-weight: 600 !important;
+}
+.overline {
+font-size: 0.75rem;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(--accent-color);
+display: block;
+margin-bottom: 1rem;
+text-align: center;
+}
+/* Hero Section */
+.hero-section {
+min-height: 50vh;
+display: flex;
+align-items: center;
+background-color: var(--light-beige);
+padding: 4rem 0;
+text-align: center;
+background-image: url('/images/1.jpg');
+background-size: cover;
+background-position: center;
+animation: changeBg 30s infinite ease-in-out;
+}
+@keyframes changeBg {
+0% {
+background-image: url('/images/1.jpg');
+}
+16.67% {
+background-image: url('/images/2.jpg');
+}
+33.33% {
+background-image: url('/images/3.jpg');
+}
+50% {
+background-image: url('/images/4.jpg');
+}
+66.67% {
+background-image: url('/images/5.jpg');
+}
+83.33% {
+background-image: url('/images/6.jpg');
+}
+100% {
+background-image: url('/images/1.jpg');
+}
+}
+
+.hero-image {
+position: absolute;
+top: 0;
+right: 0;
+width: 50%;
+height: 100%;
+background-image: url('/images/hero-bg.jpg');
+background-size: cover;
+background-position: center;
+opacity: 0.3;
+}
+.hero-content {
+max-width: 600px;
+position: relative;
+z-index: 2;
+margin: 0 auto; /* Center the hero-content on larger screens */
+}
+.hero-subtitle {
+font-size: 0.9rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--accent-color);
+margin-bottom: 2rem;
+display: block;
+text-align: center;
+}
+.hero-title {
+font-size: 4rem;
+line-height: 1.2;
+margin-bottom: 2rem;
+color: white !important;
+}
+@media (max-width: 991px) {
+.hero-image {
+width: 100%;
+}
+.hero-content {
+    max-width: 100%;
+}
+}
+/* Featured Properties */
+.featured-properties {
+padding-top: 3rem;
+}
+/* Property Categories */
+.categories-section {
+padding-top: 4rem;
+}
+.category-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2rem;
+}
+.category-card {
+color: var(--white);
+background-image: url('/images/s.jpg');
+background-size: cover;
+background-position: center;
+padding: 3rem;
+position: relative;
+transition: transform 0.3s ease;
+text-align: center;
+}
+.category-card:hover {
+transform: translateY(-5px);
+}
+.category-number {
+position: absolute;
+top: 1.5rem;
+right: 1.5rem;
+font-size: 0.9rem;
+color: var(--accent-color);
+}
+/* Latest Properties */
+.latest-properties {
+padding-top: 3rem;
+padding-bottom: 4rem;
+}
+/* Contact Section */
+.contact-section {
+padding-top: 4rem;
+padding-bottom: 4rem;
+background: var(--white);
+}
+.contact-wrapper {
+max-width: 800px;
+margin: 0 auto;
+}
+.minimal-form input,
+.minimal-form textarea {
+width: 100%;
+padding: 1rem;
+border: 1px solid var(--accent-color);
+background: transparent;
+color: var(--text-color);
+margin-bottom: 1rem;
+}
+.form-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1rem;
+}
+/* Buttons and Links */
+.minimal-button {
+display: inline-block;
+padding: 1rem 2.5rem;
+border: 1px solid var(--primary-bg);
+color: var(--hover-color);
+text-decoration: none;
+background-color: var(--primary-bg) !important;
+transition: all 0.3s ease;
+background: transparent;
+font-size: 0.9rem;
+letter-spacing: 1px;
+}
+.minimal-button:hover {
+background: var(--text-color) !important;
+color: var(--white);
+}
+.text-link {
+color: var(--sand);
+text-decoration: none;
+font-size: 0.9rem;
+transition: color 0.3s ease;
+}
+.text-link:hover {
+color: var(--accent-color);
+}
+/* Pagination */
+.pagination {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 2rem;
+}
+.pagination-button {
+background: transparent;
+border: none;
+color: var(--accent-color);
+font-size: 1.2rem;
+cursor: pointer;
+transition: color 0.3s ease;
+}
+.pagination-button:hover {
+color: var(--text-color);
+}
+.pagination span {
+margin: 0 1rem;
+color: var(--text-color);
+}
+.current-page {
+font-weight: 600;
+}
+/* Property Cards Styling */
+.property-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+gap: 2rem;
+margin-top: 2rem;
+}
+.property-card {
+background: var(--white);
+border-radius: 4px;
+overflow: hidden;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.property-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.property-image {
+position: relative;
+padding-top: 66.67%;
+overflow: hidden;
+}
+.property-image img {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s ease;
+}
+.property-card:hover .property-image img {
+transform: scale(1.1);
+}
+.property-tag {
+position: absolute;
+top: 1rem;
+right: 1rem;
+background: var(--white);
+padding: 0.5rem 1rem;
+font-size: 0.8rem;
+border-radius: 2px;
+color: var(--text-color);
+}
+.property-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.2);
+opacity: 0;
+transition: opacity 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.property-card:hover .property-overlay {
+opacity: 1;
+}
+.view-details {
+color: var(--white);
+text-decoration: none;
+padding: 1rem 2rem;
+border: 1px solid var(--white);
+transition: all 0.3s ease;
+}
+.view-details:hover {
+background: var(--white);
+color: var(--text-color);
+}
+.property-info {
+padding: 2rem;
+}
+.property-header h3 {
+margin-bottom: 0.5rem;
+font-size: 1.5rem;
+color: var(--text-color);
+}
+.location {
+color: var(--accent-color);
+font-size: 0.9rem;
+margin-bottom: 1rem;
+}
+.location i {
+margin-right: 0.5rem;
+}
+.property-specs {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1rem;
+margin: 1.5rem 0;
+padding: 1rem 0;
+border-top: 1px solid rgba(0, 0, 0, 0.1);
+border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.spec {
+display: flex;
+flex-direction: column;
+}
+.spec-label {
+font-size: 0.8rem;
+color: var(--accent-color);
+margin-bottom: 0.25rem;
+}
+.spec-value {
+font-size: 0.9rem;
+color: var(--text-color);
+}
+.property-footer {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+margin-top: 1.5rem;
+}
+.price-info {
+display: flex;
+flex-direction: column;
+}
+.price {
+font-size: 1.2rem;
+font-weight: 600;
+color: var(--text-color);
+}
+.price-per-sqft {
+font-size: 0.8rem;
+color: var(--accent-color);
+}
+@media (max-width: 991px) {
+.hero-image {
+width: 100%;
+}
+.category-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+}
+
+.section-heading h2 {
+    font-size: 2.5rem;
+}
+}
+@media (max-width: 768px) {
+.form-grid {
+grid-template-columns: 1fr;
+}
+.hero-section {
+    height: auto;
+    padding: 6rem 0;
+}
+.section-heading h2 {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+.hero-title {
+    font-size: 2.5rem;
+}
+
+.property-grid {
+    grid-template-columns: 1fr;
+    justify-content: center;
+}
+
+.property-specs {
+    grid-template-columns: 1fr 1fr;
+}
+}
+
+.status-success {
+    color: green !important;
+    font-weight: bold;
+}
+
+.status-warning {
+    color: orange!important;
+    font-weight: bold;
+}
+
+.status-info {
+    color: blue!important;
+    font-weight: bold;
+}
+
+.status-danger {
+    color: red !important;
+    font-weight: bold;
+}
+</style>
+
+<script>
+// Featured Properties Pagination
+const featuredPropertiesContainer = document.querySelector(".featured-properties .property-grid");
+const featuredPrevButton = document.querySelector(".featured-properties .prev-button");
+const featuredNextButton = document.querySelector(".featured-properties .next-button");
+const featuredCurrentPage = document.querySelector(".featured-properties .current-page");
+const featuredTotalPages = document.querySelector(".featured-properties .total-pages");
+const featuredPropertyCards = featuredPropertiesContainer.querySelectorAll(".property-card");
+
+let featuredCurrentPageIndex = 0;
+const featuredPropertiesPerPage = window.innerWidth > 991 ? 3 : 1;
+
+function updateFeaturedPropertiesDisplay() {
+  const start = featuredCurrentPageIndex * featuredPropertiesPerPage;
+  const end = start + featuredPropertiesPerPage;
+
+  featuredPropertyCards.forEach((card, index) => {
+    if (index >= start && index < end) {
+      card.style.display = "block";
+      card.classList.add(
+        "animate__animated",
+        "animate__backInUp",
+        "animate__delay-0.5s",
+        "animate__duration-1s"
+      );
+      card.querySelector(".property-info").classList.add(
+        "animate__animated",
+        "animate__fadeInRight",
+        "animate__delay-1s",
+        "animate__duration-1s"
+      );
+    } else {
+      card.style.display = "none";
+      card.classList.remove(
+        "animate__animated",
+        "animate__backInUp",
+        "animate__delay-0.5s",
+        "animate__duration-1s"
+      );
+      card.querySelector(".property-info").classList.remove(
+        "animate__animated",
+        "animate__fadeInRight",
+        "animate__delay-1s",
+        "animate__duration-1s"
+      );
+    }
+  });
+
+  featuredCurrentPage.textContent = featuredCurrentPageIndex + 1;
+  featuredTotalPages.textContent = Math.ceil(featuredPropertyCards.length / featuredPropertiesPerPage);
+}
+
+function autoMoveFeaturedProperties() {
+  featuredCurrentPageIndex++;
+  const totalPages = Math.ceil(featuredPropertyCards.length / featuredPropertiesPerPage);
+
+  if (featuredCurrentPageIndex >= totalPages) {
+    featuredCurrentPageIndex = 0;
+  }
+
+  updateFeaturedPropertiesDisplay();
+}
+
+let featuredPropertiesInterval = setInterval(autoMoveFeaturedProperties, 5000);
+
+featuredPrevButton.addEventListener("click", () => {
+  clearInterval(featuredPropertiesInterval);
+  if (featuredCurrentPageIndex > 0) {
+    featuredCurrentPageIndex--;
+    updateFeaturedPropertiesDisplay();
+  }
+  featuredPropertiesInterval = setInterval(autoMoveFeaturedProperties, 5000);
+});
+
+featuredNextButton.addEventListener("click", () => {
+  clearInterval(featuredPropertiesInterval);
+  const totalPages = Math.ceil(featuredPropertyCards.length / featuredPropertiesPerPage);
+  if (featuredCurrentPageIndex < totalPages - 1) {
+    featuredCurrentPageIndex++;
+    updateFeaturedPropertiesDisplay();
+  }
+  featuredPropertiesInterval = setInterval(autoMoveFeaturedProperties, 5000);
+});
+
+window.addEventListener("resize", () => {
+  clearInterval(featuredPropertiesInterval);
+  updateFeaturedPropertiesDisplay();
+  featuredPropertiesInterval = setInterval(autoMoveFeaturedProperties, 5000);
+});
+
+updateFeaturedPropertiesDisplay();
+featuredPropertiesInterval = setInterval(autoMoveFeaturedProperties, 5000);
+
+// Latest Properties Pagination
+const latestPropertiesContainer = document.querySelector(".latest-properties .property-grid");
+const latestPrevButton = document.querySelector(".latest-properties .prev-button");
+const latestNextButton = document.querySelector(".latest-properties .next-button");
+const latestCurrentPage = document.querySelector(".latest-properties .current-page");
+const latestTotalPages = document.querySelector(".latest-properties .total-pages");
+const latestPropertyCards = latestPropertiesContainer.querySelectorAll(".property-card");
+
+let latestCurrentPageIndex = 0;
+const latestPropertiesPerPage = window.innerWidth > 991 ? 3 : 1;
+
+function updateLatestPropertiesDisplay() {
+  const start = latestCurrentPageIndex * latestPropertiesPerPage;
+  const end = start + latestPropertiesPerPage;
+
+  latestPropertyCards.forEach((card, index) => {
+    if (index >= start && index < end) {
+      card.style.display = "block";
+      card.classList.add(
+        "animate__animated",
+        "animate__flipInX",
+        "animate__delay-0.5s",
+        "animate__duration-1s"
+      );
+      card.querySelector(".property-info").classList.add(
+        "animate__animated",
+        "animate__fadeInRight",
+        "animate__delay-1s",
+        "animate__duration-1s"
+      );
+    } else {
+      card.style.display = "none";
+      card.classList.remove(
+        "animate__animated",
+        "animate__flipInX",
+        "animate__delay-0.5s",
+        "animate__duration-1s"
+      );
+      card.querySelector(".property-info").classList.remove(
+        "animate__animated",
+        "animate__fadeInRight",
+        "animate__delay-1s",
+        "animate__duration-1s"
+      );
+    }
+  });
+
+  latestCurrentPage.textContent = latestCurrentPageIndex + 1;
+  latestTotalPages.textContent = Math.ceil(latestPropertyCards.length / latestPropertiesPerPage);
+}
+
+function autoMoveLatestProperties() {
+  latestCurrentPageIndex++;
+  const totalPages = Math.ceil(latestPropertyCards.length / latestPropertiesPerPage);
+
+  if (latestCurrentPageIndex >= totalPages) {
+    latestCurrentPageIndex = 0;
+  }
+
+  updateLatestPropertiesDisplay();
+}
+
+let latestPropertiesInterval = setInterval(autoMoveLatestProperties, 5000);
+
+latestPrevButton.addEventListener("click", () => {
+  clearInterval(latestPropertiesInterval);
+  if (latestCurrentPageIndex > 0) {
+    latestCurrentPageIndex--;
+    updateLatestPropertiesDisplay();
+  }
+  latestPropertiesInterval = setInterval(autoMoveLatestProperties, 5000);
+});
+
+latestNextButton.addEventListener("click", () => {
+  clearInterval(latestPropertiesInterval);
+  const totalPages = Math.ceil(latestPropertyCards.length / latestPropertiesPerPage);
+  if (latestCurrentPageIndex < totalPages - 1) {
+    latestCurrentPageIndex++;
+    updateLatestPropertiesDisplay();
+  }
+  latestPropertiesInterval = setInterval(autoMoveLatestProperties, 5000);
+});
+
+window.addEventListener("resize", () => {
+  clearInterval(latestPropertiesInterval);
+  updateLatestPropertiesDisplay();
+  latestPropertiesInterval = setInterval(autoMoveLatestProperties, 5000);
+});
+
+updateLatestPropertiesDisplay();
+latestPropertiesInterval = setInterval(autoMoveLatestProperties, 5000);
+</script>
+

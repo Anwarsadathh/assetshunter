@@ -1,0 +1,245 @@
+{{!-- views/partials/footer.hbs --}}
+<footer class="minimalist-footer">
+    <div class="container">
+        <div class="row">
+            <!-- Company Info -->
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <a href="/" class="footer-brand">
+                     <img src="/images/ht.png" alt="Logo" height="70">
+                </a>
+                <p class="footer-desc">Experience luxury living in prime locations. Discover our exclusive properties and make your dream home a reality.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                <h6 class="footer-title">Quick Links</h6>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-2"><a href="/">Home</a></li>
+                    <li class="mb-2"><a href="/about">About Us</a></li>
+                    <li class="mb-2"><a href="/properties">Properties</a></li>
+                    <li class="mb-2"><a href="/contact">Contact</a></li>
+                    <li class="mb-2"><a href="/blog">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Properties -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h6 class="footer-title">Properties</h6>
+                <ul class="list-unstyled footer-links">
+                    <li class="mb-2"><a href="/properties/apartments">Apartments</a></li>
+                    <li class="mb-2"><a href="/properties/villas">Villas</a></li>
+                    <li class="mb-2"><a href="/properties/commercial">Commercial</a></li>
+                    <li class="mb-2"><a href="/properties/pre-launch">Pre Launch</a></li>
+                    <li class="mb-2"><a href="/properties/ready-to-move">Ready to Move</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6">
+                <h6 class="footer-title">Contact Info</h6>
+                <ul class="list-unstyled footer-contact">
+                    <li class="d-flex mb-2">
+                        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+                        <span>123 Main Street, Bangalore, Karnataka 560001</span>
+                    </li>
+                    <li class="d-flex mb-2">
+                        <i class="fas fa-phone-alt me-2 mt-1"></i>
+                        <a href="tel:+919876543210">+91 98765 43210</a>
+                    </li>
+                    <li class="d-flex mb-2">
+                        <i class="fas fa-envelope me-2 mt-1"></i>
+                        <a href="mailto:info@realestate.com">info@realestate.com</a>
+                    </li>
+                    <li class="d-flex">
+                        <i class="fas fa-clock me-2 mt-1"></i>
+                        <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <p class="copyright mb-0">© {{getCurrentYear}} Lucia & Co.</p>
+                <div class="legal-links d-flex align-items-center">
+                    <a href="/privacy-policy">Privacy</a>
+                    <span class="separator mx-2">|</span>
+                    <a href="/terms-conditions">Terms</a>
+                    <span class="separator mx-2">|</span>
+                    <a href="/sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+.minimalist-footer {
+    background-color: #534741;
+    color: var(--white);
+    padding: 3rem 0 1rem;
+    font-size: 0.85rem;
+}
+
+.footer-brand {
+    font-family: 'Catchy Mager', cursive;
+    font-size: 1.8rem;
+    color: var(--white);
+    text-decoration: none;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.footer-brand:hover {
+    color: var(--white);
+    opacity: 0.9;
+}
+
+.footer-desc {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.footer-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.social-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background-color: var(--white);
+    border-color: var(--white);
+    color: #534741;
+    transform: translateY(-2px);
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+    line-height: 1.6;
+}
+
+.footer-links a:hover {
+    color: var(--white);
+}
+
+.footer-contact li {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-contact i {
+    color: var(--white);
+    font-size: 0.85rem;
+    width: 16px;
+}
+
+.footer-contact a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: var(--white);
+}
+
+.footer-bottom {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+}
+
+.legal-links {
+    gap: 0.2rem;
+}
+
+.legal-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.7rem;
+    transition: color 0.3s ease;
+}
+
+.legal-links .separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
+}
+
+.legal-links a:hover {
+    color: var(--white);
+}
+
+@media (max-width: 991px) {
+    .minimalist-footer {
+        padding: 2rem 0 1rem;
+    }
+
+    .footer-title {
+        margin-top: 0.8rem;
+    }
+
+    .social-links {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-bottom .d-flex {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 1rem;
+    }
+
+    .copyright, 
+    .legal-links a, 
+    .legal-links .separator {
+        font-size: 0.65rem;
+    }
+
+    .footer-bottom {
+        margin-top: 1.5rem;
+        padding-top: 0.8rem;
+    }
+}
+</style>

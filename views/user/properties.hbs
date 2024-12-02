@@ -1,0 +1,1109 @@
+{{!-- views/user/properties.hbs --}}
+
+<!-- Hero Section -->
+<section class="hero-properties">
+    <div class="hero-bg">
+        <div class="overlay"></div>
+    </div>
+    <div class="hero-content">
+        <div class="container">
+            <h1 class="split-text">Collection of<br>Premium Properties</h1>
+            <div class="animated-line"></div>
+            <p class="fade-in-up">Discover Exceptional Living Spaces</p>
+        </div>
+    </div>
+</section>
+{{!-- Updated Filter Section HTML --}}
+<section class="filters ">
+    <div class="container">
+        <!-- Mobile Filter Button -->
+        <div class="mobile-filter-trigger">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
+                <i class="fas fa-sliders-h"></i>
+                <span>Filters</span>
+            </button>
+        </div>
+
+        <!-- Desktop Filters -->
+        <form class="filter-grid lap" id="filterForm" action="/properties" method="GET">
+      <div class="filter-item">
+        <select name="location" class="minimal-select">
+          <option value="">All Locations</option>
+          {{#each locations}}
+          <option value="{{this}}" {{#if (eq ../filters.location this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="type" class="minimal-select">
+          <option value="">Property Type</option>
+          {{#each propertyTypes}}
+          <option value="{{this}}" {{#if (eq ../filters.type this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="status" class="minimal-select">
+          <option value="">Property Status</option>
+          <option value="Pre Launch" {{#if (eq filters.status 'Pre Launch')}}selected{{/if}}>Pre Launch</option>
+          <option value="Under Construction" {{#if (eq filters.status 'Under Construction')}}selected{{/if}}>Under Construction</option>
+          <option value="Ready to Move" {{#if (eq filters.status 'Ready to Move')}}selected{{/if}}>Ready to Move</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="minPrice" class="minimal-select">
+          <option value="">Min. Price</option>
+          <option value="0" {{#if (eq filters.minPrice 0)}}selected{{/if}}>0 Lakhs</option>
+          <option value="50" {{#if (eq filters.minPrice 50)}}selected{{/if}}>50 Lakhs</option>
+          <option value="80" {{#if (eq filters.minPrice 80)}}selected{{/if}}>80 Lakhs</option>
+          <option value="100" {{#if (eq filters.minPrice 100)}}selected{{/if}}>1 Crore</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="maxPrice" class="minimal-select">
+          <option value="">Max. Price</option>
+          <option value="50" {{#if (eq filters.maxPrice 50)}}selected{{/if}}>50 Lakhs</option>
+          <option value="80" {{#if (eq filters.maxPrice 80)}}selected{{/if}}>80 Lakhs</option>
+          <option value="100" {{#if (eq filters.maxPrice 100)}}selected{{/if}}>1 Crore</option>
+          <option value="1000" {{#if (eq filters.maxPrice 1000)}}selected{{/if}}>Above 1 Crore</option>
+        </select>
+      </div>
+      <button type="submit" class="filter-button">Search</button>
+    </form>
+    </div>
+</section>
+
+<!-- Mobile Filter Modal -->
+<div class="modal fade filter-modal" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filter Properties</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <form class="filter-grid" id="filterForm" action="/properties" method="GET">
+      <div class="filter-item">
+        <select name="location" class="minimal-select">
+          <option value="">All Locations</option>
+          {{#each locations}}
+          <option value="{{this}}" {{#if (eq ../filters.location this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="type" class="minimal-select">
+          <option value="">Property Type</option>
+          {{#each propertyTypes}}
+          <option value="{{this}}" {{#if (eq ../filters.type this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="status" class="minimal-select">
+          <option value="">Property Status</option>
+          <option value="Pre Launch" {{#if (eq filters.status 'Pre Launch')}}selected{{/if}}>Pre Launch</option>
+          <option value="Under Construction" {{#if (eq filters.status 'Under Construction')}}selected{{/if}}>Under Construction</option>
+          <option value="Ready to Move" {{#if (eq filters.status 'Ready to Move')}}selected{{/if}}>Ready to Move</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="minPrice" class="minimal-select">
+          <option value="">Min. Price</option>
+          <option value="0" {{#if (eq filters.minPrice 0)}}selected{{/if}}>0 Lakhs</option>
+          <option value="50" {{#if (eq filters.minPrice 50)}}selected{{/if}}>50 Lakhs</option>
+          <option value="80" {{#if (eq filters.minPrice 80)}}selected{{/if}}>80 Lakhs</option>
+          <option value="100" {{#if (eq filters.minPrice 100)}}selected{{/if}}>1 Crore</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select name="maxPrice" class="minimal-select">
+          <option value="">Max. Price</option>
+          <option value="50" {{#if (eq filters.maxPrice 50)}}selected{{/if}}>50 Lakhs</option>
+          <option value="80" {{#if (eq filters.maxPrice 80)}}selected{{/if}}>80 Lakhs</option>
+          <option value="100" {{#if (eq filters.maxPrice 100)}}selected{{/if}}>1 Crore</option>
+          <option value="1000" {{#if (eq filters.maxPrice 1000)}}selected{{/if}}>Above 1 Crore</option>
+        </select>
+      </div>
+   
+   
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-reset" onclick="resetFilters()">Reset</button>
+                <button  type="submit" class="filter-button" onclick="applyFilters()">Apply Filters</button>
+            </div>
+             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Filters -->
+
+
+<!-- Properties Grid -->
+<section class="properties-showcase">
+    <div class="container-fluid">
+       <div class="properties-header">
+            <div class="results-count">{{properties.length}} Properties Found</div>
+            <div class="sort-dropdown">
+                <select class="minimal-select">
+                    <option>Latest First</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="properties-grid">
+            {{#each properties}}
+            <div class="property-item" data-aos="fade-up">
+                <div class="property-card">
+                    <div id="propertyCarousel-{{@index}}" class="carousel slide h-100" data-bs-ride="carousel">
+                <div class="carousel-inner h-100">
+                  {{#if this.images.length}}
+                    {{#each (slice this.images 0 3)}}
+                    <div class="carousel-item h-100 {{#if (eq @index 0)}}active{{/if}}">
+                      <img src="{{this}}" class="d-block w-100 h-100 object-fit-cover" alt="{{../projectName}}">
+                    </div>
+                    {{/each}}
+                  {{else}}
+                    <div class="carousel-item h-100 active">
+                      <img src="/images/property-placeholder.jpg" class="d-block w-100 h-100 object-fit-cover" alt="{{this.projectName}}">
+                    </div>
+                  {{/if}}
+                </div>
+                <div class="image-nav">
+                    <span class="prev">←</span>
+                    <span class="next">→</span>
+                </div>
+              </div>
+                    <div class="content-wrapper">
+                        <div class="property-header">
+                            <h3 class="property-title">{{projectName}}</h3>
+                            <div class="location-pin">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M12 0C7.6 0 4 3.6 4 8c0 5.4 8 16 8 16s8-10.6 8-16c0-4.4-3.6-8-8-8zm0 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/>
+                                </svg>
+                                <span>{{location}}</span>
+                            </div>
+                        </div>
+
+                     
+
+                        <div class="property-footer">
+                            <div class="price-section">
+                                <span class="price-label">Starting From</span>
+                                <span class="price-value">{{formatPrice price}}</span>
+                                <span class="price-sqft">₹{{pricePerSqFt}}/sq.ft</span>
+                            </div>
+                            <a href="/properties/{{_id}}" class="explore-btn">
+                                <span>Explore</span>
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+     
+      <!-- Pagination -->
+      <div class="row mt-4 justify-content-center">
+        <div class="col-auto">
+          <nav aria-label="Page navigation">
+            <ul class="pagination mb-0">
+              {{#if pagination.current}}
+                {{#if (gt pagination.current 1)}}
+                  <li class="page-item"><a class="page-link" href="/properties?page={{inc pagination.current -1}}">Previous</a></li>
+                {{/if}}
+                {{#each pagination.pages}}
+                  <li class="page-item {{#if (eq this ../pagination.current)}}active{{/if}}">
+                    <a class="page-link" href="/properties?page={{this}}">{{this}}</a>
+                  </li>
+                {{/each}}
+                {{#if (lt pagination.current pagination.total)}}
+                  <li class="page-item"><a class="page-link" href="/properties?page={{inc pagination.current 1}}">Next</a></li>
+                {{/if}}
+              {{/if}}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<!-- Contact Strip -->
+<section class="contact-strip">
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-text">
+                <h2>Can't find what you're looking for?</h2>
+                <p>Let our experts help you find your perfect home</p>
+            </div>
+            <button class="contact-btn" data-bs-toggle="modal" data-bs-target="#inquiryModal">
+                <span class="btn-text">Get in Touch</span>
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Base Styles and Variables */
+@font-face {
+    font-family: 'Catchy Mager';
+    src: url('/fonts/catchy-mager.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Colors */
+    --beige-color: #F5F2EE;
+    --brown-text: #4A3E3E;
+    --accent-brown: #8B7355;
+    --light-gray: #E8E6E3;
+    --off-white: #FDFBF9;
+    --golden-color: #FFD700; / Best golden color */
+    /* Transitions */
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Shadows */
+    --card-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --hover-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 2rem;
+    
+    /* Grid Sizes */
+    --card-min-width: 280px;
+    --card-gap: 20px;
+}
+
+/* Grid Layout */
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+    gap: var(--card-gap);
+    padding: var(--card-gap);
+    margin: 0 auto;
+    max-width: 1400px;
+}
+
+/* Property Card */
+.property-card {
+    position: relative;
+    background: white;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--card-shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+/* Card Image Section */
+.carousel {
+    height: 200px;
+    position: relative;
+}
+
+.carousel-item img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover .carousel-item img {
+    transform: scale(1.1);
+}
+
+/* Card Content */
+.content-wrapper {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-title {
+    font-family: 'Catchy Mager', serif;
+    font-size: 1.2rem;
+    color: var(--brown-text);
+    margin: 0 0 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.location-pin {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--accent-brown);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.location-pin svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* Price Section */
+.property-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    margin-top: auto;
+    border-top: 1px solid var(--light-gray);
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-label {
+    font-size: 0.7rem;
+    color: var(--accent-brown);
+}
+
+.price-value {
+    font-family: 'Catchy Mager', serif;
+    font-size: 1.1rem;
+    color: var(--brown-text);
+    font-weight: 600;
+}
+
+.price-sqft {
+    font-size: 0.7rem;
+    color: var(--accent-brown);
+}
+
+/* Buttons */
+.explore-btn {
+    padding: 0.5rem 1rem;
+    background: var(--brown-text);
+    color: var(--off-white);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.explore-btn:hover {
+    background: var(--accent-brown);
+    transform: translateX(5px);
+}
+
+/* Navigation Controls */
+.image-nav {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    z-index: 2;
+}
+
+.prev, .next {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition);
+    border: none;
+}
+
+.prev:hover, .next:hover {
+    background: var(--brown-text);
+    color: var(--off-white);
+}
+
+/* Filters Section */
+.filters {
+    padding: 2rem 0;
+    background: var(--off-white);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.minimal-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-sm);
+    background: white;
+    color: var(--brown-text);
+    font-size: 0.9rem;
+    appearance: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.minimal-select:hover {
+    border-color: var(--accent-brown);
+}
+
+.minimal-select:focus {
+    outline: none;
+    border-color: var(--accent-brown);
+    box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.2);
+}
+
+.filter-button {
+    padding: 0.75rem;
+    background: var(--brown-text);
+    color: var(--off-white);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.filter-button:hover {
+    background: var(--accent-brown);
+    transform: translateY(-2px);
+}
+/* Existing Filter Styles */
+.filters {
+    padding: 2rem 0;
+    background: var(--off-white);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* Mobile Filter Trigger */
+.mobile-filter-trigger {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.mobile-filter-trigger button {
+    background: var(--brown-text);
+    color: var(--off-white);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+}
+
+.mobile-filter-trigger button:hover {
+    background: var(--accent-brown);
+    transform: translateY(-2px);
+}
+
+/* Filter Modal Styles */
+.filter-modal .modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.filter-modal .modal-header {
+    border-bottom: 1px solid var(--light-gray);
+    padding: 1.5rem;
+}
+
+.filter-modal .modal-title {
+    font-family: 'Catchy Mager', serif;
+    color: var(--brown-text);
+    font-size: 1.5rem;
+}
+
+.filter-modal .modal-body {
+    padding: 1.5rem;
+}
+
+.filter-grid-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.filter-grid-mobile .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-grid-mobile label {
+    font-size: 0.9rem;
+    color: var(--brown-text);
+    font-weight: 500;
+}
+
+.filter-modal .modal-footer {
+    border-top: 1px solid var(--light-gray);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-reset {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--light-gray);
+    background: white;
+    color: var(--brown-text);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.btn-apply {
+    padding: 0.75rem 1.5rem;
+    background: var(--brown-text);
+    color: var(--off-white);
+    border: none;
+    border-radius: 8px;
+    flex-grow: 1;
+    transition: var(--transition);
+}
+
+.btn-apply:hover {
+    background: var(--accent-brown);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .desktop-filters {
+        display: none;
+    }
+    
+    .mobile-filter-trigger {
+        display: block;
+    }
+    
+    .filter-modal .modal-dialog {
+        margin: 0;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-out;
+    }
+    
+    .filter-modal.show .modal-dialog {
+        transform: translateY(0);
+    }
+    .lap{
+      display: none !important;
+    }
+    .filter-modal .modal-content {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+/* Results Header */
+.properties-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem var(--card-gap);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.results-count {
+    font-family: 'Catchy Mager', serif;
+    color: var(--brown-text);
+    font-size: 1.2rem;
+}
+
+/* Loading State */
+.property-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+    :root {
+        --card-min-width: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --card-min-width: 240px;
+        --card-gap: 15px;
+    }
+    
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .properties-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --card-min-width: 100%;
+        --card-gap: 10px;
+    }
+    
+    .property-title {
+        font-size: 1.1rem;
+    }
+    
+    .explore-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .property-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .filters,
+    .image-nav,
+    .explore-btn {
+        display: none;
+    }
+}
+/* === Base Styles & Variables === */
+@font-face {
+    font-family: 'Catchy Mager';
+    src: url('/fonts/catchy-mager.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Colors */
+    --beige-color: #F5F2EE;
+    --brown-text: #4A3E3E;
+    --accent-brown: #8B7355;
+    --light-gray: #E8E6E3;
+    --off-white: #FDFBF9;
+    
+    /* Shadows */
+    --card-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --hover-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    
+    /* Transitions */
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Spacing */
+    --section-padding: 4rem 0;
+    --card-padding: 1.5rem;
+    --grid-gap: 2rem;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--brown-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Hero Section */
+.hero-properties {
+    height: 80vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: var(--beige-color);
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/6.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.split-text {
+    font-family: 'Catchy Mager', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1.1;
+    color: var(--brown-text);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: splitReveal 1s forwards;
+}
+
+.hero-content p {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: var(--accent-brown);
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fadeIn 1s 0.5s forwards;
+}
+
+.animated-line {
+    width: 0;
+    height: 2px;
+    background: var(--accent-brown);
+    margin: 2rem 0;
+    animation: lineGrow 1s 0.5s forwards;
+}
+
+/* Hero Animations */
+@keyframes splitReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lineGrow {
+    from { width: 0; }
+    to { width: 100px; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Hero */
+@media (max-width: 768px) {
+    .hero-properties {
+        height: 60vh;
+    }
+    
+    .hero-content {
+        text-align: center;
+    }
+    
+    .animated-line {
+        margin: 2rem auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-properties {
+        height: 50vh;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+}
+/* Contact Strip */
+.contact-strip {
+background: var(--beige-color);
+padding: 3rem 0;
+position: relative;
+overflow: hidden;
+}
+.contact-strip::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg, transparent 25%, rgba(139, 115, 85, 0.05) 25%,
+rgba(139, 115, 85, 0.05) 50%, transparent 50%, transparent 75%,
+rgba(139, 115, 85, 0.05) 75%, rgba(139, 115, 85, 0.05));
+background-size: 20px 20px;
+animation: stripBg 15s linear infinite;
+}
+.contact-content {
+position: relative;
+z-index: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+.contact-text h2 {
+font-family: 'Catchy Mager', serif;
+font-size: 1.8rem;
+color: var(--brown-text);
+margin-bottom: 0.5rem;
+}
+.contact-text p {
+color: var(--accent-brown);
+font-size: 0.9rem;
+}
+.contact-btn {
+margin-top: 1.5rem;
+padding: 0.8rem 2rem;
+background: var(--accent-brown);
+color: var(--off-white);
+border: none;
+border-radius: 3rem;
+display: flex;
+align-items: center;
+gap: 0.8rem;
+font-size: 0.9rem;
+cursor: pointer;
+transition: var(--transition);
+overflow: hidden;
+position: relative;
+}
+.contact-btn::before {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 150%;
+height: 150%;
+background: var(--brown-text);
+border-radius: 50%;
+transform: translate(-50%, -50%) scale(0);
+transition: transform 0.6s ease-out;
+}
+.contact-btn:hover::before {
+transform: translate(-50%, -50%) scale(1);
+}
+.contact-btn span {
+position: relative;
+z-index: 1;
+}
+.btn-icon {
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.3s ease;
+}
+.contact-btn:hover .btn-icon {
+transform: translateX(5px);
+}
+@media (max-width: 767px) {
+.contact-strip {
+padding: 2.5rem 0;
+}
+.contact-text h2 {
+font-size: 1.6rem;
+}
+.contact-text p {
+font-size: 0.8rem;
+}
+.contact-btn {
+padding: 0.7rem 1.8rem;
+font-size: 0.8rem;
+gap: 0.6rem;
+}
+.btn-icon svg {
+width: 18px;
+height: 18px;
+}
+}
+</style>
+
+
+
+<script>
+window.addEventListener('load', () => {
+  // Get all the carousels
+  const carousels = document.querySelectorAll('.carousel');
+
+  carousels.forEach((carousel) => {
+    const prevBtn = carousel.querySelector('.prev');
+    const nextBtn = carousel.querySelector('.next');
+
+    if (prevBtn && nextBtn) {
+      const carouselInstance = new bootstrap.Carousel(carousel, { interval: false });
+
+      prevBtn.addEventListener('click', () => {
+        carouselInstance.prev();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        carouselInstance.next();
+      });
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Get the filter form and the "Search" button
+  const filterForm = document.querySelector('.filter-grid');
+  const filterButton = filterForm.querySelector('.filter-button');
+
+  // Add an event listener to the "Search" button
+  filterButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // Collect the form data
+    const formData = new FormData(filterForm);
+    const filters = {};
+    for (const [key, value] of formData.entries()) {
+      if (value !== '') {
+        filters[key] = value;
+      }
+    }
+
+    // Construct the URL with the filter parameters
+    let url = '/properties';
+    const searchParams = new URLSearchParams(filters);
+    if (searchParams.toString() !== '') {
+      url += '?' + searchParams.toString();
+    }
+
+    // Navigate to the new URL
+    window.location.href = url;
+  });
+});
+</script>
+<script>
+// Initialize modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+
+    // Sync filter values between desktop and mobile forms
+    function syncFormValues(fromForm, toForm) {
+        const fromSelects = fromForm.querySelectorAll('select');
+        fromSelects.forEach(select => {
+            const toSelect = toForm.querySelector(`select[name="${select.name}"]`);
+            if (toSelect) {
+                toSelect.value = select.value;
+            }
+        });
+    }
+
+    // Reset filters
+    window.resetFilters = function() {
+        const mobileForm = document.getElementById('filterFormMobile');
+        mobileForm.reset();
+    }
+
+    // Apply filters
+    window.applyFilters = function() {
+        const mobileForm = document.getElementById('filterFormMobile');
+        const desktopForm = document.getElementById('filterForm');
+        
+        // Sync values to desktop form
+        syncFormValues(mobileForm, desktopForm);
+        
+        // Submit the form
+        desktopForm.submit();
+        
+        // Close the modal
+        filterModal.hide();
+    }
+
+    // Handle modal show/hide animations
+    const modalElement = document.getElementById('filterModal');
+    modalElement.addEventListener('show.bs.modal', function() {
+        const desktopForm = document.getElementById('filterForm');
+        const mobileForm = document.getElementById('filterFormMobile');
+        syncFormValues(desktopForm, mobileForm);
+    });
+});
+</script>

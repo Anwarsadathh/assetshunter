@@ -1,0 +1,527 @@
+{{!-- views/layout/admin-layout.hbs --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Admin Panel</title>
+<meta name="csrf-token" content="{{csrfToken}}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add this in the head section after other CSS links -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2B3467;
+            --secondary-color: #BAD7E9;
+            --accent-color: #FCFFE7;
+            --dark-color: #2B3467;
+            --light-color: #ffffff;
+            --danger-color: #EB455F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Layout */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--primary-color);
+            color: var(--light-color);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header img {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h5 {
+            color: var(--light-color);
+            margin: 0;
+            font-size: 16px;
+            display: block;
+        }
+
+        .sidebar.collapsed .sidebar-header h5 {
+            display: none;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            padding: 0 15px;
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            padding: 12px 15px;
+            color: var(--light-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 14px;
+        }
+
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            background: #f5f6fa;
+            transition: all 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 70px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--light-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .top-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-bell {
+            position: relative;
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 15px;
+            text-align: center;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--light-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+        }
+
+        .card-title {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 8px 20px;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-color);
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            background: linear-gradient(45deg, var(--primary-color), var(--dark-color));
+            color: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .stats-card p {
+            margin: 5px 0 0;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .mobile-overlay.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="/admin/img/logo.png" alt="Logo">
+                <h5>Admin Panel</h5>
+            </div>
+            <ul class="nav-menu list-unstyled">
+                <li class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link {{#if isDashboard}}active{{/if}}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/properties" class="nav-link {{#if isProperties}}active{{/if}}">
+                        <i class="fas fa-building"></i>
+                        <span>Properties</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/enquiries" class="nav-link {{#if isEnquiries}}active{{/if}}">
+                        <i class="fas fa-envelope"></i>
+                        <span>Enquiries</span>
+                    </a>
+                </li>
+              
+                <li class="nav-item mt-auto">
+                    <form action="/admin/logout" method="POST" id="logoutForm">
+                        <a href="javascript:;" onclick="document.getElementById('logoutForm').submit();" class="nav-link text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-nav-right">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        {{#if notificationCount}}
+                        <span class="notification-count">{{notificationCount}}</span>
+                        {{/if}}
+                    </div>
+                    <div class="user-profile">
+                        <img src="/admin/img/avatar.png" alt="Admin" height="32" class="rounded-circle">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            {{{body}}}
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; {{getCurrentYear}} Real Estate Admin. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+<!-- Add this just before closing </body> tag -->
+
+<!-- Essential Scripts (Order is important!) -->
+<!-- jQuery First -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Notification Library (SweetAlert2 or Toastr) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Add this before your custom scripts -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<!-- Custom Scripts -->
+<script>
+// Wait for document ready
+$(document).ready(function() {
+    // Initialize DataTable only if not already initialized
+    initializeDataTable();
+
+    // Menu Toggle
+    $('.menu-toggle').click(function() {
+        $('.sidebar').toggleClass('active');
+        $('.mobile-overlay').toggleClass('active');
+        $('.main-content').toggleClass('expanded');
+    });
+
+    // Initialize tooltips
+    initializeTooltips();
+
+    // Initialize other components
+    initializeComponents();
+});
+
+// Function to initialize DataTable
+function initializeDataTable() {
+    // Destroy existing DataTable if it exists
+    if ($.fn.DataTable.isDataTable('.datatable')) {
+        $('.datatable').DataTable().destroy();
+    }
+
+    // Initialize DataTable with all options
+    const table = $('.datatable').DataTable({
+        responsive: true,
+        order: [[3, 'desc']], // Sort by date column
+        pageLength: 25,
+        language: {
+            search: "",
+            searchPlaceholder: "Search enquiries...",
+            paginate: {
+                previous: "<i class='fas fa-angle-left'>",
+                next: "<i class='fas fa-angle-right'>"
+            }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel me-1"></i> Export Excel',
+                className: 'btn btn-sm btn-success',
+                title: 'Enquiries_' + moment().format('YYYY-MM-DD'),
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf me-1"></i> Export PDF',
+                className: 'btn btn-sm btn-danger',
+                title: 'Enquiries_' + moment().format('YYYY-MM-DD'),
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                }
+            }
+        ]
+    });
+
+    // Filter functionality
+    $('.btn-group .btn').off('click').on('click', function() {
+        $('.btn-group .btn').removeClass('active');
+        $(this).addClass('active');
+        
+        const filter = $(this).data('filter');
+        if (filter === 'all') {
+            table.column(4).search('').draw();
+        } else {
+            table.column(4).search(filter).draw();
+        }
+    });
+
+    return table;
+}
+
+// Function to initialize tooltips
+function initializeTooltips() {
+    const tooltipList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipList.forEach(tooltipTriggerEl => {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+}
+
+// Function to initialize other components
+function initializeComponents() {
+    // Initialize clipboard
+    if (typeof ClipboardJS !== 'undefined') {
+        new ClipboardJS('.copy-btn');
+    }
+
+    // Handle form validations
+    $('form').not('#logoutForm').each(function() {
+        $(this).on('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            $(this).addClass('was-validated');
+        });
+    });
+
+    // Notification function
+    window.showNotification = function(type, message) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: type,
+                text: message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        } else {
+            alert(message);
+        }
+    };
+
+    // Initialize flash messages
+    {{#if success}}
+        showNotification('success', '{{success}}');
+    {{/if}}
+
+    {{#if error}}
+        showNotification('error', '{{error}}');
+    {{/if}}
+}
+
+// All your other functions remain the same...
+</script>
+
+<!-- Any additional page-specific scripts -->
+{{{_sections.scripts}}}
+    
+</body>
+</html>

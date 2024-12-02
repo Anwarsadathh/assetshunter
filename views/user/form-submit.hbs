@@ -1,0 +1,329 @@
+{{!-- views/user/form-submit.hbs --}}
+<div class="enquiry-form-container py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h4 class="mb-0">Enquire Now</h4>
+                        <p class="text-white-50 mb-0">Fill out the form below and we'll get back to you shortly</p>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        {{#if success}}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> {{success}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {{/if}}
+
+                        {{#if error}}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> {{error}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {{/if}}
+
+                        <form id="enquiryForm" action="/submit-form" method="POST" class="needs-validation" novalidate>
+                            {{#if propertyId}}
+                            <input type="hidden" name="propertyId" value="{{propertyId}}">
+                            <input type="hidden" name="propertyName" value="{{propertyName}}">
+                            {{/if}}
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                                        <label for="name">Your Name</label>
+                                        <div class="invalid-feedback">Please enter your name</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                                        <label for="email">Email Address</label>
+                                        <div class="invalid-feedback">Please enter a valid email address</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" 
+                                               pattern="[0-9]{10}" required>
+                                        <label for="mobile">Mobile Number</label>
+                                        <div class="invalid-feedback">Please enter a valid 10-digit mobile number</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="propertyType" name="propertyType" required>
+                                            <option value="">Select Property Type</option>
+                                            <option value="1BHK">1 BHK</option>
+                                            <option value="2BHK">2 BHK</option>
+                                            <option value="3BHK">3 BHK</option>
+                                            <option value="4BHK">4 BHK</option>
+                                            <option value="Villa">Villa</option>
+                                            <option value="Plot">Plot</option>
+                                        </select>
+                                        <label for="propertyType">Property Type</label>
+                                        <div class="invalid-feedback">Please select a property type</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" id="message" name="message" style="height: 100px" 
+                                                  placeholder="Your Message" required>{{#if propertyName}}I'm interested in {{propertyName}}{{/if}}</textarea>
+                                        <label for="message">Your Message</label>
+                                        <div class="invalid-feedback">Please enter your message</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="consent" name="consent" required>
+                                        <label class="form-check-label" for="consent">
+                                            I agree to receive communications about your properties and services
+                                        </label>
+                                        <div class="invalid-feedback">You must agree before submitting</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100 py-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Send Enquiry
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-footer bg-light p-4">
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-phone-alt text-primary me-2"></i>
+                                    <span>+91 98765 43210</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-envelope text-primary me-2"></i>
+                                    <span>info@realestate.com</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                    <span>Bangalore, India</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Contact Options -->
+                <div class="quick-contact-options text-center mt-4">
+                    <p class="text-muted mb-3">Prefer to reach us directly?</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="tel:+919876543210" class="btn btn-outline-primary">
+                            <i class="fas fa-phone-alt me-2"></i> Call Now
+                        </a>
+                        <a href="https://wa.me/919876543210" target="_blank" class="btn btn-outline-success">
+                            <i class="fab fa-whatsapp me-2"></i> WhatsApp
+                        </a>
+                        <a href="mailto:info@realestate.com" class="btn btn-outline-info">
+                            <i class="fas fa-envelope me-2"></i> Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.enquiry-form-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.form-floating > .form-control,
+.form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+}
+
+.form-floating > label {
+    padding: 1rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(43, 52, 103, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-color);
+    border-color: var(--dark-color);
+    transform: translateY(-2px);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.quick-contact-options .btn {
+    transition: all 0.3s ease;
+}
+
+.quick-contact-options .btn:hover {
+    transform: translateY(-2px);
+}
+
+.alert {
+    border: none;
+    border-radius: 10px;
+}
+
+.alert-success {
+    background-color: rgba(45, 206, 137, 0.1);
+    color: #2dce89;
+}
+
+.alert-danger {
+    background-color: rgba(235, 69, 95, 0.1);
+    color: #eb455f;
+}
+
+.card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .enquiry-form-container {
+        padding-top: 40px;
+    }
+
+    .quick-contact-options .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .quick-contact-options .btn {
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('enquiryForm');
+    
+    // Form validation
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+        }
+        form.classList.add('was-validated');
+    });
+
+    // Mobile number validation
+    const mobileInput = document.getElementById('mobile');
+    mobileInput.addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+    });
+
+    // Initialize floating labels
+    const inputs = document.querySelectorAll('.form-control, .form-select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+    });
+});
+
+// AJAX form submission
+$('#enquiryForm').on('submit', function(e) {
+    e.preventDefault();
+
+    if (!this.checkValidity()) {
+        return;
+    }
+
+    const form = $(this);
+    const submitBtn = form.find('button[type="submit"]');
+    
+    $.ajax({
+        url: form.attr('action'),
+        method: 'POST',
+        data: form.serialize(),
+        beforeSend: function() {
+            submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Sending...');
+        },
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thank You!',
+                    text: 'Your enquiry has been submitted successfully. We will contact you shortly.',
+                    confirmButtonColor: '#2B3467'
+                }).then(() => {
+                    form[0].reset();
+                    form.removeClass('was-validated');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: response.message || 'Something went wrong! Please try again.',
+                    confirmButtonColor: '#2B3467'
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.',
+                confirmButtonColor: '#2B3467'
+            });
+        },
+        complete: function() {
+            submitBtn.prop('disabled', false).html('<i class="fas fa-paper-plane me-2"></i> Send Enquiry');
+        }
+    });
+});
+</script>

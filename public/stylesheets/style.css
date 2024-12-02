@@ -1,0 +1,223 @@
+  :root {
+      --primary-bg: #F1F0EA;
+      --text-color: #816D5D;
+      --accent-color: #B6AA9E;
+      --hover-color: #534741;
+      --white: #FFFFFF;
+      --darkb: #f4a91f;
+  }/* Back to Top Button */
+  .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3rem;
+      height: 3rem;
+      background-color: #8B7355 !important;
+
+      color: var(--white);
+      border-radius: 50%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+      z-index: 999;
+  }
+
+  .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+  }
+
+  .back-to-top:hover {
+      background-color: #534741 !important;
+  }
+
+  .back-to-top i {
+      font-size: 1.5rem;
+  }
+
+  @media (max-width: 767px) {
+      .back-to-top {
+          bottom: 1rem;
+          right: 1rem;
+          width: 2.5rem;
+          height: 2.5rem;
+      }
+
+      .back-to-top i {
+          font-size: 1.25rem;
+      }
+  }
+
+ /* General modal styles */
+ .modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+    z-index: 9999;
+        /* Increased z-index for full screen visibility */
+     overflow: auto;
+     background-color: rgba(0, 0, 0, 0.4);
+ }
+
+ /* Responsive modal content */
+ .modal-content {
+     background-color: #fefefe;
+     margin: 10% auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 90%;
+     /* Default width for mobile */
+     max-width: 500px;
+     /* Cap the width for larger screens */
+     border-radius: 8px;
+     /* Rounded corners for aesthetics */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+     /* Add some shadow */
+ }
+
+ /* Close button adjustments */
+ .close-button {
+     color: #aaa;
+     float: right;
+     font-size: 24px;
+     font-weight: bold;
+ }
+
+ .close-button:hover,
+ .close-button:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
+ }
+
+ /* Input fields and form elements */
+ .form-group {
+     margin-bottom: 1rem;
+ }
+
+ .form-group input,
+ .form-group textarea {
+     width: 100%;
+     padding: 0.5rem;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     font-size: 1rem;
+ }
+
+ /* Adjustments for smaller screens */
+ @media (max-width: 600px) {
+     .modal-content {
+         margin: 15% auto;
+         padding: 15px;
+         width: 95%;
+         /* Narrower width for very small screens */
+     }
+
+     .close-button {
+         font-size: 20px;
+     }
+
+     .form-group input,
+     .form-group textarea {
+         font-size: 0.9rem;
+         padding: 0.4rem;
+     }
+ }
+
+ /* Primary button style */
+.modal-btn {
+    background-color: #007bff; /* Blue shade for primary button */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Hover effect */
+.modal-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Focus effect */
+.modal-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
+}
+
+/* Disabled state */
+.modal-btn:disabled {
+    background-color: #cccccc; /* Light gray for disabled button */
+    cursor: not-allowed;
+    color: #666666; /* Dimmed text color */
+}
+
+/* Secondary button (optional) */
+.modal-btn-secondary {
+    background-color: #6c757d; /* Gray shade for secondary button */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.modal-btn-secondary:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Button group for alignment */
+.modal-btn-group {
+    text-align: center; /* Center the buttons */
+    margin-top: 20px;
+}
+
+.modal-btn-group .modal-btn {
+    margin: 0 5px; /* Space between buttons */
+}
+/* Centering Container */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* Adjust as needed, e.g., 100px or 100vh */
+    text-align: center;
+}
+
+/* Buttons and Links */
+.minimal-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--primary-bg);
+    color: var(--hover-color);
+    text-decoration: none;
+    background-color: var(--primary-bg) !important;
+    transition: all 0.3s ease;
+    background: transparent;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.minimal-button:hover {
+    background: var(--text-color) !important;
+    color: var(--white);
+}

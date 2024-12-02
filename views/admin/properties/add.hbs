@@ -1,0 +1,466 @@
+{{!-- views/admin/properties/add.hbs --}}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">Add New Property</h6>
+                        <a href="/admin/properties" class="btn btn-outline-primary btn-sm ms-auto mb-0">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="propertyForm" action="/admin/properties/add" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Project Name</label>
+                                    <input type="text" class="form-control" name="projectName" required>
+                                    <div class="invalid-feedback">Please enter project name.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Location</label>
+                                    <input type="text" class="form-control" name="location" required>
+                                    <div class="invalid-feedback">Please enter location.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Area</label>
+                                    <input type="text" class="form-control" name="area" required>
+                                    <div class="invalid-feedback">Please enter area.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Property Type</label>
+                                    <select class="form-control" name="propertyType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="1BHK">1 BHK</option>
+                                        <option value="2BHK">2 BHK</option>
+                                        <option value="3BHK">3 BHK</option>
+                                        <option value="4BHK">4 BHK</option>
+                                        <option value="Villa">Villa</option>
+                                        <option value="Plot">Plot</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select property type.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Price (in Lakhs)</label>
+                                    <input type="number" class="form-control" name="price" required>
+                                    <div class="invalid-feedback">Please enter price.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Price Per Sq Ft</label>
+                                    <input type="number" class="form-control" name="pricePerSqFt" required>
+                                    <div class="invalid-feedback">Please enter price per sq ft.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Status</label>
+                                    <select class="form-control" name="status" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Ready to Move">Ready to Move</option>
+                                        <option value="Under Construction">Under Construction</option>
+                                        <option value="Pre Launch">Pre Launch</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select status.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Total Units</label>
+                                    <input type="number" class="form-control" name="totalUnits" required>
+                                    <div class="invalid-feedback">Please enter total units.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Available Units</label>
+                                    <input type="number" class="form-control" name="availableUnits" required>
+                                    <div class="invalid-feedback">Please enter available units.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Total Area (in sq ft)</label>
+                                    <input type="number" class="form-control" name="totalArea" required>
+                                    <div class="invalid-feedback">Please enter total area.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Carpet Area (in sq ft)</label>
+                                    <input type="number" class="form-control" name="carpetArea" required>
+                                    <div class="invalid-feedback">Please enter carpet area.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Amenities</label>
+                                    <select class="form-control select2" name="amenities[]" multiple required>
+                                        <option value="Swimming Pool">Swimming Pool</option>
+                                        <option value="Gym">Gym</option>
+                                        <option value="Club House">Club House</option>
+                                        <option value="Garden">Garden</option>
+                                        <option value="Children's Play Area">Children's Play Area</option>
+                                        <option value="Indoor Games">Indoor Games</option>
+                                        <option value="Parking">Parking</option>
+                                        <option value="Security">24/7 Security</option>
+                                        <option value="Power Backup">Power Backup</option>
+                                        <option value="Lift">Lift</option>
+                                        <option value="Jogging Track">Jogging Track</option>
+                                        <option value="Sports Facility">Sports Facility</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select at least one amenity.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Description</label>
+                                    <textarea class="form-control" name="description" rows="4" required></textarea>
+                                    <div class="invalid-feedback">Please enter property description.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Specification</label>
+                                    <textarea class="form-control" name="specification" rows="4" required></textarea>
+                                    <div class="invalid-feedback">Please enter specifications.</div>
+                                </div>
+                            </div>
+                        
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Property Images (Max 10)</label>
+                                    <input type="file" class="form-control" name="images" multiple accept="image/*" required>
+                                    <div class="invalid-feedback">Please select property images.</div>
+                                    <small class="form-text text-muted">You can select up to 10 images. Supported formats: JPG, PNG</small>
+                                </div>
+                            </div>
+                        </div>
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Floor Plan Images</label>
+            <input type="file" class="form-control" name="floorPlanImages" multiple accept="image/*">
+            <div class="invalid-feedback">Please select floor plan images.</div>
+            <small class="form-text text-muted">Upload floor plan images. Supported formats: JPG, PNG</small>
+        </div>
+        <div id="floorPlanPreviewContainer" class="d-flex flex-wrap gap-2 mt-2">
+            <!-- Floor plan previews will be displayed here -->
+        </div>
+    </div>
+</div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 mt-2">
+                                    <!-- Image previews will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="featured" id="featured">
+                                    <label class="form-check-label" for="featured">
+                                        Mark as Featured Property
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i> Save Property
+                                </button>
+                                <a href="/admin/properties" class="btn btn-secondary ms-2">
+                                    <i class="fas fa-times me-2"></i> Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- Add this at the end of your add.hbs file --}}
+<script>
+    function initializePropertyForm() {
+        // Initialize Select2
+        if ($.fn.select2) {
+            $('.select2').select2({
+                theme: "classic",
+                placeholder: "Select options",
+                allowClear: true,
+                width: '100%'
+            });
+        }
+
+        // Image preview
+        $('input[name="images"]').on('change', function() {
+            const files = Array.from(this.files);
+            const container = $('#imagePreviewContainer');
+            container.empty();
+
+            if (files.length > 10) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Too many files',
+                    text: 'You can only upload up to 10 images'
+                });
+                this.value = '';
+                return;
+            }
+
+            files.forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid file type',
+                        text: 'Please upload only image files'
+                    });
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.append(`
+                        <div class="position-relative preview-image-container">
+                            <img src="${e.target.result}" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 remove-preview" 
+                                    onclick="removePreview(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Form validation with better user feedback
+        const form = document.getElementById('propertyForm');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    // Show error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Please fill in all required fields correctly'
+                    });
+                } else {
+                    // Show loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saving...';
+                }
+                form.classList.add('was-validated');
+            });
+        }
+// Add to your existing script
+function initializeFloorPlanPreviews() {
+    $('input[name="floorPlanImages"]').on('change', function() {
+        const files = Array.from(this.files);
+        const container = $('#floorPlanPreviewContainer');
+        container.empty();
+
+        files.forEach(file => {
+            if (!file.type.startsWith('image/')) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid file type',
+                    text: 'Please upload only image files'
+                });
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                container.append(`
+                    <div class="position-relative preview-image-container">
+                        <img src="${e.target.result}" class="img-thumbnail" 
+                             style="width: 200px; height: 200px; object-fit: contain;">
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 remove-preview" 
+                                onclick="removeFloorPlanPreview(this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+}
+
+function removeFloorPlanPreview(button) {
+    $(button).closest('.preview-image-container').remove();
+    if ($('.preview-image-container').length === 0) {
+        $('input[name="floorPlanImages"]').val('');
+    }
+}
+
+// Add this to your initialization
+initializeFloorPlanPreviews();
+        // Auto calculate price per sqft
+        $('input[name="price"], input[name="totalArea"]').on('input', function() {
+            const price = $('input[name="price"]').val();
+            const area = $('input[name="totalArea"]').val();
+            if (price && area) {
+                const pricePerSqFt = (price * 100000 / area).toFixed(2);
+                $('input[name="pricePerSqFt"]').val(pricePerSqFt);
+            }
+        });
+
+        // Ensure available units don't exceed total units
+        $('input[name="availableUnits"]').on('input', function() {
+            const totalUnits = parseInt($('input[name="totalUnits"]').val());
+            const availableUnits = parseInt($(this).val());
+            if (availableUnits > totalUnits) {
+                $(this).val(totalUnits);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Input',
+                    text: 'Available units cannot exceed total units'
+                });
+            }
+        });
+    }
+
+    // Function to remove image preview
+    function removePreview(button) {
+        $(button).closest('.preview-image-container').remove();
+        
+        // Clear file input if no previews remain
+        if ($('.preview-image-container').length === 0) {
+            $('input[name="images"]').val('');
+        }
+    }
+
+    // Initialize when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof jQuery !== 'undefined' && jQuery.fn.select2) {
+            initializePropertyForm();
+        } else {
+            console.error('Required libraries are not loaded');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Required libraries failed to load. Please refresh the page.'
+            });
+        }
+    });
+</script>
+
+<style>
+    /* Add these styles for better form appearance */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+        padding: 0.625rem 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(43, 52, 103, 0.25);
+    }
+
+    .select2-container--classic .select2-selection--multiple {
+        border-radius: 0.5rem !important;
+        border: 1px solid #dee2e6 !important;
+    }
+
+    .preview-image-container {
+        margin: 0.5rem;
+        transition: transform 0.2s ease;
+    }
+
+    .preview-image-container:hover {
+        transform: scale(1.05);
+    }
+
+    .btn {
+        border-radius: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: var(--dark-color);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1rem;
+        }
+
+        .preview-image-container {
+            margin: 0.25rem;
+        }
+    }
+</style>
