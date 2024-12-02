@@ -50,13 +50,10 @@ router.get("/", async (req, res) => {
     const locations = await propertyHelper.getAllLocations();
 
     // Log the fetched properties
-    console.log("Featured Properties:", featuredProperties);
-    console.log("Latest Properties:", latestProperties);
-    console.log("Locations:", locations);
-
+  
     res.render("user/home", {
       layout: "user-layout",
-      title: "Welcome to Real Estate",
+      title: "Assets Hunter",
       user: true,
       featuredProperties,
       latestProperties,

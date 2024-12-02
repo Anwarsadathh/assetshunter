@@ -14,7 +14,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{#if isHome}}active{{/if}}" href="/">Home</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    {{!-- <li class="nav-item dropdown">
                         <a class="nav-link {{#if isProjects}}active{{/if}}" href="#" id="projectsDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Projects
@@ -30,6 +30,9 @@
                             {{/if}}
                             <a class="dropdown-item" href="/properties">All Projects</a>
                         </div>
+                    </li> --}}
+                     <li class="nav-item">
+                        <a class="nav-link {{#if isProperties}}active{{/if}}" href="/properties">Properties</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link {{#if isLocations}}active{{/if}}" href="#" id="locationsDropdown" role="button"
