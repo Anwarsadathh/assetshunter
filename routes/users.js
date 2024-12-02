@@ -66,7 +66,7 @@ router.get("/", async (req, res) => {
     console.error(error);
     res.render("user/home", {
       layout: "user-layout",
-      title: "Welcome to Real Estate",
+      title: "Assets Hunter",
       user: true,
       error: "Failed to load properties",
     });
