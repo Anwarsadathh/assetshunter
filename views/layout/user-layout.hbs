@@ -105,7 +105,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/stylesheets/style.css">
 
@@ -140,46 +140,65 @@
         <i class="fas fa-arrow-up"></i>
     </a>
 
- <!-- Add this at the end of your body tag, just before closing </body> -->
-<div id="contactModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h2>Get in Touch</h2>
-        <form id="contactForm">
-            <div class="form-group">
-                <input type="text" id="name" name="name" placeholder="Your Name" required>
+ <div class="callback-modal">
+    <div class="callback-content">
+        <div class="callback-header">
+            <h4>Request a Callback</h4>
+            <span class="close-btn">&times;</span>
+        </div>
+
+        <form id="callbackForm">
+            <div class="form-field">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" name="name" required>
             </div>
-                <!-- Existing fields -->
-    <input type="hidden" name="pageUrl" value="">
-    <input type="hidden" name="timestamp" value="">
-            <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email Address" required>
+
+            <div class="form-field">
+                <label>Phone No <span class="required">*</span></label>
+                <div class="phone-input">
+                    <select name="countryCode">
+                        <option value="+91">🇮🇳 +91</option>
+                    </select>
+                    <input type="tel" name="phone" pattern="[0-9]{10}" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" required>
+
+            <div class="form-field">
+                <label>Email ID <span class="required">*</span></label>
+                <input type="email" name="email" required>
             </div>
-            <div class="form-group">
-                <textarea id="message" name="message" placeholder="Your Message" required></textarea>
-            </div>
-            <div class="form-group">
-                <input type="text" id="captcha" name="captcha" placeholder="Enter the 6-digit code" required>
-                <div id="captcha-display" class="captcha-display"></div>
-                <button type="button" class="refresh-captcha">Refresh</button>
-            </div>
-            <div class="center-container">
-    <button type="submit" class="minimal-button">Submit</button>
+
+          <div class="form-row">
+ <div class="form-field captcha-field">
+   <div class="captcha-container">
+     <div id="captcha-display"></div>
+     <button type="button" class="refresh-captcha">↻</button>
+   </div>
+ </div>
+ <div class="form-field">
+   <input type="text" name="captcha" placeholder="Enter Code" required>
+ </div>
 </div>
 
-           
+        <div class="form-field consent">
+  <input type="checkbox" id="consent" required checked>
+  <label for="consent">I authorize the team to contact me via Email/SMS/Call</label>
+</div>
+
+            <button type="submit" class="submit-btn">SUBMIT</button>
         </form>
     </div>
 </div>
+
+
+
 
 
     <!-- Core JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Plugin JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -191,159 +210,138 @@
     
     <!-- Custom Scripts -->
     <script src="/javascripts/statesandcities.js"></script>
+
 <script>// Modal and Form Handler Script
 document.addEventListener('DOMContentLoaded', function() {
-    // Get modal elements
-    const modal = document.getElementById('contactModal');
-    const closeButton = document.querySelector('.close-button');
-    const form = document.getElementById('contactForm');
+   const modal = document.querySelector('.callback-modal');
+   const closeButton = document.querySelector('.close-btn');
+   const form = document.getElementById('callbackForm');
+   let currentCaptcha = '';
 
-    // Get UTM parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmParams = {
-        source: urlParams.get('utm_source') || 'direct',
-        medium: urlParams.get('utm_medium') || 'none',
-        campaign: urlParams.get('utm_campaign') || 'none',
-        term: urlParams.get('utm_term') || 'none',
-        content: urlParams.get('utm_content') || 'none'
-    };
+   // Get UTM parameters
+   const urlParams = new URLSearchParams(window.location.search);
+   const utmParams = {
+       source: urlParams.get('utm_source') || 'direct',
+       medium: urlParams.get('utm_medium') || 'none', 
+       campaign: urlParams.get('utm_campaign') || 'none',
+       term: urlParams.get('utm_term') || 'none',
+       content: urlParams.get('utm_content') || 'none'
+   };
 
-    // Show modal after 5 seconds
-    setTimeout(() => {
-        modal.style.display = 'block';
-    }, 5000);
+   // Show modal after 5 seconds
+   setTimeout(() => {
+       modal.style.display = 'block';
+   }, 5000);
 
-    // Close modal when clicking close button
-    closeButton.onclick = function() {
-        modal.style.display = 'none';
-    }
+   // Close modal
+   closeButton.onclick = () => modal.style.display = 'none';
+   window.onclick = (e) => {
+       if (e.target === modal) modal.style.display = 'none';
+   };
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
+   // Generate CAPTCHA
+   function generateCaptcha() {
+       const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+       let captcha = '';
+       for (let i = 0; i < 6; i++) {
+           captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+       }
+       document.getElementById('captcha-display').textContent = captcha;
+       return captcha;
+   }
 
-    // Generate CAPTCHA code
-    function generateCaptcha() {
-        const captchaDisplay = document.getElementById('captcha-display');
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let captcha = '';
-        for (let i = 0; i < 6; i++) {
-            captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        captchaDisplay.textContent = captcha;
-        return captcha;
-    }
+   // Initial CAPTCHA
+   currentCaptcha = generateCaptcha();
 
-    // Initial CAPTCHA generation
-    let currentCaptcha = generateCaptcha();
+   // Refresh CAPTCHA
+   document.querySelector('.refresh-captcha').onclick = () => {
+       currentCaptcha = generateCaptcha();
+   };
 
-    // Refresh CAPTCHA
-    document.querySelector('.refresh-captcha').onclick = function() {
-        currentCaptcha = generateCaptcha();
-    }
+  function validateForm(data) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[6-9]\d{9}$/;
 
-    // Form validation
-    function validateForm(formData) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const phoneRegex = /^[0-9]{10}$/;
+  if (!phoneRegex.test(data.get('phone'))) {
+    alert('Please enter a valid 10-digit mobile number starting with 6-9');
+    return false;
+  }
+  if (!emailRegex.test(data.get('email'))) {
+    alert('Please enter a valid email address');
+    return false;
+  }
+  return true;
+}
 
-        if (!emailRegex.test(formData.get('email'))) {
-            alert('Please enter a valid email address');
-            return false;
-        }
+   form.addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-        if (!phoneRegex.test(formData.get('mobile'))) {
-            alert('Please enter a valid 10-digit mobile number');
-            return false;
-        }
+  const formData = new FormData(form);
+  const userCaptcha = formData.get('captcha').toUpperCase();
 
-        return true;
-    }
+  if (userCaptcha !== currentCaptcha) {
+    alert('Invalid CAPTCHA code!');
+    currentCaptcha = generateCaptcha();
+    form.querySelector('input[name="captcha"]').value = '';
+    return;
+  }
 
-    // Handle form submission
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
+  if (!validateForm(formData)) return;
 
-        // Validate CAPTCHA
-        const userCaptcha = document.getElementById('captcha').value.toUpperCase();
-        if (userCaptcha !== currentCaptcha) {
-            alert('Invalid CAPTCHA code!');
-            currentCaptcha = generateCaptcha();
-            document.getElementById('captcha').value = '';
-            return;
-        }
+  const submitData = {
+    name: formData.get('name'),
+    email: formData.get('email'),
+    mobile: formData.get('phone'),
+    utmSource: utmParams.source,
+    utmMedium: utmParams.medium,
+    utmCampaign: utmParams.campaign,
+    utmTerm: utmParams.term,
+    utmContent: utmParams.content,
+    pageUrl: window.location.href,
+  };
 
-        // Get form data
-        const formData = new FormData(form);
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Submitting...';
 
-        // Validate form
-        if (!validateForm(formData)) {
-            return;
-        }
-
-        // Add UTM parameters and additional data
-        const submitData = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            mobile: formData.get('mobile'),
-            message: formData.get('message'),
-            utmSource: utmParams.source,
-            utmMedium: utmParams.medium,
-            utmCampaign: utmParams.campaign,
-            utmTerm: utmParams.term,
-            utmContent: utmParams.content,
-            pageUrl: window.location.href,
-            timestamp: new Date().toISOString()
-        };
-
-        // Show loading state
-        const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-        submitButton.innerHTML = 'Submitting...';
-
-        try {
-            const response = await fetch('/submit-form', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(submitData)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Form submitted successfully!');
-                form.reset();
-                modal.style.display = 'none';
-                
-                // Track successful submission
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'form_submission', {
-                        'event_category': 'Engagement',
-                        'event_label': 'Popup Form',
-                        'value': 1
-                    });
-                }
-            } else {
-                alert(result.message || 'Failed to submit form. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('An error occurred. Please try again later.');
-        } finally {
-            // Reset button state
-            submitButton.disabled = false;
-            submitButton.innerHTML = 'Submit';
-            // Generate new CAPTCHA
-            currentCaptcha = generateCaptcha();
-        }
+  try {
+    const response = await fetch('/submit-form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(submitData)
     });
-});</script>
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert(result.message);
+      form.reset();
+      modal.style.display = 'none';
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'callback_request', {
+          'event_category': 'Engagement',
+          'event_label': 'Callback Form',
+          'value': 1
+        });
+      }
+    } else {
+      alert(result.message);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Something went wrong. Please try again later.');
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = 'SUBMIT';
+    currentCaptcha = generateCaptcha();
+  }
+});
+});
+</script>
 
     <!-- Initialize Global Scripts -->
     <script>
@@ -411,6 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     </script>
+       <script src="/javascripts/home.js"></script>
 
     <!-- Additional page-specific scripts -->
     {{{_sections.scripts}}}

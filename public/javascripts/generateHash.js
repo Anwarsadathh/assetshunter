@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 async function generateHashes() {
   try {
     // Your specific passwords
-    const adminPassword = "$2b$10$AgA0e0bCkKTmfYYX7PcsyOpMi2PYE/3PrHVwzAcA/oco0vlv79iF2";
+    const adminPassword = "$2b$10/3PrHVwzAcA/oco0vlv79iF2";
     const dataPassword = "";
 
     // Generate hashes

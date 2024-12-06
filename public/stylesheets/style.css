@@ -52,147 +52,237 @@
       }
   }
 
- /* General modal styles */
- .modal {
-     display: none;
-     position: fixed;
-     z-index: 1;
-     left: 0;
-     top: 0;
-     width: 100%;
-     height: 100%;
-    z-index: 9999;
-        /* Increased z-index for full screen visibility */
-     overflow: auto;
-     background-color: rgba(0, 0, 0, 0.4);
- }
-
- /* Responsive modal content */
- .modal-content {
-     background-color: #fefefe;
-     margin: 10% auto;
-     padding: 20px;
-     border: 1px solid #888;
-     width: 90%;
-     /* Default width for mobile */
-     max-width: 500px;
-     /* Cap the width for larger screens */
-     border-radius: 8px;
-     /* Rounded corners for aesthetics */
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-     /* Add some shadow */
- }
-
- /* Close button adjustments */
- .close-button {
-     color: #aaa;
-     float: right;
-     font-size: 24px;
-     font-weight: bold;
- }
-
- .close-button:hover,
- .close-button:focus {
-     color: black;
-     text-decoration: none;
-     cursor: pointer;
- }
-
- /* Input fields and form elements */
- .form-group {
-     margin-bottom: 1rem;
- }
-
- .form-group input,
- .form-group textarea {
-     width: 100%;
-     padding: 0.5rem;
-     border: 1px solid #ccc;
-     border-radius: 4px;
-     font-size: 1rem;
- }
-
- /* Adjustments for smaller screens */
- @media (max-width: 600px) {
-     .modal-content {
-         margin: 15% auto;
-         padding: 15px;
-         width: 95%;
-         /* Narrower width for very small screens */
-     }
-
-     .close-button {
-         font-size: 20px;
-     }
-
-     .form-group input,
-     .form-group textarea {
-         font-size: 0.9rem;
-         padding: 0.4rem;
-     }
- }
-
- /* Primary button style */
-.modal-btn {
-    background-color: #007bff; /* Blue shade for primary button */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: inline-block;
-    text-align: center;
-}
-
-/* Hover effect */
-.modal-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slight zoom effect */
-}
-
-/* Focus effect */
-.modal-btn:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
-}
-
-/* Disabled state */
-.modal-btn:disabled {
-    background-color: #cccccc; /* Light gray for disabled button */
-    cursor: not-allowed;
-    color: #666666; /* Dimmed text color */
-}
-
-/* Secondary button (optional) */
-.modal-btn-secondary {
-    background-color: #6c757d; /* Gray shade for secondary button */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: inline-block;
-    text-align: center;
-}
-
-.modal-btn-secondary:hover {
-    background-color: #5a6268; /* Darker gray on hover */
-    transform: scale(1.05); /* Slight zoom effect */
-}
-
-/* Button group for alignment */
-.modal-btn-group {
-    text-align: center; /* Center the buttons */
-    margin-top: 20px;
-}
-
-.modal-btn-group .modal-btn {
-    margin: 0 5px; /* Space between buttons */
-}
+        .callback-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+    
+        .callback-content {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: 120px auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        /* Updated checkbox and button styles */
+        .consent {
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+    
+        .consent input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            accent-color: #e94444;
+        }
+    
+        .consent label {
+            font-size: 11px;
+            line-height: 1.3;
+            color: #666;
+        }
+    
+        .submit-btn {
+            width: auto;
+            min-width: 120px;
+            padding: 8px 24px;
+            margin: 0 auto;
+            display: block;
+            font-size: 14px;
+            border-radius: 4px;
+            background: #e94444;
+            color: white;
+            border: none;
+            font-weight: 500;
+        }
+    
+        /* Fix form row spacing */
+        .form-row {
+            margin-bottom: 10px;
+        }
+    
+        .callback-header {
+            background: #0a1e3c;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .callback-header h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+    
+        .close-btn {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    
+        #callbackForm {
+            padding: 20px;
+        }
+    
+        .form-field {
+            margin-bottom: 15px;
+        }
+    
+        .form-field label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+    
+        /* Updated styles */
+        .form-field {
+            margin-bottom: 10px;
+        }
+    
+        .form-field input,
+        .form-field select {
+            padding: 6px 8px;
+            height: 32px;
+        }
+    
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+    
+        .captcha-container {
+            height: 32px;
+            display: flex;
+            gap: 5px;
+            margin: 0;
+        }
+    
+        #captcha-display {
+            padding: 6px 10px;
+            font-size: 14px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .refresh-captcha {
+            height: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .callback-content {
+            max-width: 360px;
+        }
+    
+        #callbackForm {
+            padding: 15px;
+        }
+    
+        .required {
+            color: red;
+        }
+    
+        .phone-input {
+            display: flex;
+            gap: 5px;
+        }
+    
+        .phone-input select {
+            width: 100px;
+        }
+    
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    
+        .captcha-container {
+            display: flex;
+            gap: 10px;
+            margin: 5px 0;
+        }
+    
+        #captcha-display {
+            background: #f5f5f5;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 18px;
+            letter-spacing: 3px;
+            flex-grow: 1;
+            text-align: center;
+        }
+    
+        .refresh-captcha {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+    
+        .consent {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+    
+        .consent input {
+            width: auto;
+            margin-top: 4px;
+        }
+    
+        .consent label {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+    
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e94444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    
+        .submit-btn:hover {
+            background: #00a8ff;
+        }
+    
+        @media (max-width: 480px) {
+            .callback-content {
+                margin: 20px auto;
+            }
+    
+            .phone-input {
+                flex-direction: column;
+            }
+        }
 /* Centering Container */
 .center-container {
     display: flex;
