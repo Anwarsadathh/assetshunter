@@ -3,24 +3,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white text-center py-4">
-                        <h4 class="mb-0">Enquire Now</h4>
-                        <p class="text-white-50 mb-0">Fill out the form below and we'll get back to you shortly</p>
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-header text-center py-4 bg-gradient">
+                        <h3 class="mb-1 text-dark fw-bold">Enquire Now</h3>
+                        <p class="text-white-75 text-dark mb-0">We'll get back to you shortly</p>
                     </div>
-                    
+
                     <div class="card-body p-4">
                         {{#if success}}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success" role="alert">
                             <i class="fas fa-check-circle me-2"></i> {{success}}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {{/if}}
 
                         {{#if error}}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger" role="alert">
                             <i class="fas fa-exclamation-circle me-2"></i> {{error}}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {{/if}}
 
@@ -30,34 +28,34 @@
                             <input type="hidden" name="propertyName" value="{{propertyName}}">
                             {{/if}}
 
-                            <div class="row g-3">
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-floating mb-3">
+                                    <div class="input-group mb-4">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
-                                        <label for="name">Your Name</label>
+                                        <span class="input-icon"><i class="fas fa-user"></i></span>
                                         <div class="invalid-feedback">Please enter your name</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-floating mb-3">
+                                    <div class="input-group mb-4">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
-                                        <label for="email">Email Address</label>
+                                        <span class="input-icon"><i class="fas fa-envelope"></i></span>
                                         <div class="invalid-feedback">Please enter a valid email address</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-floating mb-3">
+                                    <div class="input-group mb-4">
                                         <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" 
                                                pattern="[0-9]{10}" required>
-                                        <label for="mobile">Mobile Number</label>
+                                        <span class="input-icon"><i class="fas fa-phone"></i></span>
                                         <div class="invalid-feedback">Please enter a valid 10-digit mobile number</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-floating mb-3">
+                                    <div class="input-group mb-4">
                                         <select class="form-select" id="propertyType" name="propertyType" required>
                                             <option value="">Select Property Type</option>
                                             <option value="1BHK">1 BHK</option>
@@ -67,144 +65,192 @@
                                             <option value="Villa">Villa</option>
                                             <option value="Plot">Plot</option>
                                         </select>
-                                        <label for="propertyType">Property Type</label>
+                                        <span class="input-icon"><i class="fas fa-home"></i></span>
                                         <div class="invalid-feedback">Please select a property type</div>
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="form-floating mb-3">
-                                        <textarea class="form-control" id="message" name="message" style="height: 100px" 
-                                                  placeholder="Your Message" required>{{#if propertyName}}I'm interested in {{propertyName}}{{/if}}</textarea>
-                                        <label for="message">Your Message</label>
+                                    <div class="input-group mb-4">
+                                        <textarea class="form-control" id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+                                        <span class="input-icon"><i class="fas fa-comment-alt"></i></span>
                                         <div class="invalid-feedback">Please enter your message</div>
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="consent" name="consent" required>
-                                        <label class="form-check-label" for="consent">
-                                            I agree to receive communications about your properties and services
-                                        </label>
-                                        <div class="invalid-feedback">You must agree before submitting</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary w-100 py-3">
-                                        <i class="fas fa-paper-plane me-2"></i> Send Enquiry
-                                    </button>
+                                    <button type="submit" class="btn btn-gradient w-100">Send Enquiry</button>
                                 </div>
                             </div>
                         </form>
                     </div>
 
-                    <div class="card-footer bg-light p-4">
-                        <div class="row text-center">
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-phone-alt text-primary me-2"></i>
-                                    <span>+91 98765 43210</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-envelope text-primary me-2"></i>
-                                    <span>info@realestate.com</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                                    <span>Bangalore, India</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="card-footer text-center">
+                        <small>Prefer to reach us directly?</small>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <a href="tel:+916362361137" class="btn btn-outline-primary">
+                                <i class="fas fa-phone-alt me-2"></i> Call Now
+                            </a>
+                            <a href="https://wa.me/916362361137" target="_blank" class="btn btn-outline-success">
+                                <i class="fab fa-whatsapp me-2"></i> WhatsApp
+                            </a>
 
-                <!-- Quick Contact Options -->
-                <div class="quick-contact-options text-center mt-4">
-                    <p class="text-muted mb-3">Prefer to reach us directly?</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="tel:+919876543210" class="btn btn-outline-primary">
-                            <i class="fas fa-phone-alt me-2"></i> Call Now
-                        </a>
-                        <a href="https://wa.me/919876543210" target="_blank" class="btn btn-outline-success">
-                            <i class="fab fa-whatsapp me-2"></i> WhatsApp
-                        </a>
-                        <a href="mailto:info@realestate.com" class="btn btn-outline-info">
-                            <i class="fas fa-envelope me-2"></i> Email
-                        </a>
+                            <a href="mailto:assetshunterofficial@gmail.com" class="btn btn-outline-info">
+                                <i class="fas fa-envelope me-2"></i> Email
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <style>
 .enquiry-form-container {
-    background-color: #f8f9fa;
+    background-color: #f3f4f6;
     min-height: 100vh;
-    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
 }
 
 .card {
+    border-radius: 12px;
     border: none;
-    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 }
 
 .card-header {
-    border-bottom: none;
+    background: linear-gradient(135deg, #6c63ff, #ab47bc);
+    color: #fff;
+    text-align: center;
+    padding: 20px 15px;
 }
 
-.form-floating > .form-control,
-.form-floating > .form-select {
-    height: calc(3.5rem + 2px);
-    line-height: 1.25;
+.card-header h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
-.form-floating > label {
-    padding: 1rem 0.75rem;
+.card-header p {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.25rem rgba(43, 52, 103, 0.25);
+.card-body {
+    padding: 30px 20px;
+    background-color: #fff;
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    transition: all 0.3s ease;
+.card-footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 15px;
 }
 
-.btn-primary:hover {
-    background-color: var(--dark-color);
-    border-color: var(--dark-color);
+.card-footer small {
+    font-size: 0.75rem;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #6c63ff;
+    font-size: 0.9rem;
+}
+
+.form-control, 
+.form-select, 
+textarea {
+    padding-left: 35px;
+    padding-right: 10px;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.form-control:focus, 
+.form-select:focus, 
+textarea:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.1);
+}
+
+textarea {
+    height: 80px;
+}
+
+.form-control::placeholder, 
+textarea::placeholder {
+    color: #aaa;
+    font-size: 0.75rem;
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #6c63ff, #ab47bc);
+    color: #fff;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #ab47bc, #6c63ff);
     transform: translateY(-2px);
 }
 
-.form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+.btn-outline-primary, 
+.btn-outline-success, 
+.btn-outline-info {
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    font-size: 0.85rem;
+    transition: 0.3s;
 }
 
-.quick-contact-options .btn {
-    transition: all 0.3s ease;
-}
-
-.quick-contact-options .btn:hover {
+.btn-outline-primary:hover, 
+.btn-outline-success:hover, 
+.btn-outline-info:hover {
+    background-color: #f3f4f6;
     transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .alert {
-    border: none;
-    border-radius: 10px;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
 }
 
 .alert-success {
@@ -217,22 +263,63 @@
     color: #eb455f;
 }
 
-.card-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+.alert i {
+    margin-right: 8px;
+    font-size: 1rem;
 }
 
+.invalid-feedback {
+    font-size: 0.75rem;
+    color: #eb455f;
+    margin-top: 4px;
+}
+
+.input-group .invalid-feedback {
+    position: absolute;
+    bottom: -15px;
+}
+
+.form-control:invalid {
+    border-color: #eb455f;
+}
+
+input:invalid {
+    border-color: #eb455f;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .enquiry-form-container {
-        padding-top: 40px;
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 
-    .quick-contact-options .d-flex {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .quick-contact-options .btn {
+    .btn-outline-primary, 
+    .btn-outline-success, 
+    .btn-outline-info {
         width: 100%;
+    }
+
+    .input-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-header {
+        padding: 15px;
+    }
+
+    .card-body {
+        padding: 20px 15px;
+    }
+
+    .btn {
+        padding: 8px 10px;
+        font-size: 0.8rem;
     }
 }
 </style>

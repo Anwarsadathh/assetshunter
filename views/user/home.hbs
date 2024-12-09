@@ -1,158 +1,1402 @@
 {{!-- views/user/home.hbs --}}
-  <link rel="stylesheet" href="/stylesheets/home.css">
+  {{!-- <link rel="stylesheet" href="/stylesheets/home.css"> --}}
+<!-- Hero Section -->
 <!-- Hero Section -->
 <section class="hero-section">
-    <div class="hero-image"></div>
-    <div class="container">
-        <div class="hero-content">
-            <span class="hero-subtitle">Discover Your Dream Home</span>
-            <h1 class="hero-title">Luxury Living, Elevated.</h1>
-            <div class="hero-action">
-                <a href="/proprties" class="minimal-button">Explore Now</a>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="text-container">
+            <div class="animate-text">
+                <h1>
+                    <span class="line-1">Assets hunter</span>
+                    <span class="line-2">Your assets search engine</span>
+                   
+                </h1>
             </div>
         </div>
     </div>
 </section>
 
+<style>
+.hero-section {     
+    position: relative;     
+    width: 100%;     
+    height: 80vh;     
+    background-image: url('/images/hero.jpg');     
+    background-size: cover;     
+    background-position: center;     
+    overflow: hidden;
+    min-height: 400px;    
+}  
 
+.hero-overlay {     
+    position: absolute;     
+    top: 0;     
+    left: 0;     
+    width: 100%;     
+    height: 100%;     
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%); 
+}  
 
+.hero-content {     
+    position: relative;     
+    width: 100%;     
+    height: 100%;     
+    display: flex;     
+    align-items: center;     
+    z-index: 2;
+    padding-top: 40px;    
+}  
 
-<!-- Featured Properties Section -->
-<section class="featured-properties ">
-    <div class="container">
-        <div class="section-heading">
-            <span class="overline">Featured</span>
-            <h2>Featured Properties</h2>
+.text-container {     
+    padding-left: 10%;     
+    max-width: 500px;     /* Reduced max-width */
+    position: relative; 
+}  
+
+.text-container::before {     
+    content: '';     
+    position: absolute;     
+    top: -10px;     /* Reduced padding */
+    left: 0;     
+    right: 0;     
+    bottom: -10px;     /* Reduced padding */
+    background: rgba(0, 0, 0, 0.5);     
+    transform: skewX(-8deg);    
+    z-index: -1; 
+}  
+
+.animate-text h1 {     
+    color: #ffffff;     
+    font-family: 'Poppins', sans-serif;     
+    font-weight: 600;     
+    line-height: 1.2;    
+    margin: 0;     
+    padding: 12px 25px;   /* Reduced padding */
+}  
+
+.animate-text span {     
+    display: block;     
+    opacity: 0;     
+    transform: translateY(20px);    
+}  
+
+.line-1 {     
+    font-size: 2rem;     /* Reduced from 3rem */
+    animation: fadeUp 0.8s ease forwards;     
+    animation-delay: 0.3s;    
+    text-transform: capitalize;  
+}  
+
+.line-2 {     
+    font-size: 1.5rem;     /* Reduced from 2rem */
+    animation: fadeUp 0.8s ease forwards;     
+    animation-delay: 0.8s;    
+    opacity: 0.9;    
+}  
+
+@keyframes fadeUp {     
+    from {         
+        opacity: 0;         
+        transform: translateY(20px);     
+    }     
+    to {         
+        opacity: 1;         
+        transform: translateY(0);     
+    } 
+}  
+
+/* Responsive Styles */ 
+@media (max-width: 768px) {   
+    .hero-section {
+        height: 50vh;    
+        min-height: 350px;  
+    }  
+
+    .text-container {         
+        padding-left: 5%;     
+    }      
+    
+    .animate-text h1 {         
+        padding: 10px 20px;     
+    }      
+    
+    .line-1 {         
+        font-size: 1.5rem;     /* Reduced from 2rem */
+    }      
+    
+    .line-2 {         
+        font-size: 1.2rem;     /* Reduced from 1.4rem */
+    }      
+    
+    .text-container::before {         
+        transform: skewX(-5deg);     
+    } 
+}  
+
+/* Very Small Devices */ 
+@media (max-width: 480px) {   
+    .hero-section {
+        height: 45vh;     
+        min-height: 300px;  
+    }
+
+    .line-1 {         
+        font-size: 1.3rem;     /* Reduced from 1.6rem */
+    }      
+    
+    .line-2 {         
+        font-size: 1rem;     /* Reduced from 1.1rem */
+    }      
+}
+</style>
+
+<script>
+// Reinitialize animations when scrolling back to the section
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const spans = entry.target.querySelectorAll('span');
+            spans.forEach((span, index) => {
+                span.style.animation = 'none';
+                span.offsetHeight; // Trigger reflow
+                span.style.animation = `fadeUp 0.8s ease forwards ${(index + 1) * 0.5}s`;
+            });
+        }
+    });
+}, { threshold: 0.5 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const heroContent = document.querySelector('.animate-text');
+    if (heroContent) {
+        observer.observe(heroContent);
+    }
+});
+</script>
+
+<!-- Brochure Download Modal -->
+<div class="callback-modal" id="brochureModal" style="display: none;">
+    <div class="callback-content">
+        <div class="callback-header">
+            <h4>Download Brochure</h4>
+            <span class="close-btn" onclick="closeBrochureModal()">&times;</span>
         </div>
-        <div class="property-grid">
-           {{#each featuredProperties}}
-<div class="property-card" data-aos="fade-up" data-aos-delay="{{multiply @index 100}}">
-    <div class="property-image">
-        {{#if images}}
-            <img src="{{images.[0]}}" alt="{{projectName}}" loading="lazy" 
-                 onerror="this.onerror=null; this.src='/images/placeholder.jpg'">
-        {{else}}
-            <img src="/images/placeholder.jpg" alt="{{projectName}}" loading="lazy">
-        {{/if}}
-        <div class="property-tag">{{propertyType}}</div>
-        <div class="property-overlay">
-            <div class="overlay-content">
-                <a href="/properties/{{_id}}" class="view-details">View Details</a>
+
+        <form id="brochureForm">
+            <input type="hidden" id="propertyIdInput" name="propertyId">
+            <div class="form-field">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" name="name" required>
             </div>
-        </div>
-    </div>
-    <div class="property-info">
-        <div class="property-header">
-            <h3>{{projectName}}</h3>
-            <p class="location"><i class="fas fa-map-marker-alt"></i> {{location}}</p>
-        </div>
-        <div class="property-specs">
-            <div class="spec">
-                <span class="spec-label">Area</span>
-                <span class="spec-value">{{carpetArea}} sq.ft</span>
+
+            <div class="form-field">
+                <label>Phone No <span class="required">*</span></label>
+                <div class="phone-input">
+                    <select name="countryCode">
+                        <option value="+91">🇮🇳 +91</option>
+                    </select>
+                    <input type="tel" name="mobile" pattern="[0-9]{10}" required>
+                </div>
             </div>
-            <div class="spec">
-                <span class="spec-label">Status</span>
-                <span class="spec-value status-{{getStatusColor status}}">{{status}}</span>
+
+            <div class="form-field">
+                <label>Email ID <span class="required">*</span></label>
+                <input type="email" name="email" required>
             </div>
-        </div>
-        <div class="property-footer">
-            <div class="price-info">
-                <span class="price">₹{{price}} Lakhs</span>
-                <span class="price-per-sqft">₹{{pricePerSqFt}}/sq.ft</span>
+
+            <div class="form-field consent">
+                <input type="checkbox" id="consent" required checked>
+                <label for="consent">I authorize downloading the brochure</label>
             </div>
-            <a href="/properties/{{_id}}" class="text-link">Explore →</a>
-        </div>
+
+            <button type="submit" class="submit-btn">Download Now</button>
+        </form>
     </div>
 </div>
-{{/each}}
-        </div>
-        <div class="pagination">
-            <button class="pagination-button prev-button">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <span class="current-page">1</span>
-            <span> of </span>
-            <span class="total-pages">{{ceil (length featuredProperties) 3}}</span>
-            <button class="pagination-button next-button">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-</section>
+<style>
+    .callback-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
 
+.callback-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+}
 
+.callback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-<!-- Property Categories -->
-<section class="categories-section">
+.close-btn {
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.phone-input {
+    display: flex;
+    gap: 10px;
+}
+
+.phone-input select {
+    width: 100px;
+}
+
+.phone-input input {
+    flex: 1;
+}
+
+.required {
+    color: red;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background: #00a8ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.submit-btn:hover {
+    background: #006698;
+}
+
+.consent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.consent input {
+    width: auto;
+}
+</style>
+{{!-- Property Listing Section --}}
+<section class="property-section">
     <div class="container">
-        <div class="section-heading mb-3">
-            <span class="overline">Discover</span>
-            <h2>Our Collections</h2>
+        <h2 class="section-title">FIND YOUR DREAM HOME HERE</h2>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-status="All">All</button>
+            <button class="filter-btn" data-status="Ready to Move">Ready to Move</button>
+            <button class="filter-btn" data-status="Under Construction">Under Construction</button>
+            <button class="filter-btn" data-status="Pre Launch">Pre Launch</button>
         </div>
-        <div class="category-grid" >
-            <div class="category-card" >
-                <span class="category-number">01</span>
-                <h3>Luxury Apartments</h3>
-                <p>Premium living spaces with modern amenities</p>
-                <a href="/properties/apartments" class="text-link">Explore →</a>
-            </div>
-            <div class="category-card" style="background-image: url('/images/b.jpg'); !important">
-                <span class="category-number">02</span>
-                <h3>Premium Villas</h3>
-                <p>Exclusive standalone homes in prime locations</p>
-                <a href="/properties/villas" class="text-link">Explore →</a>
-            </div>
-            <div class="category-card" style="background-image: url('/images/a.jpg'); !important">
-                <span class="category-number">03</span>
-                <h3>Smart Homes</h3>
-                <p>Technology-enabled contemporary living</p>
-                <a href="/properties/smart-homes" class="text-link">Explore →</a>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Latest Properties -->
-<section class="latest-properties">
-    <div class="container">
-        <div class="section-heading">
-            <span class="overline">Latest</span>
-            <h2>Recent Properties</h2>
-        </div>
+        <!-- Property Grid -->
         <div class="property-grid">
-           {{#each latestProperties}}
-            <div class="property-card">
-                <div class="property-image">
-                    <img src="{{images.[0]}}" alt="{{projectName}}">
-                    <div class="property-tag">{{propertyType}}</div>
-                </div>
-                <div class="property-info">
-                    <h3>{{projectName}}</h3>
-                    <p class="location">{{location}}</p>
-                    <div class="property-specs">
-                        <span>{{carpetArea}} sq.ft</span>
-                        <span class="price">₹{{price}} Lakhs</span>
+            {{#if featuredProperties}}
+                {{#each featuredProperties}}
+                <div class="property-card" data-status="{{status}}">
+                    <div class="property-image">
+                         {{#if images.[0]}}
+    <img src="{{images.[0]}}" alt="{{projectName}}" loading="lazy" 
+         onerror="this.onerror=null; this.src='/images/placeholder.jpg'">
+{{else}}
+    <img src="/images/placeholder.jpg" alt="{{projectName}}" loading="lazy">
+{{/if}}
+
+                        <div class="property-tag">{{status}}</div>
+                        <button class="share-btn" onclick="shareProperty('{{projectName}}', '{{location}}')">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
                     </div>
-                    <a href="/properties/{{_id}}" class="text-link">View Details →</a>
+                    <div class="property-info">
+                        <h3 class="property-name">{{projectName}}</h3>
+                        <p class="property-location">
+                            <i class="fas fa-map-marker-alt"></i> Near {{area}}, {{location}}
+                        </p>
+                        <div class="property-specs">
+                            <span><i class="fas fa-home"></i> {{propertyType}}</span>
+                            <span><i class="fas fa-chart-area"></i> {{carpetArea}} sq.ft</span>
+                            <span><i class="fas fa-building"></i> {{totalUnits}} Units</span>
+                        </div>
+                        <div class="property-price">
+                            <span class="price">Rs. {{price}} Lakhs*</span>
+                            <span class="price-suffix">onwards</span>
+                        </div>
+                        <div class="property-actions">
+                            <button class="download-btn" onclick="downloadBrochure('{{_id}}')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <a href="/properties/{{_id}}" class="know-more-btn">Know More</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {{/each}}
-        </div>
-        <div class="pagination">
-            <button class="pagination-button prev-button">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <span class="current-page">1</span>
-            <span> of </span>
-            <span class="total-pages">{{ceil (length latestProperties) 3}}</span>
-            <button class="pagination-button next-button">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+                {{/each}}
+            {{else}}
+                <div class="no-properties">
+                    <p>No properties found</p>
+                </div>
+            {{/if}}
         </div>
     </div>
 </section>
 
+<style>
+.property-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.filter-btn.active {
+    background: #0A2647;
+    color: white;
+    border-color: #0A2647;
+}
+
+.filter-btn:hover {
+    background: #0A2647;
+    color: white;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+    min-height: 400px; /* Ensure grid has minimum height when loading */
+}
+
+.property-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+}
+
+.property-image {
+    position: relative;
+    height: 200px;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #0A2647;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.share-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.share-btn:hover {
+    background: #f8f9fa;
+}
+
+.property-info {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.property-location {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.property-specs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.property-specs span {
+    color: #666;
+}
+
+.property-price {
+    margin-bottom: 20px;
+}
+
+.price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0A2647;
+}
+
+.price-suffix {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.property-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: auto;
+}
+
+.download-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    background: #f8f9fa;
+}
+
+.know-more-btn {
+    flex: 1;
+    padding: 10px;
+    background: #00a8ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.know-more-btn:hover {
+    background: #00a8ff;
+    color: white;
+    text-decoration: none;
+}
+
+.no-properties {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0A2647;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fade.show {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .property-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .filter-buttons {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .filter-btn {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+    }
+
+    .property-specs {
+        gap: 10px;
+    }
+}
+</style>
+
+<script>
+function shareProperty(name, location) {
+    if (navigator.share) {
+        navigator.share({
+            title: name,
+            text: `Check out this property at ${location}`,
+            url: window.location.href
+        })
+        .catch(console.error);
+    }
+}
+
+function downloadBrochure(propertyId) {
+    window.location.href = `/property/brochure/${propertyId}`;
+}
+
+async function fetchProperties(status) {
+    try {
+        const response = await fetch(`/api/properties/status/${encodeURIComponent(status)}`);
+        if (!response.ok) throw new Error('Failed to fetch properties');
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+function showLoading() {
+    const grid = document.querySelector('.property-grid');
+    grid.innerHTML = `
+        <div class="loading">
+            <div class="loading-spinner"></div>
+        </div>
+    `;
+}
+
+function updatePropertyGrid(properties) {
+    const grid = document.querySelector('.property-grid');
+    grid.innerHTML = '';
+
+    if (!properties || properties.length === 0) {
+        grid.innerHTML = `
+            <div class="no-properties fade">
+                <p>No properties found</p>
+            </div>
+        `;
+        setTimeout(() => {
+            grid.querySelector('.no-properties').classList.add('show');
+        }, 100);
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    properties.forEach(property => {
+        const card = document.createElement('div');
+        card.className = 'property-card fade';
+        card.innerHTML = `
+            <div class="property-image">
+               ${Array.isArray(property.images) && property.images.length > 0 
+    ? `<img src="${property.images[0]}" alt="${property.projectName}" onerror="this.onerror=null; this.src='/images/placeholder.jpg';">`
+    : `<img src="/images/placeholder.jpg" alt="No Image Available">`}
+
+                <div class="property-tag">${property.status}</div>
+                <button class="share-btn" onclick="shareProperty('${property.projectName}', '${property.location}')">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+            <div class="property-info">
+                <h3 class="property-name">${property.projectName}</h3>
+                <p class="property-location">
+                    <i class="fas fa-map-marker-alt"></i> Near ${property.area}, ${property.location}
+                </p>
+                <div class="property-specs">
+                    <span><i class="fas fa-home"></i> ${property.propertyType}</span>
+                    <span><i class="fas fa-chart-area"></i> ${property.carpetArea} sq.ft</span>
+                    <span><i class="fas fa-building"></i> ${property.totalUnits} Units</span>
+                </div>
+                <div class="property-price">
+                    <span class="price">Rs. ${property.price} Lakhs*</span>
+                    <span class="price-suffix">onwards</span>
+                </div>
+                <div class="property-actions">
+                    <button class="download-btn" onclick="downloadBrochure('${property._id}')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <a href="/properties/${property._id}" class="know-more-btn">Know More</a>
+                </div>
+            </div>
+        `;
+        fragment.appendChild(card);
+    });
+
+    grid.appendChild(fragment);
+    
+    // Trigger fade in animation
+    setTimeout(() => {
+        grid.querySelectorAll('.property-card').forEach(card => {
+            card.classList.add('show');
+        });
+    }, 100);
+}
+
+// Initialize filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    let currentFilter = 'All';
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const status = this.dataset.status;
+            if (status === currentFilter) return;
+            
+            currentFilter = status;
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            showLoading();
+            const properties = await fetchProperties(status);
+            updatePropertyGrid(properties);
+        });
+    });
+});
+// Consolidated downloadBrochure function
+let currentPropertyId = null;
+
+function downloadBrochure(propertyId) {
+    if (!propertyId) return;
+    
+    const downloadBtn = document.querySelector(`[onclick="downloadBrochure('${propertyId}')"]`);
+    if (downloadBtn) {
+        downloadBtn.disabled = true;
+        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    }
+
+    fetch(`/property/check-brochure/${propertyId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.hasBrochure) {
+                currentPropertyId = propertyId;
+                document.getElementById('propertyIdInput').value = propertyId;
+                const modal = document.getElementById('brochureModal');
+                modal.style.display = 'block';
+            } else {
+                alert('Brochure not available for this property');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to check brochure availability');
+        })
+        .finally(() => {
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+            }
+        });
+}
+
+function closeBrochureModal() {
+    const modal = document.getElementById('brochureModal');
+    modal.style.display = 'none';
+    document.getElementById('brochureForm').reset();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const brochureForm = document.getElementById('brochureForm');
+
+    // Form submission logic
+    brochureForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+
+        try {
+            // Prepare form data
+            const formData = new FormData(this);
+
+            // Append additional data
+            formData.append('pageUrl', window.location.href);
+            formData.append('utmSource', new URLSearchParams(window.location.search).get('utm_source') || 'direct');
+            formData.append('utmMedium', new URLSearchParams(window.location.search).get('utm_medium') || '');
+            formData.append('utmCampaign', new URLSearchParams(window.location.search).get('utm_campaign') || '');
+            formData.append('utmTerm', new URLSearchParams(window.location.search).get('utm_term') || '');
+            formData.append('utmContent', new URLSearchParams(window.location.search).get('utm_content') || '');
+            formData.append('brochureId', currentPropertyId); // Append the current brochure property ID
+
+            const response = await fetch('/submit-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                closeBrochureModal(); // Close the modal
+                window.location.href = `/property/brochure/${currentPropertyId}`; // Redirect to brochure download
+            } else {
+                alert(result.message || 'Failed to process request');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Download Now';
+        }
+    });
+
+    // Close modal when clicking outside the modal content
+    window.onclick = function (e) {
+        const modal = document.getElementById('brochureModal');
+        if (e.target === modal) {
+            closeBrochureModal();
+        }
+    };
+
+    // Close modal on close button click
+    const closeModalButton = document.querySelector('.close-btn');
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', closeBrochureModal);
+    }
+});
+
+// Close the brochure modal and reset the form
+function closeBrochureModal() {
+    const modal = document.getElementById('brochureModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    const brochureForm = document.getElementById('brochureForm');
+    if (brochureForm) {
+        brochureForm.reset();
+    }
+}
 
 
 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="details-section container text-center">
+    <div class="sec-header"></div>
+    <h2 class="shead mt-3">FOR MORE DETAILS</h2>
+
+    <div class="d-flex mt-4 justify-content-center gap-2 gap-md-4 align-items-center">
+       <button type="button" class="btn jbtn" data-bs-toggle="modal" data-bs-target="#callbackModal">
+    Request a callback
+</button>
+        <span class="or-text">OR</span>
+        <a href="/enquiry" class="btn jbtn site-visit-btn">
+            Book a free site visit
+        </a>
+    </div>
+</section>
+<style>
+   /* Styling Specific to Details Section */
+.details-section {
+    background: #f0f0f0;
+    padding: 3rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.2s ease-out;
+    margin-bottom: 30px;
+}
+
+/* Header Line */
+.details-section .sec-header {
+    height: 3px;
+    width: 100px;
+    background-color: #00a8ff;
+    margin: 0 auto 20px auto;
+    animation: lineAnimation 1s ease-in-out;
+}
+
+/* Main Header Styling */
+.details-section .shead {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #000000;
+    animation: slideInUp 1s ease-out;
+}
+
+/* Flex Container for Buttons */
+.details-section .d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* "OR" Text Styling */
+.details-section .or-text {
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 600;
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* Button Styling */
+.details-section .jbtn {
+    background-color: #00a8ff;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border-radius: 3px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    animation: pulse 2s infinite alternate, bounceIn 1.2s ease-out;
+}
+
+/* Hover Effects for Buttons */
+.details-section .jbtn:hover {
+    background-color: #0088cc;
+    transform: scale(1.05);
+}
+
+/* Site Visit Button */
+.details-section .site-visit-btn {
+    color: #fff;
+    text-decoration: none;
+    background-color: #00a8ff;
+    padding: 12px 25px;
+    border-radius: 3px;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite alternate;
+}
+
+.details-section .site-visit-btn:hover {
+    background-color: #0088cc;
+    text-decoration: none;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .details-section .shead {
+        font-size: 1.2rem;
+    }
+
+    .details-section .or-text {
+        font-size: 1rem;
+    }
+
+    .details-section .jbtn {
+        font-size: 0.7rem;
+        padding: 8px 20px;
+    }
+
+    .details-section .site-visit-btn {
+        font-size: 0.7rem;
+        padding: 8px 20px;
+    }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes lineAnimation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100px;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        background-color: #00a8ff;
+    }
+    50% {
+        transform: scale(1.05);
+        background-color: #0088cc;
+    }
+    100% {
+        transform: scale(1);
+        background-color: #00a8ff;
+    }
+}
+
+
+</style>  
+
+
+<style>
+   /* Blog Section Styles */
+    .blog-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .blog-section h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .blog-section p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    /* Blog Carousel */
+    .blog-carousel .blog-card {
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .blog-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .blog-card p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .blog-card .blog-footer {
+      margin-top: 15px;
+    }
+
+    .blog-card button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .blog-card button:hover {
+      background: #0056b3;
+    }
+
+    /* Social Media Share Buttons */
+    .social-share {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .social-share a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 14px;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 50%;
+    }
+
+    .social-share a.facebook { background: #3b5998; }
+    .social-share a.twitter { background: #1da1f2; }
+    .social-share a.linkedin { background: #0077b5; }
+    .social-share a.instagram { background: #e4405f; }
+
+    .social-share a:hover {
+      opacity: 0.8;
+    }
+</style>
+
+<div class="blog-section">
+  <h2>BLOGS</h2>
+  <p>Discover the latest trends, ideas, and inspirations from our blog collection.</p>
+
+  <!-- Blog Carousel -->
+  <div class="blog-carousel">
+    <!-- Blog Card 1 -->
+    <div class="blog-card">
+      <img src="https://via.placeholder.com/300x200" alt="Blog 1 Image" class="blog-image" />
+      <div class="blog-content">
+        <h3>Is Home a Necessity or a Luxury?</h3>
+        <p class="date">10 months ago</p>
+        <p class="description">
+          Like every other need we've been weighing, buying a home lies on the top of the list...
+        </p>
+        <div class="card-footer">
+        
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+            <button class="btn-read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Card 2 -->
+    <div class="blog-card">
+      <img src="https://via.placeholder.com/300x200" alt="Blog 2 Image" class="blog-image" />
+      <div class="blog-content">
+        <h3>Navigating Location and Connectivity</h3>
+        <p class="date">10 months ago</p>
+        <p class="description">
+          Bangalore, famously known as the Silicon Valley of India...
+        </p>
+        <div class="card-footer">
+        
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+            <button class="btn-read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Card 3 -->
+    <div class="blog-card">
+      <img src="https://via.placeholder.com/300x200" alt="Blog 3 Image" class="blog-image" />
+      <div class="blog-content">
+        <h3>Real Estate Appreciation in Bangalore</h3>
+        <p class="date">10 months ago</p>
+        <p class="description">
+          Bangalore has emerged as a thriving real estate market in recent years...
+        </p>
+        <div class="card-footer">
+        
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+            <button class="btn-read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+
+    /* Dots Navigation */
+.slick-dots {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  font-size: 0; /* Hide default text inside dots */
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.slick-dots li.slick-active button {
+  background: #ff5b5b; /* Active dot color */
+  transform: scale(1.2); /* Enlarge active dot */
+}
+
+.slick-dots li button:hover {
+  background: #00a8ff; /* Hover color for dots */
+}
+
+    /* Blog Section */
+.blog-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.blog-section h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.blog-section p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.blog-carousel {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.blog-card {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  flex: 1 0 30%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.blog-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.blog-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blog-content h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.blog-content .date {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.blog-content .description {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-read-more {
+  background: #ff5b5b;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-read-more i {
+  font-size: 12px;
+}
+
+.btn-read-more:hover {
+  background: #00a8ff;
+  transform: scale(1.05);
+}
+
+/* Social Media Icons */
+.social-icons a {
+  color: #555;
+  font-size: 14px;
+  margin: 0 5px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-icons a:hover {
+  color: #ff5b5b;
+  transform: scale(1.2);
+}
+
+</style>

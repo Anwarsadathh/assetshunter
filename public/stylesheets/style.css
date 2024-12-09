@@ -1,11 +1,15 @@
-  :root {
-      --primary-bg: #F1F0EA;
-      --text-color: #816D5D;
-      --accent-color: #B6AA9E;
-      --hover-color: #534741;
-      --white: #FFFFFF;
-      --darkb: #f4a91f;
-  }/* Back to Top Button */
+
+/* Root Variables */
+:root {
+    --primary-bg: #2c2c2c;
+    --text-color: #ffffff;
+    --accent-color: #ff4d4d;
+}
+
+/* Example of applying the global font to the body */
+body {
+    font-family: 'Poppins', sans-serif !important;
+}
   .back-to-top {
       position: fixed;
       bottom: 2rem;
@@ -52,7 +56,7 @@
       }
   }
 
-        .callback-modal {
+        .en {
             position: fixed;
             top: 0;
             left: 0;
@@ -63,7 +67,7 @@
             z-index: 999;
         }
     
-        .callback-content {
+        .enc{
             position: relative;
             width: 90%;
             max-width: 400px;
@@ -71,6 +75,7 @@
             background: white;
             border-radius: 8px;
             overflow: hidden;
+            margin-top: 100px !important;
         }
     
         /* Updated checkbox and button styles */
@@ -113,7 +118,7 @@
             margin-bottom: 10px;
         }
     
-        .callback-header {
+        .enh {
             background: #0a1e3c;
             color: white;
             padding: 15px 20px;
@@ -122,18 +127,18 @@
             align-items: center;
         }
     
-        .callback-header h4 {
+        .enh h4 {
             margin: 0;
             font-size: 18px;
         }
     
-        .close-btn {
+        .close-btnen {
             color: white;
             font-size: 24px;
             cursor: pointer;
         }
     
-        #callbackForm {
+        #enq {
             padding: 20px;
         }
     
@@ -189,11 +194,11 @@
             justify-content: center;
         }
     
-        .callback-content {
+        .enc{
             max-width: 360px;
         }
     
-        #callbackForm {
+        #enq {
             padding: 15px;
         }
     
@@ -275,7 +280,7 @@
         }
     
         @media (max-width: 480px) {
-            .callback-content {
+            .enc{
                 margin: 20px auto;
             }
     

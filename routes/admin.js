@@ -7,48 +7,58 @@ const fs = require("fs");
 const propertyHelper = require("../helpers/property-helper");
 const adminHelper = require("../helpers/admin-helper");
 
-// Multer configuration for different types of uploads
+// Multer configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    let uploadPath = "public/uploads/properties";
-    if (file.fieldname === "floorPlanImages") {
-      uploadPath = "public/uploads/floorplans";
-    }
-    // Create directory if it doesn't exist
-    fs.mkdirSync(uploadPath, { recursive: true });
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
-  },
+    destination: (req, file, cb) => {
+        let uploadPath = "public/uploads/properties";
+        if (file.fieldname === "floorPlanImages") {
+            uploadPath = "public/uploads/floorplans";
+        } else if (file.fieldname === "brochure") {
+            uploadPath = "public/uploads/brochures";
+        }
+        // Create directory if it doesn't exist
+        fs.mkdirSync(uploadPath, { recursive: true });
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        cb(
+            null,
+            file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+        );
+    },
 });
 
-// Configure multer with file validation and limits
+// Configure multer with file validation
 const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    // Check file type
-    if (file.mimetype.startsWith("image/")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Not an image! Please upload an image."), false);
-    }
-  },
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-    files: 15, // Total files limit (10 property images + 5 floor plans)
-  },
+    storage,
+    fileFilter: (req, file, cb) => {
+        if (file.fieldname === "brochure") {
+            // Check if it's a PDF
+            if (file.mimetype === "application/pdf") {
+                cb(null, true);
+            } else {
+                cb(new Error("Please upload a PDF file for brochure."), false);
+            }
+        } else if (file.mimetype.startsWith("image/")) {
+            cb(null, true);
+        } else {
+            cb(new Error("Invalid file type!"), false);
+        }
+    },
+    limits: {
+        fileSize: 10 * 1024 * 1024, // 10MB limit for all files
+        files: 16, // Total files limit (10 property images + 5 floor plans + 1 brochure)
+    },
 });
 
 // Define upload fields
 const uploadFields = [
-  { name: "images", maxCount: 10 },
-  { name: "floorPlanImages", maxCount: 5 },
+    { name: "images", maxCount: 10 },
+    { name: "floorPlanImages", maxCount: 5 },
+    { name: "brochure", maxCount: 1 }
 ];
+
 
 // Admin authentication middleware
 const verifyAdmin = (req, res, next) => {
@@ -166,10 +176,15 @@ router.post("/properties/add", verifyAdmin, upload.fields(uploadFields), async (
             file => `/uploads/floorplans/${file.filename}`
         ) || [];
 
+        // Get brochure path
+        const brochurePath = req.files['brochure'] ? 
+            `/uploads/brochures/${req.files['brochure'][0].filename}` : null;
+
         const propertyData = {
             ...req.body,
             images: propertyImages,
             floorPlanImages,
+            brochure: brochurePath,
             createdAt: new Date()
         };
 
@@ -190,7 +205,6 @@ router.post("/properties/add", verifyAdmin, upload.fields(uploadFields), async (
         res.redirect("/admin/properties/add");
     }
 });
-
 // Add error handling middleware for multer errors
 router.use((err, req, res, next) => {
     if (err instanceof multer.MulterError) {
@@ -234,91 +248,118 @@ router.get("/properties/edit/:id", verifyAdmin, async (req, res) => {
 });
 
 router.post(
-    "/properties/edit/:id",
-    verifyAdmin,
-    upload.fields([
-        { name: 'images', maxCount: 10 },
-        { name: 'floorPlanImages', maxCount: 5 }
-    ]),
-    async (req, res) => {
-        try {
-            // Handle property images
-            const newImages = req.files['images']?.map(
-                file => `/uploads/properties/${file.filename}`
-            ) || [];
+  "/properties/edit/:id",
+  verifyAdmin,
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "floorPlanImages", maxCount: 5 },
+    { name: "brochure", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      // Handle property images
+      const newImages =
+        req.files["images"]?.map(
+          (file) => `/uploads/properties/${file.filename}`
+        ) || [];
 
-            // Handle floor plan images
-            const newFloorPlanImages = req.files['floorPlanImages']?.map(
-                file => `/uploads/floorplans/${file.filename}`
-            ) || [];
+      // Handle floor plan images
+      const newFloorPlanImages =
+        req.files["floorPlanImages"]?.map(
+          (file) => `/uploads/floorplans/${file.filename}`
+        ) || [];
 
-            // Handle existing property images
-            const existingImages = Array.isArray(req.body.existingImages)
-                ? req.body.existingImages
-                : typeof req.body.existingImages === "string"
-                ? req.body.existingImages.split(",")
-                : [];
+      // Handle brochure
+      const newBrochure = req.files["brochure"]
+        ? `/uploads/brochures/${req.files["brochure"][0].filename}`
+        : null;
 
-            // Handle existing floor plan images
-            const existingFloorPlanImages = Array.isArray(req.body.existingFloorPlans)
-                ? req.body.existingFloorPlans
-                : typeof req.body.existingFloorPlans === "string"
-                ? req.body.existingFloorPlans.split(",")
-                : [];
+      // Handle existing files
+      const existingImages = Array.isArray(req.body.existingImages)
+        ? req.body.existingImages
+        : typeof req.body.existingImages === "string"
+        ? req.body.existingImages.split(",")
+        : [];
 
-            // Handle removed images and floor plans
-            const removedImages = req.body.removedImages ? req.body.removedImages.split(',') : [];
-            const removedFloorPlans = req.body.removedFloorPlans ? req.body.removedFloorPlans.split(',') : [];
+      const existingFloorPlanImages = Array.isArray(req.body.existingFloorPlans)
+        ? req.body.existingFloorPlans
+        : typeof req.body.existingFloorPlans === "string"
+        ? req.body.existingFloorPlans.split(",")
+        : [];
 
-            // Filter out removed images and floor plans
-            const finalExistingImages = existingImages.filter(img => !removedImages.includes(img));
-            const finalExistingFloorPlans = existingFloorPlanImages.filter(img => !removedFloorPlans.includes(img));
+      const existingBrochure = req.body.existingBrochure || null;
 
-            // Combine property data
-            const propertyData = {
-                ...req.body,
-                images: [...finalExistingImages, ...newImages],
-                floorPlanImages: [...finalExistingFloorPlans, ...newFloorPlanImages],
-                updatedAt: new Date()
-            };
+      // Handle removed files
+      const removedImages = req.body.removedImages
+        ? req.body.removedImages.split(",")
+        : [];
+      const removedFloorPlans = req.body.removedFloorPlans
+        ? req.body.removedFloorPlans.split(",")
+        : [];
+      const removedBrochure = req.body.removedBrochure || null;
 
-            // Remove unnecessary fields
-            delete propertyData.existingImages;
-            delete propertyData.existingFloorPlans;
-            delete propertyData.removedImages;
-            delete propertyData.removedFloorPlans;
+      // Filter out removed files
+      const finalExistingImages = existingImages.filter(
+        (img) => !removedImages.includes(img)
+      );
+      const finalExistingFloorPlans = existingFloorPlanImages.filter(
+        (img) => !removedFloorPlans.includes(img)
+      );
+      const finalBrochure = removedBrochure
+        ? null
+        : newBrochure || existingBrochure;
 
-            // Update property
-            await propertyHelper.updateProperty(req.params.id, propertyData);
+      // Combine property data
+      const propertyData = {
+        ...req.body,
+        images: [...finalExistingImages, ...newImages],
+        floorPlanImages: [...finalExistingFloorPlans, ...newFloorPlanImages],
+        brochure: finalBrochure,
+        updatedAt: new Date(),
+      };
 
-            // Delete removed files from server
-            [...removedImages, ...removedFloorPlans].forEach(filePath => {
-                const fullPath = path.join(__dirname, '../public', filePath);
-                fs.unlink(fullPath, err => {
-                    if (err) console.error(`Failed to delete file: ${fullPath}`, err);
-                });
+      // Remove unnecessary fields
+      delete propertyData.existingImages;
+      delete propertyData.existingFloorPlans;
+      delete propertyData.existingBrochure;
+      delete propertyData.removedImages;
+      delete propertyData.removedFloorPlans;
+      delete propertyData.removedBrochure;
+
+      // Update property
+      await propertyHelper.updateProperty(req.params.id, propertyData);
+
+      // Delete removed files from server
+      [...removedImages, ...removedFloorPlans, removedBrochure]
+        .filter(Boolean)
+        .forEach((filePath) => {
+          const fullPath = path.join(__dirname, "../public", filePath);
+          fs.unlink(fullPath, (err) => {
+            if (err) console.error(`Failed to delete file: ${fullPath}`, err);
+          });
+        });
+
+      req.flash("success", "Property updated successfully");
+      res.redirect("/admin/properties");
+    } catch (error) {
+      console.error(error);
+
+      // Delete newly uploaded files if there's an error
+      if (req.files) {
+        Object.values(req.files)
+          .flat()
+          .forEach((file) => {
+            fs.unlink(file.path, (err) => {
+              if (err) console.error("Error deleting file:", err);
             });
+          });
+      }
 
-            req.flash("success", "Property updated successfully");
-            res.redirect("/admin/properties");
-        } catch (error) {
-            console.error(error);
-            
-            // Delete newly uploaded files if there's an error
-            if (req.files) {
-                Object.values(req.files).flat().forEach(file => {
-                    fs.unlink(file.path, err => {
-                        if (err) console.error('Error deleting file:', err);
-                    });
-                });
-            }
-
-            req.flash("error", "Failed to update property");
-            res.redirect(`/admin/properties/edit/${req.params.id}`);
-        }
+      req.flash("error", "Failed to update property");
+      res.redirect(`/admin/properties/edit/${req.params.id}`);
     }
+  }
 );
-
 // Delete property
 router.post("/properties/delete/:id", verifyAdmin, async (req, res) => {
   try {

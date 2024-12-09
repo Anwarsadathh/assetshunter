@@ -237,7 +237,38 @@
                                 </div>
                             </div>
                         </div>
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Current Brochure</label>
+            {{#if property.brochure}}
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                <span>Current brochure attached</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeExistingBrochure()">
+                    <i class="fas fa-times"></i> Remove
+                </button>
+                <input type="hidden" name="existingBrochure" value="{{property.brochure}}">
+            </div>
+            {{else}}
+            <p class="text-muted">No brochure uploaded</p>
+            {{/if}}
+        </div>
+    </div>
+</div>
 
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Upload New Brochure</label>
+            <input type="file" class="form-control" name="brochure" accept=".pdf">
+            <small class="form-text text-muted">Upload property brochure in PDF format (Max size: 10MB)</small>
+        </div>
+        <div id="brochurePreviewContainer" class="mt-2">
+            <!-- Brochure preview will be shown here -->
+        </div>
+    </div>
+</div>
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-check">
@@ -274,7 +305,61 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('jQuery is not loaded! Please ensure jQuery is loaded before this script.');
         return;
     }
+// Add to your existing script
+function removeExistingBrochure() {
+    const brochurePath = $('input[name="existingBrochure"]').val();
+    
+    // Add to removed brochures list
+    const removedBrochureInput = $('input[name="removedBrochure"]');
+    if (removedBrochureInput.length) {
+        removedBrochureInput.val(brochurePath);
+    } else {
+        $('#propertyForm').append(`
+            <input type="hidden" name="removedBrochure" value="${brochurePath}">
+        `);
+    }
 
+    // Remove brochure display
+    $('input[name="existingBrochure"]').parent().html(
+        '<p class="text-muted">Brochure removed. Upload a new one if needed.</p>'
+    );
+}
+
+// Add brochure preview functionality
+$('input[name="brochure"]').change(function() {
+    const file = this.files[0];
+    const container = $('#brochurePreviewContainer');
+    container.empty();
+
+    if (file) {
+        if (file.type !== 'application/pdf') {
+            alert('Please upload a PDF file');
+            this.value = '';
+            return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size should not exceed 10MB');
+            this.value = '';
+            return;
+        }
+
+        container.html(`
+            <div class="alert alert-info d-flex align-items-center">
+                <i class="fas fa-file-pdf me-2"></i>
+                <span>${file.name}</span>
+                <button type="button" class="btn-close ms-auto" 
+                        onclick="removeBrochurePreview()" aria-label="Remove">
+                </button>
+            </div>
+        `);
+    }
+});
+
+function removeBrochurePreview() {
+    $('input[name="brochure"]').val('');
+    $('#brochurePreviewContainer').empty();
+}
     // Now we can safely use jQuery
     $(function() {
         // Initialize Select2

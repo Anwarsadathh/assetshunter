@@ -200,7 +200,19 @@
                                 </div>
                             </div>
                         </div>
-
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-control-label">Property Brochure (PDF)</label>
+            <input type="file" class="form-control" name="brochure" accept=".pdf">
+            <div class="invalid-feedback">Please select a PDF brochure.</div>
+            <small class="form-text text-muted">Upload property brochure in PDF format (Max size: 10MB)</small>
+        </div>
+        <div id="brochurePreviewContainer" class="mt-2">
+            <!-- Brochure preview will be shown here -->
+        </div>
+    </div>
+</div>
                         <div class="row mt-4">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary">
@@ -229,7 +241,58 @@
                 width: '100%'
             });
         }
+// Add to your existing script
+function initializeBrochurePreview() {
+    $('input[name="brochure"]').on('change', function() {
+        const file = this.files[0];
+        const container = $('#brochurePreviewContainer');
+        container.empty();
 
+        if (file) {
+            if (file.type !== 'application/pdf') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid file type',
+                    text: 'Please upload a PDF file'
+                });
+                this.value = '';
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File too large',
+                    text: 'Brochure size should not exceed 10MB'
+                });
+                this.value = '';
+                return;
+            }
+
+            container.html(`
+                <div class="alert alert-info d-flex align-items-center">
+                    <i class="fas fa-file-pdf me-2"></i>
+                    <span>${file.name}</span>
+                    <button type="button" class="btn-close ms-auto" 
+                            onclick="removeBrochure()" aria-label="Remove">
+                    </button>
+                </div>
+            `);
+        }
+    });
+}
+
+function removeBrochure() {
+    $('input[name="brochure"]').val('');
+    $('#brochurePreviewContainer').empty();
+}
+
+// Add to your initialization
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof jQuery !== 'undefined') {
+        initializeBrochurePreview();
+    }
+});
         // Image preview
         $('input[name="images"]').on('change', function() {
             const files = Array.from(this.files);

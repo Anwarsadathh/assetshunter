@@ -42,60 +42,62 @@ module.exports = {
       .distinct("location");
     return locations;
   },
-getNavigationData : () => {
+  getNavigationData: () => {
     return new Promise(async (resolve, reject) => {
-        try {
-            const database = db.getDb();
-            
-            // Get project counts by status
-            const projectsByStatus = await database
-                .collection(collection.PROPERTY_COLLECTION)
-                .aggregate([
-                    {
-                        $group: {
-                            _id: "$status",
-                            count: { $sum: 1 }
-                        }
-                    },
-                    {
-                        $project: {
-                            status: "$_id",
-                            count: 1,
-                            _id: 0
-                        }
-                    },
-                    { $sort: { count: -1 } }
-                ]).toArray();
+      try {
+        const database = db.getDb();
 
-            // Get location counts
-            const locationCounts = await database
-                .collection(collection.PROPERTY_COLLECTION)
-                .aggregate([
-                    {
-                        $group: {
-                            _id: "$location",
-                            count: { $sum: 1 }
-                        }
-                    },
-                    {
-                        $project: {
-                            location: "$_id",
-                            count: 1,
-                            _id: 0
-                        }
-                    },
-                    { $sort: { count: -1 } }
-                ]).toArray();
+        // Get project counts by status
+        const projectsByStatus = await database
+          .collection(collection.PROPERTY_COLLECTION)
+          .aggregate([
+            {
+              $group: {
+                _id: "$status",
+                count: { $sum: 1 },
+              },
+            },
+            {
+              $project: {
+                status: "$_id",
+                count: 1,
+                _id: 0,
+              },
+            },
+            { $sort: { count: -1 } },
+          ])
+          .toArray();
 
-            resolve({
-                navProjects: projectsByStatus,
-                navLocations: locationCounts
-            });
-        } catch (error) {
-            reject(error);
-        }
+        // Get location counts
+        const locationCounts = await database
+          .collection(collection.PROPERTY_COLLECTION)
+          .aggregate([
+            {
+              $group: {
+                _id: "$location",
+                count: { $sum: 1 },
+              },
+            },
+            {
+              $project: {
+                location: "$_id",
+                count: 1,
+                _id: 0,
+              },
+            },
+            { $sort: { count: -1 } },
+          ])
+          .toArray();
+
+        resolve({
+          navProjects: projectsByStatus,
+          navLocations: locationCounts,
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
-},
+  },
   getUniquePropertyTypes: async () => {
     const database = db.getDb();
     const propertyTypes = await database
@@ -156,6 +158,30 @@ getNavigationData : () => {
         resolve(properties);
       } catch (error) {
         console.error("Error fetching featured properties:", error);
+        reject(error);
+      }
+    });
+  },
+  // In your propertyHelper.js
+  getPropertiesByStatus: (status) => {
+    // Add status parameter here
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
+        console.log("Fetching properties by status:", status);
+        const properties = await database
+          .collection(collection.PROPERTY_COLLECTION)
+          .find({
+            featured: "on",
+            status: status,
+          })
+          .sort({ createdAt: -1 })
+          .limit(6)
+          .toArray();
+        console.log("Properties by status:", properties);
+        resolve(properties);
+      } catch (error) {
+        console.error("Error fetching properties by status:", error);
         reject(error);
       }
     });

@@ -5,7 +5,7 @@ const path = require("path");
 const multer = require("multer");
 const propertyHelper = require("../helpers/property-helper");
 const suggestHelper = require("../helpers/suggestion-helper");
-
+const fs = require("fs");
 // Middleware for verifying user login
 function verifyLogin(req, res, next) {
   if (req.session && req.session.user) {
@@ -68,6 +68,25 @@ router.get("/", async (req, res) => {
       error: "Failed to load properties",
     });
   }
+});
+
+// In your routes/users.js
+router.get('/api/properties/status/:status', async (req, res) => {
+    try {
+        const status = req.params.status;
+        let properties;
+        
+        if (status === 'All') {
+            properties = await propertyHelper.getFeaturedProperties();
+        } else {
+            properties = await propertyHelper.getPropertiesByStatus(status); // Passing status here
+        }
+
+        res.json(properties);
+    } catch (error) {
+        console.error('Error fetching properties by status:', error);
+        res.status(500).json({ error: 'Failed to fetch properties' });
+    }
 });
 
 router.get("/properties", async (req, res) => {
@@ -242,7 +261,7 @@ router.get("/contact", (req, res) => {
 });
 
 // Enquiry Form Page
-router.get("/submit-form", (req, res) => {
+router.get("/enquiry", (req, res) => {
   res.render("user/form-submit", {
     layout: "user-layout",
     title: "Submit Enquiry",
@@ -251,26 +270,40 @@ router.get("/submit-form", (req, res) => {
     success: null,
   });
 });
-
 router.post("/submit-form", upload.none(), async (req, res) => {
   try {
+    // Capture the form data
     const formData = {
       name: req.body.name,
       email: req.body.email,
       mobile: req.body.mobile,
-      message: req.body.message,
-      utmSource: req.body.utmSource,
-      utmMedium: req.body.utmMedium,
-      utmCampaign: req.body.utmCampaign,
-      utmTerm: req.body.utmTerm,
-      utmContent: req.body.utmContent,
+      propertyId: req.body.propertyId, // Brochure property ID
+      propertyName: req.body.propertyName || "Unknown Property",
+      propertyLocation: req.body.propertyLocation || "Not Specified",
+      propertyType: req.body.propertyType || "Not Available",
+      propertyPrice: req.body.propertyPrice || null,
+      message: req.body.message || "",
+      utmSource: req.body.utmSource || "direct",
+      utmMedium: req.body.utmMedium || "",
+      utmCampaign: req.body.utmCampaign || "",
+      utmTerm: req.body.utmTerm || "",
+      utmContent: req.body.utmContent || "",
       pageUrl: req.body.pageUrl,
+      ipAddress: req.ip, // Capture user IP
+      userAgent: req.get("User-Agent"), // Capture User-Agent header
+      brochureDownloadTimestamp: new Date(),
       timestamp: new Date(),
       createdAt: new Date(),
+      status: "new",
+      viewed: false,
+      contactedAt: null,
+      notes: [], // Initialize as an empty array
     };
 
+    // Save the form data to the database using the helper function
     const response = await suggestHelper.submitFormDataSug(formData);
 
+    // Handle XHR request
     if (req.xhr) {
       return res.json({
         success: response.success,
@@ -278,6 +311,7 @@ router.post("/submit-form", upload.none(), async (req, res) => {
       });
     }
 
+    // Render appropriate view for non-XHR requests
     if (response.success) {
       res.render("user/form-submit", {
         layout: "user-layout",
@@ -294,7 +328,7 @@ router.post("/submit-form", upload.none(), async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error processing the form submission:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -302,6 +336,42 @@ router.post("/submit-form", upload.none(), async (req, res) => {
   }
 });
 
+// In your routes file (e.g., routes/user.js)
+router.get('/property/brochure/:id', async (req, res) => {
+    try {
+        const property = await propertyHelper.getPropertyById(req.params.id);
+        if (!property || !property.brochure) {
+            return res.status(404).send('Brochure not found');
+        }
+
+        // Get the full path by removing the leading '/'
+        const brochurePath = path.join(process.cwd(), 'public', property.brochure.replace(/^\//, ''));
+
+        // Check if file exists
+        if (!fs.existsSync(brochurePath)) {
+            return res.status(404).send('Brochure file not found');
+        }
+
+        // Send the file
+        res.download(brochurePath);
+    } catch (error) {
+        console.error('Error downloading brochure:', error);
+        res.status(500).send('Error downloading brochure');
+    }
+});
+// Add this route
+router.get('/property/check-brochure/:id', async (req, res) => {
+    try {
+        const property = await propertyHelper.getPropertyById(req.params.id);
+        const hasBrochure = property && property.brochure && 
+            fs.existsSync(path.join(process.cwd(), 'public', property.brochure.replace(/^\//, '')));
+        
+        res.json({ hasBrochure });
+    } catch (error) {
+        console.error('Error checking brochure:', error);
+        res.status(500).json({ hasBrochure: false });
+    }
+});
 // Search Properties
 router.get("/search", async (req, res) => {
   try {

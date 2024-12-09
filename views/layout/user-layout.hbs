@@ -98,6 +98,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <!-- Plugin CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
@@ -107,8 +109,13 @@
     <link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <link rel="stylesheet" href="/stylesheets/style.css">
+<!-- Place this in your head section -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Additional page-specific styles -->
     {{{_sections.styles}}}
 </head>
@@ -140,14 +147,14 @@
         <i class="fas fa-arrow-up"></i>
     </a>
 
- <div class="callback-modal">
-    <div class="callback-content">
-        <div class="callback-header">
+ <div class="en">
+    <div class="enc">
+        <div class="enh">
             <h4>Request a Callback</h4>
-            <span class="close-btn">&times;</span>
+            <span class="close-btnen">&times;</span>
         </div>
 
-        <form id="callbackForm">
+        <form id="enq">
             <div class="form-field">
                 <label>Full Name <span class="required">*</span></label>
                 <input type="text" name="name" required>
@@ -199,7 +206,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <!-- Plugin JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
@@ -210,12 +217,40 @@
     
     <!-- Custom Scripts -->
     <script src="/javascripts/statesandcities.js"></script>
+    
+<script>
+  $(document).ready(function () {
+    $('.blog-carousel').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      dots: true, // Enable dots at the bottom
+      arrows: false, // Disable arrows (optional)
+      autoplay: true,
+      autoplaySpeed: 2000,
+      responsive: [
+        {
+          breakpoint: 1024, // For tablets
+          settings: {
+            slidesToShow: 2, // Show 2 cards at a time
+          }
+        },
+        {
+          breakpoint: 768, // For smaller screens
+          settings: {
+            slidesToShow: 1, // Show 1 card at a time
+          }
+        }
+      ]
+    });
+  });
+</script>
+
 
 <script>// Modal and Form Handler Script
 document.addEventListener('DOMContentLoaded', function() {
-   const modal = document.querySelector('.callback-modal');
-   const closeButton = document.querySelector('.close-btn');
-   const form = document.getElementById('callbackForm');
+   const modal = document.querySelector('.en');
+   const closeButton = document.querySelector('.close-btnen');
+   const form = document.getElementById('enq');
    let currentCaptcha = '';
 
    // Get UTM parameters
@@ -409,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     </script>
-       <script src="/javascripts/home.js"></script>
+       {{!-- <script src="/javascripts/home.js"></script> --}}
 
     <!-- Additional page-specific scripts -->
     {{{_sections.scripts}}}

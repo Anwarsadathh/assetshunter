@@ -1,20 +1,25 @@
-{{!-- views/partials/user-header.hbs --}}
+{{!-- views/partials/header.hbs --}}
 <header class="site-header">
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
+            <!-- Logo -->
             <a class="navbar-brand" href="/">
-                 <img src="/images/ht.png" alt="Logo">
+                <img src="/images/lol.png" alt="Logo" class="logo-img" >
             </a>
+
+            <!-- Mobile Toggle Button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Navigation Items -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link {{#if isHome}}active{{/if}}" href="/">Home</a>
                     </li>
-                    {{!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link {{#if isProjects}}active{{/if}}" href="#" id="projectsDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Projects
@@ -30,9 +35,6 @@
                             {{/if}}
                             <a class="dropdown-item" href="/properties">All Projects</a>
                         </div>
-                    </li> --}}
-                     <li class="nav-item">
-                        <a class="nav-link {{#if isProperties}}active{{/if}}" href="/properties">Properties</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link {{#if isLocations}}active{{/if}}" href="#" id="locationsDropdown" role="button"
@@ -55,10 +57,9 @@
                         <a class="nav-link {{#if isAbout}}active{{/if}}" href="/about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{#if isContact}}active{{/if}}" href="/contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light enquire-btn" href="/submit-form">Enquire Now</a>
+                        <a class="btn contact-btn" href="tel:+918088121121">
+                            <i class="fas fa-phone"></i> +91 8088121121
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -67,63 +68,42 @@
 </header>
 
 <style>
-@font-face {
-    font-family: 'Catchy Mager';
-    src: url('/fonts/catchy-mager.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+:root {
+    --primary-bg: #000000;
+    --text-color: #ffffff;
+    --accent-color: #ff4d4d;
 }
 
-:root {
-    --primary-bg: #FAF9F6;      /* Off-white background */
-    --text-color: #8B7355;      /* Rich golden brown */
-    --accent-color: #D4AF37;    /* Classic gold */
-    --hover-color: #996515;     /* Deep golden brown */
-    --white: #FFFFFF;           /* Pure white */
-    --gold-light: #FFD700;      /* Bright gold */
-    --gold-dark: #DAA520;       /* Golden rod */
-    --cream: #FFEFD5;          /* Papaya whip */
-    --sand: #F4D03F;           /* Soft gold */
-    --champagne: #FEE5AC;      /* Light champagne */
-}
 .site-header {
+    font-family: 'Poppins', sans-serif !important;
     padding-top: 64px;
 }
 
 .navbar {
-    background-color: var(--text-color) !important;
+    background-color: var(--primary-bg) !important;
     padding: 0.75rem 0;
     transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(129, 109, 93, 0.1);
 }
 
 .navbar-brand {
-    font-family: 'Catchy Mager', cursive;
-    font-size: 1.6rem;
-    color: var(--white) !important;
+    font-size: 1.8rem;  /* Increased from 1.6rem */
     margin-right: 2.5rem;
-    letter-spacing: 0.5px;
 }
-.navbar-brand img{
-     height:40px !important;
-}
-.navbar.scrolled {
-    padding: 0.5rem 0;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 10px rgba(129, 109, 93, 0.05);
+
+.navbar-brand img {
+    height: 45px !important;  /* Increased from 40px */
 }
 
 .navbar-nav .nav-link {
-    font-size: 0.75rem;
-    padding: 0.4rem 1.25rem !important;
-    color: var(--white) !important;
-    position: relative;
+    font-size: 0.9rem;  /* Increased from 0.75rem */
+    padding: 0.5rem 1.25rem !important;  /* Slightly increased padding */
+    color: var(--text-color) !important;
     letter-spacing: 2px;
-    font-weight: 400;
-    text-decoration: none;
+    font-weight: 500;  /* Increased from 400 for better visibility */
+    position: relative;
 }
 
-.navbar-nav .nav-link:after {
+.navbar-nav .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -131,15 +111,63 @@
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background-color: var(--white);
+    background-color: var(--text-color);
     transition: width 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover:after,
-.navbar-nav .nav-item.active .nav-link:after {
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-item.active .nav-link::after {
     width: 40%;
 }
 
+/* Dropdown Styling */
+.dropdown-menu {
+    background-color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    font-size: 0.85rem;  /* Increased from 0.75rem */
+    padding: 0.6rem 1.25rem;  /* Slightly increased padding */
+    color: var(--primary-bg);
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--accent-color);
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid #eee;
+}
+
+/* Contact Button */
+.contact-btn {
+    padding: 0.5rem 1.5rem;  /* Increased padding */
+    font-size: 0.85rem;  /* Increased from 0.75rem */
+    letter-spacing: 2px;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-left: 1rem;
+    background-color: #00a8ff;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-weight: 500;  /* Added for better visibility */
+}
+
+.contact-btn:hover {
+    background-color: var(--text-color);
+    color: var(--primary-bg);
+}
+.logo-img{
+    
+}
+/* Mobile Menu Button */
 .navbar-toggler {
     border: none;
     padding: 0;
@@ -153,74 +181,74 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+/* Mobile Responsive Styles */
 @media (max-width: 991.98px) {
     .navbar-collapse {
         background-color: var(--primary-bg);
         padding: 1rem;
         margin-top: 1rem;
-        border-radius: 4px;
     }
- .enquire-btn {
-        margin: 1rem 0;
-        display: block;
-        text-align: center;
-    }
+
     .navbar-nav {
-        padding: 1rem 0;
         text-align: center;
     }
-    
-    .navbar-nav .nav-link {
-        padding: 0.6rem 0.8rem !important;
-        color: var(--text-color) !important;
-        position: relative;
-    }
-    
-    .navbar-nav .nav-link:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 2px;
-        background-color: var(--text-color);
-        transition: width 0.3s ease;
+
+    .dropdown-menu {
+        background-color: transparent;
+        border: none;
+        text-align: center;
     }
 
-    .navbar-nav .nav-link:hover:after,
-    .navbar-nav .nav-item.active .nav-link:after {
-        width: 40%;
+    .dropdown-item {
+        color: var(--text-color);
+        font-size: 0.85rem;  /* Consistent font size in mobile */
     }
-}
-/* Enquire button */
-.enquire-btn {
-    padding: 0.4rem 1.25rem;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    border: 1px solid var(--text-color) !important;
-    border-radius: 4px;
-    margin-left: 1rem;
-    transition: all 0.3s ease;
-      background-color: var(--white) !important;
-       color: var(--text-color);
-}
 
-.enquire-btn:hover {
-    background-color: var(--text-color) !important;
-    color: var(--white) !important;
-}
-/* Additional utility classes */
-.text-muted {
-    color: var(--accent-color) !important;
-}
+    .dropdown-divider {
+        border-top-color: rgba(255,255,255,0.1);
+    }
 
-.bg-light {
-    background-color: var(--primary-bg) !important;
+    .contact-btn {
+        margin: 1rem auto;
+        display: inline-block;
+    }
 }
 </style>
+
 <script>
-// Navbar scroll effect
+document.addEventListener('DOMContentLoaded', function() {
+    // Add active class to current nav item
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.closest('.nav-item').classList.add('active');
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navbarCollapse = document.getElementById('navbarNav');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        
+        // Check if menu is open and click is outside the navbar
+        if (navbarCollapse.classList.contains('show') && 
+            !event.target.closest('.navbar-collapse') && 
+            !event.target.closest('.navbar-toggler')) {
+            // Close the menu using Bootstrap's collapse API
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+            
+            // Also toggle the aria-expanded attribute
+            if (navbarToggler) {
+                navbarToggler.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+});
+
+// Add scrolled class on scroll
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
@@ -228,15 +256,5 @@ window.addEventListener('scroll', function() {
     } else {
         navbar.classList.remove('scrolled');
     }
-});
-
-// Add active class to current nav item
-document.addEventListener('DOMContentLoaded', function() {
-    const currentLocation = window.location.pathname;
-    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentLocation) {
-            link.closest('.nav-item').classList.add('active');
-        }
-    });
 });
 </script>
