@@ -29,6 +29,21 @@ const storage = multer.diskStorage({
     },
 });
 
+
+const uploads = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadPath = "public/uploads/blogs";
+      fs.mkdirSync(uploadPath, { recursive: true });
+      cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, uniqueSuffix + path.extname(file.originalname));
+    },
+  }),
+});
+
 // Configure multer with file validation
 const upload = multer({
     storage,
@@ -68,6 +83,126 @@ const verifyAdmin = (req, res, next) => {
     res.redirect("/admin/login");
   }
 };
+
+
+
+
+// Route to display blog management page (GET)
+router.get("/blogs", verifyAdmin, async (req, res) => {
+  try {
+    const blogs = await adminHelper.getAllBlogs();
+    res.render("admin/blogs", {
+      layout: false,
+      title: "Manage Blogs",
+      blogs,
+    });
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    req.flash("error", "Something went wrong while fetching blogs.");
+    res.redirect("/admin/dashboard");
+  }
+});
+
+// Route to display the add blog page (GET)
+router.get("/blogs/add", verifyAdmin, (req, res) => {
+  res.render("admin/add-blog", {
+    layout: false,
+    title: "Add Blog",
+  });
+});
+
+// Route to handle blog submission (POST)
+router.post(
+  "/blogs/add",
+  uploads.single("image"), // Handles blog image upload
+  verifyAdmin,
+  async (req, res) => {
+    try {
+      const blogData = req.body;
+      if (req.file) {
+        blogData.imagePath = `/uploads/blogs/${req.file.filename}`;
+      }
+      await adminHelper.addBlog(blogData);
+      req.flash("success", "Blog added successfully!");
+      res.redirect("/admin/blogs");
+    } catch (error) {
+      console.error("Error adding blog:", error);
+      req.flash("error", "Failed to add the blog.");
+      res.redirect("/admin/blogs/add");
+    }
+  }
+);
+// Route to display edit blog page (GET)
+router.get("/blogs/edit/:id", verifyAdmin, async (req, res) => {
+  try {
+    const blog = await adminHelper.getBlogById(req.params.id);
+    if (!blog) {
+      req.flash("error", "Blog not found");
+      return res.redirect("/admin/blogs");
+    }
+    res.render("admin/edit-blog", {
+      layout: false,
+      title: "Edit Blog",
+      blog,
+    });
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    req.flash("error", "Something went wrong while fetching the blog.");
+    res.redirect("/admin/blogs");
+  }
+});
+
+
+// Route to handle blog edit (POST)
+router.post(
+  "/blogs/edit/:id",
+  uploads.single("image"), // Handle the uploaded image
+  verifyAdmin,
+  async (req, res) => {
+    try {
+      const blogId = req.params.id;
+      const updatedData = req.body;
+
+      // Check if a new image is uploaded
+      if (req.file) {
+        updatedData.imagePath = `/uploads/blogs/${req.file.filename}`;
+
+        // Delete the old image if it exists
+        const existingBlog = await adminHelper.getBlogById(blogId);
+        if (existingBlog && existingBlog.imagePath) {
+          const oldImagePath = path.join(__dirname, "..", "public", existingBlog.imagePath);
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlinkSync(oldImagePath); // Remove old image
+          }
+        }
+      }
+
+      // Update the blog
+      await adminHelper.updateBlog(blogId, updatedData);
+
+      req.flash("success", "Blog updated successfully!");
+      res.redirect("/admin/blogs");
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      req.flash("error", "Something went wrong while updating the blog.");
+      res.redirect(`/admin/blogs/edit/${req.params.id}`);
+    }
+  }
+);
+// Route to delete a blog (POST)
+router.post("/blogs/delete/:id", verifyAdmin, async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    await adminHelper.deleteBlog(blogId);
+    req.flash("success", "Blog deleted successfully!");
+    res.redirect("/admin/blogs");
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    req.flash("error", "Failed to delete the blog.");
+    res.redirect("/admin/blogs");
+  }
+});
+
 
 // Login page
 router.get("/login", (req, res) => {

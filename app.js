@@ -198,6 +198,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 // Add middleware to include navigation data for all routes
 app.use(async (req, res, next) => {
     try {

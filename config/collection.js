@@ -4,7 +4,7 @@ module.exports = {
   // Admin Related Collections
   ADMIN_COLLECTION: "admin",
   ADMIN_SETTINGS_COLLECTION: "admin_settings",
-
+  BLOG_COLLECTION: "blogs",
   // Property Related Collections
   PROPERTY_COLLECTION: "properties",
   PROPERTY_TYPES_COLLECTION: "property_types",
