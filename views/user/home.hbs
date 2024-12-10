@@ -1075,6 +1075,71 @@ function closeBrochureModal() {
 </style>  
 
 
+
+
+<div id="galleryContainer">
+  {{#if gallery}}
+    {{#each gallery}}
+      <section class="scroll-section" style="background-image: url('{{this.items.[0].imageUrl}}')"> <!-- Display first image -->
+        <h5>{{this.fieldname}}</h5> <!-- Display fieldname -->
+      </section>
+    {{/each}}
+  {{else}}
+    <p>No gallery images available.</p>
+  {{/if}}
+</div>
+
+<style>
+   body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.scroll-section {
+  position: relative;
+  height: 100vh; /* Full screen height */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Parallax effect */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align at the bottom of the section */
+  color: white;
+}
+
+.scroll-section h5 {
+  position: absolute;
+  top: 20%; /* Adjust this value to position the text like in the image */
+  left: 10%; /* Adjust horizontal alignment */
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for text visibility */
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.5em; /* Adjust as needed */
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 768px) {
+  .scroll-section h5 {
+    top: 15%; /* Adjust for smaller screens */
+    left: 5%;
+    font-size: 1.2em; /* Scale text size */
+  }
+}
+
+</style>
+
+<script>
+    document.querySelectorAll('.scroll-section').forEach(section => {
+  section.addEventListener('click', () => {
+    section.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+</script>
+
 <style>
    /* Blog Section Styles */
     .blog-section {
@@ -1361,66 +1426,3 @@ function closeBrochureModal() {
 
 </style>
 
-
-<div id="galleryContainer">
-  {{#if gallery}}
-    {{#each gallery}}
-      <section class="scroll-section" style="background-image: url('{{this.items.[0].imageUrl}}')"> <!-- Display first image -->
-        <h5>{{this.fieldname}}</h5> <!-- Display fieldname -->
-      </section>
-    {{/each}}
-  {{else}}
-    <p>No gallery images available.</p>
-  {{/if}}
-</div>
-
-<style>
-   body, html {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.scroll-section {
-  position: relative;
-  height: 100vh; /* Full screen height */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Parallax effect */
-  display: flex;
-  justify-content: center;
-  align-items: flex-end; /* Align at the bottom of the section */
-  color: white;
-}
-
-.scroll-section h5 {
-  position: absolute;
-  top: 20%; /* Adjust this value to position the text like in the image */
-  left: 10%; /* Adjust horizontal alignment */
-  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for text visibility */
-  color: white;
-  padding: 10px 20px;
-  font-size: 1.5em; /* Adjust as needed */
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-family: Arial, sans-serif;
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-}
-@media (max-width: 768px) {
-  .scroll-section h5 {
-    top: 15%; /* Adjust for smaller screens */
-    left: 5%;
-    font-size: 1.2em; /* Scale text size */
-  }
-}
-
-</style>
-
-<script>
-    document.querySelectorAll('.scroll-section').forEach(section => {
-  section.addEventListener('click', () => {
-    section.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-</script>
