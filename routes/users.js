@@ -293,6 +293,13 @@ router.get("/properties/:id", async (req, res) => {
   }
 });
 
+router.get("/terms-conditions", (req, res) => {
+  res.render("user/terms-and-conditions", {
+    layout: "user-layout",
+    user: true,
+    title: "Terms and Conditions - Assets Hunter",
+  });
+});
 // About Page
 router.get("/about", (req, res) => {
   res.render("user/about", {
@@ -515,20 +522,13 @@ router.get("/download-brochure/:id", async (req, res) => {
 
 // Privacy Policy Page
 router.get("/privacy-policy", (req, res) => {
-  res.render("user/privacy-policy", {
+  res.render("user/terms-and-conditions", {
     layout: "user-layout",
     title: "Privacy Policy",
     user: true,
   });
 });
 
-// Terms and Conditions Page
-router.get("/terms-conditions", (req, res) => {
-  res.render("user/terms-conditions", {
-    layout: "user-layout",
-    title: "Terms & Conditions",
-    user: true,
-  });
-});
+
 
 module.exports = router;
