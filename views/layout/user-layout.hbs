@@ -217,7 +217,105 @@
     
     <!-- Custom Scripts -->
     <script src="/javascripts/statesandcities.js"></script>
+    <!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <div class="nav-item">
+        <a href="/enquiry">
+            <i class="far fa-clipboard"></i>
+            <span>ENQUIRY</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="tel:++916362361137">
+            <i class="fas fa-phone-alt"></i>
+            <span>CALL</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a href="https://wa.me/+916362361137">
+            <i class="fab fa-whatsapp"></i>
+            <span>WHATSAPP</span>
+        </a>
+    </div>
+  
+</div>
+
+<style>
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.bottom-nav .nav-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #eee;
+}
+
+.bottom-nav .nav-item:last-child {
+    border-right: none;
+}
+
+.bottom-nav .nav-item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.bottom-nav .nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Add padding to main content to prevent overlap */
+body {
+    padding-bottom: 70px;
+}
+
+/* Hover effects */
+.bottom-nav .nav-item a:hover {
+    color: #0054da;
+}
+
+/* Active state */
+.bottom-nav .nav-item a.active {
+    color: #DAA520;
+}
+
+/* Mobile optimizations */
+@media (max-width: 576px) {
+    .bottom-nav {
+        padding: 10px;
+    }
     
+    .bottom-nav .nav-item i {
+        font-size: 18px;
+    }
+    
+    .bottom-nav .nav-item span {
+        font-size: 10px;
+    }
+}
+</style>
 <script>
   $(document).ready(function () {
     $('.blog-carousel').slick({
@@ -266,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // Show modal after 5 seconds
    setTimeout(() => {
        modal.style.display = 'block';
-   }, 5000);
+   }, 15000);
 
    // Close modal
    closeButton.onclick = () => modal.style.display = 'none';
@@ -445,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
        {{!-- <script src="/javascripts/home.js"></script> --}}
-<!--Start of Tawk.to Script-->
+{{!-- <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -456,7 +554,7 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
-</script>
+</script> --}}
 <!--End of Tawk.to Script-->
     <!-- Additional page-specific scripts -->
     {{{_sections.scripts}}}
