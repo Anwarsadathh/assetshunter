@@ -6,6 +6,8 @@ const multer = require("multer");
 const propertyHelper = require("../helpers/property-helper");
 const suggestHelper = require("../helpers/suggestion-helper");
 const fs = require("fs");
+const moment = require("moment");
+const { log } = require("console");
 // Middleware for verifying user login
 function verifyLogin(req, res, next) {
   if (req.session && req.session.user) {
@@ -42,15 +44,14 @@ const upload = multer({
   },
 });
 
-// Home Page
 router.get("/", async (req, res) => {
   try {
     const featuredProperties = await propertyHelper.getFeaturedProperties();
     const latestProperties = await propertyHelper.getLatestProperties();
     const locations = await propertyHelper.getAllLocations();
-
-    // Log the fetched properties
-  
+    const blogs = await propertyHelper.getAllBlogs(); // Fetch blogs from the database
+    const gallery = await propertyHelper.getGallery(); // Fetch gallery images from the database
+console.log(gallery,"dd");
     res.render("user/home", {
       layout: "user-layout",
       title: "Assets Hunter",
@@ -58,6 +59,8 @@ router.get("/", async (req, res) => {
       featuredProperties,
       latestProperties,
       locations,
+      blogs, // Send blogs to the template
+      gallery, // Send gallery images to the template
     });
   } catch (error) {
     console.error(error);
@@ -69,7 +72,51 @@ router.get("/", async (req, res) => {
     });
   }
 });
+router.get("/blog/:id", async (req, res) => {
+  try {
+    const blogId = req.params.id;
 
+    // Fetch blog details and recent posts
+    const blog = await propertyHelper.getBlogById(blogId);
+    const recentPosts = await propertyHelper.getRecentPosts();
+
+    res.render("user/blog-detail", {
+      blog,
+      recentPosts,
+      layout: "user-layout",
+      title: `Blog: ${blog.title}`,
+      user: true,
+      helpers: {
+        formatDate: function (date) {
+          const moment = require("moment");
+          return moment(date).format("MMMM Do YYYY");
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching blog details:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// Route to fetch gallery data and render the gallery page
+router.get("/gallery", async (req, res) => {
+  try {
+    // Fetch gallery data from the database
+    const gallery = await propertyHelper.getGallery();
+
+    // Render the gallery page and pass the gallery data to the view
+    res.render("user/gallery", {
+      layout: "user-layout",
+      title: "Assets Hunter",
+      user: true,
+      gallery: gallery,
+    });
+  } catch (error) {
+    console.error("Error fetching gallery data:", error);
+    res.status(500).send("Error fetching gallery data");
+  }
+});
 // In your routes/users.js
 router.get('/api/properties/status/:status', async (req, res) => {
     try {

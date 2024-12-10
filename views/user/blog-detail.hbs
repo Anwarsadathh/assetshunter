@@ -1,0 +1,165 @@
+<!-- Blog Banner Section -->
+<div class="blog-banner" style="background-image: url('{{blog.imagePath}}');">
+  <div class="overlay"></div>
+  <h1 class="blog-banner-title">{{blog.title}}</h1>
+</div>
+
+<!-- Blog Content Container -->
+<div class="blog-detail-container">
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.description}}</p>
+    <p><strong>Published on:</strong> {{formatDate blog.createdAt}}</p>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Search Widget -->
+    <div class="search-widget">
+      <h3>Search</h3>
+      <input type="text" placeholder="Search here..." />
+      <button>Search</button>
+    </div>
+<!-- Recent Posts -->
+<div class="recent-posts mt-3">
+  <h3>Recent Posts</h3>
+  <ul>
+    {{#each recentPosts}}
+      <li style="display: flex; align-items: center; margin-bottom: 15px;">
+        <img src="{{this.imagePath}}" alt="{{this.title}}" style="width: 60px; height: 60px; object-fit: cover; margin-right: 10px; border-radius: 4px;" />
+        <a href="/blog/{{this._id}}" style="text-decoration: none; color: #333; font-size: 16px; transition: color 0.3s;">
+          {{this.title}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+
+  </aside>
+</div>
+
+<!-- Social Sharing Section -->
+<div class="social-sharing">
+  <p>Share this post:</p>
+  <div class="social-icons">
+    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</div>
+
+<!-- Styles -->
+<style>
+  /* Blog Banner */
+  .blog-banner {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    margin-top: -80px;
+    justify-content: center;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .blog-banner-title {
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+  }
+
+  /* Blog Content Layout */
+  .blog-detail-container {
+    display: flex;
+    margin: 50px auto;
+    width: 80%;
+    max-width: 1200px;
+  }
+
+  .main-content {
+    flex: 2;
+    margin-right: 20px;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .sidebar {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .search-widget input {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .search-widget button {
+    width: 100%;
+    background: #4169E1;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .recent-posts ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .recent-posts li {
+    margin-bottom: 10px;
+  }
+
+  .recent-posts a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+  }
+
+  .recent-posts a:hover {
+    color: #4169E1;
+  }
+
+  /* Social Sharing */
+  .social-sharing {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .social-icons {
+    margin-top: 10px;
+  }
+
+  .social-icon {
+    margin: 0 10px;
+    font-size: 24px;
+    color: #333;
+    transition: color 0.3s;
+  }
+
+  .social-icon:hover {
+    color: #007bff;
+  }
+</style>

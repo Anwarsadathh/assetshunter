@@ -40,7 +40,53 @@ module.exports = {
       }
     });
   },
+  addGalleryItem: (fieldname, galleryItems) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
 
+        // Upsert to add or update the gallery items for a specific fieldname
+        await database.collection(collection.GALLERY_COLLECTION).updateOne(
+          { fieldname }, // Match document with the same fieldname
+          {
+            $push: {
+              items: { $each: galleryItems }, // Append new items to the array
+            },
+            $setOnInsert: { createdAt: new Date() }, // Set createdAt if the document is new
+          },
+          { upsert: true } // Create a new document if none exists
+        );
+
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  deleteGalleryItem: async (fieldname, imageUrl) => {
+    try {
+      const database = db.getDb(); // Get the correct database instance
+      const galleryCollection = database.collection("gallery"); // Use your collection name
+
+      // Find the gallery entry by fieldname
+      const galleryEntry = await galleryCollection.findOne({ fieldname });
+
+      if (galleryEntry) {
+        // Filter out the imageUrl from the items array
+        const updatedItems = galleryEntry.items.filter(
+          (item) => item.imageUrl !== imageUrl
+        );
+
+        // Update the document in the database
+        await galleryCollection.updateOne(
+          { fieldname },
+          { $set: { items: updatedItems } }
+        );
+      }
+    } catch (error) {
+      throw new Error("Error deleting gallery item: " + error.message);
+    }
+  },
   // Get all blogs
   getAllBlogs: () => {
     return new Promise(async (resolve, reject) => {

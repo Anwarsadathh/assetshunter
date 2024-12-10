@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Property Images</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.upload-btn {
+  display: block;
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+}
+
+#uploadStatus {
+  margin-top: 20px;
+}
+
+.status {
+  font-size: 14px;
+  text-align: center;
+}
+
+.status.uploading {
+  color: #ffa500;
+}
+
+.status.success {
+  color: #28a745;
+}
+
+.status.error {
+  color: #dc3545;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Upload Gallery Images</h1>
+<form action="/admin/gallery-upload" method="POST" enctype="multipart/form-data">
+    <!-- Exterior Images -->
+    <div class="form-group">
+      <label for="exterior">Exterior Images</label>
+      <input type="file" name="exterior" id="exterior" multiple />
+    </div>
+
+    <!-- Bedroom Images -->
+    <div class="form-group">
+      <label for="bedroom">Bedroom Images</label>
+      <input type="file" name="bedroom" id="bedroom" multiple />
+    </div>
+
+    <!-- Kitchen Images -->
+    <div class="form-group">
+      <label for="kitchen">Kitchen Images</label>
+      <input type="file" name="kitchen" id="kitchen" multiple />
+    </div>
+
+    <!-- Living Room Images -->
+    <div class="form-group">
+      <label for="livingRoom">Living Room Images</label>
+      <input type="file" name="livingRoom" id="livingRoom" multiple />
+    </div>
+
+    <button type="submit" class="upload-btn">Upload Images</button>
+  </form>
+
+  <div id="uploadStatus"></div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Submit the form for uploading gallery images
+    $("#galleryImageUploadForm").on("submit", function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      const formData = new FormData(this); // Create FormData object to hold files
+
+      $.ajax({
+        url: "/admin/gallery-upload", // Endpoint for gallery images
+        type: "POST",
+        data: formData,
+        processData: false, // Do not process the data
+        contentType: false, // Do not set content type
+        beforeSend: function () {
+          $("#uploadStatus").html("<p class='status uploading'>Uploading...</p>");
+        },
+        success: function (response) {
+          $("#uploadStatus").html(
+            `<p class='status success'>${response.message}</p>`
+          );
+        },
+        error: function (xhr) {
+          const errorMessage =
+            xhr.responseJSON && xhr.responseJSON.error
+              ? xhr.responseJSON.error
+              : "An error occurred while uploading.";
+          $("#uploadStatus").html(`<p class='status error'>${errorMessage}</p>`);
+        },
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

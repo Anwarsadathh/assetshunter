@@ -1,0 +1,129 @@
+<div class="container mt-4">
+  <h1 class="text-center mb-4">Uploaded Gallery</h1>
+  
+  <!-- Add Gallery Image Button -->
+  <div class="text-center mb-4">
+    <a href="/admin/gallery-upload" class="btn btn-primary">Add Gallery Image</a>
+  </div>
+  
+  {{!-- Check if there are any gallery items --}}
+  {{#if gallery}}
+    {{!-- Iterate over each fieldname group --}}
+    {{#each gallery}}
+      <div class="gallery-category">
+        <h2 class="text-center mt-4">{{capitalize this.fieldname}}</h2>
+        <div class="gallery-grid">
+          {{!-- Iterate over items within each fieldname --}}
+          {{#each this.items}}
+            <div class="gallery-item">
+              <img src="{{this.imageUrl}}" alt="Gallery Image" class="gallery-img" />
+              <div class="gallery-info">
+                <p><strong>Uploaded At:</strong> {{formatDate this.uploadedAt}}</p>
+                {{!-- Delete button --}}
+                <form action="/admin/gallery-delete" method="POST" class="delete-form">
+                  <input type="hidden" name="fieldname" value="{{../fieldname}}" />
+                  <input type="hidden" name="imageUrl" value="{{this.imageUrl}}" />
+                  <button type="submit" class="btn btn-danger btn-sm mt-2">Delete</button>
+                </form>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <p class="text-center mt-4">No gallery items uploaded yet.</p>
+  {{/if}}
+</div>
+
+<style>
+  /* Container styling */
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  /* Gallery category styling */
+  .gallery-category {
+    margin-bottom: 40px;
+  }
+
+  /* Gallery grid for responsive layout */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  /* Styling for each gallery item */
+  .gallery-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hover effect for gallery item */
+  .gallery-item:hover {
+    transform: scale(1.05);
+  }
+
+  /* Image styling */
+  .gallery-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Gallery info section */
+  .gallery-info {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  /* Button styles */
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  /* Specific button styles for the delete button */
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* Spacing between items */
+  .gallery-item .btn {
+    margin-top: 10px;
+  }
+
+  /* Styling for the 'Add Gallery Image' button */
+  .btn-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  /* Hover effect for the 'Add Gallery Image' button */
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>

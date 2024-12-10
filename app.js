@@ -39,6 +39,17 @@ const hbs = exphbs.create({
     inc: function (value) {
       return parseInt(value) + 1;
     },
+    extend: function (name, context) {
+      if (!this._sections) this._sections = {};
+      this._sections[name] = context.fn(this);
+      return null;
+    },
+    capitalize: function (text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    },
+    section: function (name) {
+      return this._sections && this._sections[name];
+    },
     eq: function (v1, v2) {
       return v1 === v2;
     },

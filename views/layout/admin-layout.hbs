@@ -22,7 +22,7 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #8B7355;
+            --primary-color: #002B5C;
             --secondary-color: #BAD7E9;
             --accent-color: #FCFFE7;
             --dark-color: #2B3467;
@@ -304,7 +304,18 @@
                         <span>Enquiries</span>
                     </a>
                 </li>
-              
+              <li class="nav-item">
+                    <a href="/admin/blogs" class="nav-link {{#if isBlog}}active{{/if}}">
+                        <i class="fas fa-envelope"></i>
+                        <span>BLOGS</span>
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a href="/admin/gallery-view" class="nav-link {{#if isGal}}active{{/if}}">
+                        <i class="fas fa-envelope"></i>
+                        <span>Gallery</span>
+                    </a>
+                </li>
                 <li class="nav-item mt-auto">
                     <form action="/admin/logout" method="POST" id="logoutForm">
                         <a href="javascript:;" onclick="document.getElementById('logoutForm').submit();" class="nav-link text-warning">

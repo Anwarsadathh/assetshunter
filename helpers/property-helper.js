@@ -18,7 +18,53 @@ module.exports = {
       }
     });
   },
-
+  // Helper to get all gallery images
+  getGallery: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb(); // Connect to the database
+        const galleryImages = await database
+          .collection(collection.GALLERY_COLLECTION) // Assuming collection name is GALLERY_COLLECTION
+          .find()
+          .sort({ createdAt: -1 }) // Sort images by creation date (most recent first)
+          .toArray();
+        resolve(galleryImages); // Return the gallery images array
+      } catch (error) {
+        reject(error); // Handle any errors
+      }
+    });
+  },
+  getBlogById: (blogId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
+        const blog = await database
+          .collection(collection.BLOG_COLLECTION)
+          .findOne({ _id: new ObjectId(blogId) });
+        resolve(blog);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  // New getRecentPosts function
+  getRecentPosts: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
+        // Fetch the latest 5 blogs, sorted by createdAt (descending order)
+        const recentPosts = await database
+          .collection(collection.BLOG_COLLECTION)
+          .find({})
+          .sort({ createdAt: -1 })
+          .limit(5)
+          .toArray();
+        resolve(recentPosts);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
   // Get all properties
   getAllProperties: () => {
     return new Promise(async (resolve, reject) => {
@@ -137,6 +183,21 @@ module.exports = {
           .toArray();
 
         resolve({ properties, total });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  getAllBlogs: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
+        const blogs = await database
+          .collection(collection.BLOG_COLLECTION)
+          .find()
+          .sort({ createdAt: -1 })
+          .toArray(); // Sort blogs by creation date
+        resolve(blogs);
       } catch (error) {
         reject(error);
       }

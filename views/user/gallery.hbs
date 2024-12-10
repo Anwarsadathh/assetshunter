@@ -1,0 +1,229 @@
+<div class="gallery-tabs">
+  <div class="tabs">
+    {{#each gallery}}
+      <button class="tab-link" data-tab="{{this.fieldname}}">
+        {{this.fieldname}}
+      </button>
+    {{/each}}
+  </div>
+
+  <div class="gallery-content">
+    {{#each gallery}}
+      <div class="tab-content" id="{{this.fieldname}}" style="display: none;">
+        <div class="image-grid">
+          {{#each this.items}}
+            <div class="image-item">
+              <div class="image-wrapper">
+                <img src="{{this.imageUrl}}" alt="{{this.fieldname}}" class="gallery-image" />
+                <div class="overlay">
+                  <h5>{{../fieldname}}</h5>
+                  <p>Click to view more</p>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<style>
+/* General Reset and Base Styles 
+/* General Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tabs Section */
+.gallery-tabs {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tab-link {
+  background: #f0f0f0;
+  color: #333;
+  padding: 10px 15px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 1rem;
+  text-transform: capitalize;
+  border-radius: 5px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.tab-link:hover {
+  background: #333;
+  color: #fff;
+}
+
+.tab-link.active {
+  background: #333;
+  color: #fff;
+}
+
+/* Gallery Content */
+.gallery-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-content {
+  display: none;
+  width: 100%;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.image-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image-item:hover {
+  transform: scale(1.05);
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.gallery-image:hover {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  text-align: center;
+  padding: 10px;
+}
+
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.overlay h5 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.overlay p {
+  font-size: 0.9rem;
+}
+
+/* Responsive for Medium Devices */
+@media screen and (max-width: 768px) {
+  .tabs {
+    gap: 8px;
+  }
+
+  .tab-link {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .overlay {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+}
+
+/* Responsive for Small Devices */
+@media screen and (max-width: 480px) {
+  .tab-link {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+
+  .overlay {
+    font-size: 0.7rem;
+    padding: 5px;
+  }
+
+  .overlay h5 {
+    font-size: 0.9rem;
+  }
+
+  .overlay p {
+    font-size: 0.75rem;
+  }
+}
+
+</style>
+
+<script>
+  // Tab switching logic
+  document.querySelectorAll('.tab-link').forEach(tab => {
+    tab.addEventListener('click', function () {
+      const selectedTab = this.getAttribute('data-tab');
+
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = 'none';
+      });
+
+      // Show the selected tab content
+      document.getElementById(selectedTab).style.display = 'block';
+
+      // Highlight the selected tab
+      document.querySelectorAll('.tab-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+
+  // Initialize by showing the first tab
+  document.querySelector('.tab-link').click();
+</script>

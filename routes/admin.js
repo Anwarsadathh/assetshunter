@@ -30,6 +30,7 @@ const storage = multer.diskStorage({
 });
 
 
+
 const uploads = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -85,6 +86,136 @@ const verifyAdmin = (req, res, next) => {
 };
 
 
+// Multer storage configuration
+const storageg = multer.diskStorage({
+  destination: (req, file, cb) => {
+    let uploadPath = `public/uploads/gallery/${file.fieldname}`;
+    fs.mkdirSync(uploadPath, { recursive: true }); // Ensure directory exists
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const galleryUpload = multer({
+  storage: storageg, // Use the correct gallery storage configuration
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true); // Accept images only
+    } else {
+      cb(new Error("Invalid file type. Only images are allowed."), false);
+    }
+  },
+});
+
+// Define multiple fields for uploads
+const uploadFieldsg = [
+  { name: "exterior", maxCount: 10 },
+  { name: "bedroom", maxCount: 10 },
+  { name: "kitchen", maxCount: 10 },
+  { name: "livingRoom", maxCount: 10 },
+];
+// Route to render the gallery upload page
+router.get("/gallery-upload", verifyAdmin, (req, res) => {
+  res.render("admin/gallery-upload", {
+    layout: "admin-layout",
+    isGal: true,
+    title: "Upload Gallery Item",
+  });
+});
+
+// Route to display uploaded gallery items
+router.get("/gallery-view", verifyAdmin, async (req, res) => {
+  try {
+    const gallery = await propertyHelper.getGallery(); // Fetch gallery data from the database
+    res.render("admin/gallery-view", {
+      layout: "admin-layout",
+      title: "Uploaded Gallery",
+      gallery,
+      isGal: true,
+    });
+  } catch (error) {
+    console.error("Error fetching gallery items:", error);
+    req.flash("error", "Failed to load gallery items.");
+    res.redirect("/admin/dashboard");
+  }
+});
+router.post("/gallery-delete", verifyAdmin, async (req, res) => {
+  try {
+    const { fieldname, imageUrl } = req.body;
+
+    // Delete the image entry from the database
+    await adminHelper.deleteGalleryItem(fieldname, imageUrl);
+
+    // Optionally delete the image file from the server
+    const filePath = path.join(__dirname, "../public", imageUrl); // Adjust path if needed
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("File deleted successfully:", filePath);
+      }
+    });
+
+    req.flash("success", "Gallery item deleted successfully!");
+    res.redirect("/admin/gallery-view");
+  } catch (error) {
+    console.error("Error deleting gallery item:", error);
+    req.flash("error", "Failed to delete gallery item.");
+    res.redirect("/admin/gallery-view");
+  }
+});
+// Route to handle gallery upload
+router.post(
+  "/gallery-upload",
+  galleryUpload.fields(uploadFieldsg), // Use the correct multer configuration for gallery uploads
+  async (req, res) => {
+    try {
+      const galleryData = {};
+
+      // Group uploaded files by fieldname
+      for (const field in req.files) {
+        if (!galleryData[field]) {
+          galleryData[field] = [];
+        }
+        req.files[field].forEach((file) => {
+          galleryData[field].push({
+            imageUrl: `/uploads/gallery/${field}/${file.filename}`,
+            uploadedAt: new Date(),
+          });
+        });
+      }
+
+      // Insert grouped data into the database
+      const promises = Object.keys(galleryData).map((fieldname) =>
+        adminHelper.addGalleryItem(fieldname, galleryData[fieldname])
+      );
+
+      await Promise.all(promises);
+
+      req.flash("success", "Gallery items uploaded successfully!");
+      res.redirect("/admin/gallery-upload");
+    } catch (error) {
+      console.error("Error uploading gallery items:", error);
+      req.flash("error", "Failed to upload gallery items.");
+      res.render("admin/gallery-upload", {
+        layout: "admin-layout",
+        title: "Upload Gallery Item",
+        error: "Failed to upload gallery items",
+      });
+    }
+  }
+);
+
+
+
+
+
 
 
 // Route to display blog management page (GET)
@@ -92,7 +223,9 @@ router.get("/blogs", verifyAdmin, async (req, res) => {
   try {
     const blogs = await adminHelper.getAllBlogs();
     res.render("admin/blogs", {
-      layout: false,
+      layout: "admin-layout",
+      admin: true,
+      isBlog: true,
       title: "Manage Blogs",
       blogs,
     });
@@ -106,7 +239,9 @@ router.get("/blogs", verifyAdmin, async (req, res) => {
 // Route to display the add blog page (GET)
 router.get("/blogs/add", verifyAdmin, (req, res) => {
   res.render("admin/add-blog", {
-    layout: false,
+    layout: "admin-layout",
+    admin: true,
+    isBlog: true,
     title: "Add Blog",
   });
 });
@@ -141,9 +276,11 @@ router.get("/blogs/edit/:id", verifyAdmin, async (req, res) => {
       return res.redirect("/admin/blogs");
     }
     res.render("admin/edit-blog", {
-      layout: false,
       title: "Edit Blog",
       blog,
+      layout: "admin-layout",
+      admin: true,
+      isBlog: true,
     });
   } catch (error) {
     console.error("Error fetching blog:", error);
