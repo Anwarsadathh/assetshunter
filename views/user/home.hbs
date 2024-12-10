@@ -1399,6 +1399,250 @@ function closeBrochureModal() {
 </style>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Logo -->
+<div class="text-center mt-5">
+    <h4 class="register-title">
+                  Assets Hunter
+                </h4>
+</div>
+
+
+<!-- Form Section -->
+<div class="register-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h4 class="register-title">
+                    REGISTER<br>
+                    YOUR<br>
+                    INTEREST
+                </h4>
+            </div>
+            <div class="col-lg-8">
+                <form class="register-form" id="registerForm">
+                    <div class="row g-4">
+                        <!-- First Name -->
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="FIRST NAME *" required>
+                        </div>
+                        
+                        <!-- Last Name -->
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="LAST NAME *" required>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="col-md-12">
+                            <input type="email" class="form-control" placeholder="EMAIL *" required>
+                        </div>
+                        
+                       
+                        <div class="col-md-9">
+                            <input type="tel" class="form-control" placeholder="PHONE NUMBER">
+                        </div>
+                        
+                        <!-- Contact Preference -->
+                        <div class="col-12">
+                            <p class="preference-label">Preferred mode of contact *</p>
+                            <div class="contact-preference">
+                                <label class="custom-radio">
+                                    <input type="radio" name="contact" value="phone">
+                                    <span class="radio-label">Phone</span>
+                                </label>
+                                <label class="custom-radio">
+                                    <input type="radio" name="contact" value="email">
+                                    <span class="radio-label">Email</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                     
+                        <div class="col-md-6">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="privacy" required checked>
+                                <span class="checkbox-label">I've read and agree to the <a href="#" class="privacy-link">Privacy Policy</a>. *</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <button type="submit" class="submit-btn">
+                                <span class="btn-text">SUBMIT</span>
+                                <span class="btn-icon">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Form Section Styles */
+.register-section {
+ 
+    background: #fff;
+}
+
+.register-title {
+    font-family: 'Chronicle Display Semibold', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 30px;
+}
+
+/* Form Controls */
+.form-control {
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #000;
+}
+
+/* Country Code */
+.country-code {
+    height: 50px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 8px;
+}
+
+.flag {
+    width: 20px;
+    height: auto;
+}
+
+/* Radio Buttons */
+.preference-label {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.contact-preference {
+    display: flex;
+    gap: 30px;
+}
+
+.custom-radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.custom-radio input {
+    width: 18px;
+    height: 18px;
+}
+
+.radio-label {
+    font-size: 14px;
+}
+
+/* Checkboxes */
+.custom-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+}
+
+.checkbox-label {
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.privacy-link {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 15px 40px;
+    width: 25% !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #333;
+}
+
+.btn-text {
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.btn-icon {
+    font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .register-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 767px) {
+    .contact-preference {
+        flex-direction: column;
+        gap: 15px;
+    }
+    /* Submit Button */
+.submit-btn {
+   
+    width: 45% !important;
+ 
+}
+}
+</style>
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Add your form submission logic here
+    console.log('Form submitted');
+});
+</script>
+
 <div class="faq-section">
   <h2 class="faq-section-heading">FAQ</h2>
   {{#each faqs}}
@@ -1496,3 +1740,4 @@ function closeBrochureModal() {
 });
 
 </script>
+
