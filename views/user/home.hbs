@@ -1193,10 +1193,9 @@ function closeBrochureModal() {
               <a href="#"><i class="fab fa-whatsapp"></i></a>
               <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
-           <button class="btn-read-more">
-  <a href="/blog/{{this._id}}" class="read-more-link">Read More <i class="fas fa-arrow-right"></i></a>
-</button>
-
+            <button class="btn-read-more">
+              <a href="/blog/{{this._id}}" class="read-more-link">Read More <i class="fas fa-arrow-right"></i></a> 
+            </button>
           </div>
         </div>
       </div>
@@ -1219,7 +1218,9 @@ function closeBrochureModal() {
   display: inline-block;
   margin: 0 5px;
 }
-
+.read-more-link{
+    color: white !important;
+}
 .slick-dots li button {
   font-size: 0; /* Hide default text inside dots */
   width: 12px;
