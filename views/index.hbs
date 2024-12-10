@@ -1,2 +1,270 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+
+
+
+
+
+
+
+{{!-- views/partials/header.hbs --}}
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/">
+                <img src="/images/w.png" alt="Logo" class="logo-img" >
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{#if isHome}}active{{/if}}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{#if isProjects}}active{{/if}}" href="#" id="projectsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Projects
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="projectsDropdown">
+                            {{#if navProjects}}
+                                {{#each navProjects}}
+                                    <a class="dropdown-item" href="/projects/{{this.status}}">
+                                        {{this.status}} Projects ({{this.count}})
+                                    </a>
+                                {{/each}}
+                                <div class="dropdown-divider"></div>
+                            {{/if}}
+                            <a class="dropdown-item" href="/properties">All Projects</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{#if isLocations}}active{{/if}}" href="#" id="locationsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Locations
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="locationsDropdown">
+                            {{#if navLocations}}
+                                {{#each navLocations}}
+                                    <a class="dropdown-item" href="/location/{{this.location}}">
+                                        {{this.location}} ({{this.count}})
+                                    </a>
+                                {{/each}}
+                                <div class="dropdown-divider"></div>
+                            {{/if}}
+                            <a class="dropdown-item" href="/properties">All Locations</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{#if isAbout}}active{{/if}}" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn contact-btn" href="tel:+918088121121">
+                            <i class="fas fa-phone"></i> +91 8088121121
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+:root {
+    --primary-bg: #ffffff;
+    --text-color: #000000;
+    --accent-color: #ff4d4d;
+}
+
+.site-header {
+    font-family: 'Poppins', sans-serif !important;
+    padding-top: 64px;
+}
+
+.navbar {
+background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%); 
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;  /* Increased from 1.6rem */
+    margin-right: 2.5rem;
+}
+
+.navbar-brand img {
+    height: 55px !important;  /* Increased from 40px */
+}
+
+.navbar-nav .nav-link {
+    font-size: 0.9rem;  /* Increased from 0.75rem */
+    padding: 0.5rem 1.25rem !important;  /* Slightly increased padding */
+    color: var(--text-color) !important;
+    letter-spacing: 2px;
+    font-weight: 500;  /* Increased from 400 for better visibility */
+    position: relative;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-item.active .nav-link::after {
+    width: 40%;
+}
+
+/* Dropdown Styling */
+.dropdown-menu {
+    background-color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    font-size: 0.85rem;  /* Increased from 0.75rem */
+    padding: 0.6rem 1.25rem;  /* Slightly increased padding */
+    color: var(--primary-bg);
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--accent-color);
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid #eee;
+}
+
+/* Contact Button */
+.contact-btn {
+    padding: 0.5rem 1.5rem;  /* Increased padding */
+    font-size: 0.85rem;  /* Increased from 0.75rem */
+    letter-spacing: 2px;
+    border: 1px solid rgb(242, 242, 242);
+    border-radius: 4px;
+    margin-left: 1rem;
+    background-color: #00a8ff;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-weight: 500;  /* Added for better visibility */
+}
+
+.contact-btn:hover {
+    background-color: var(--text-color);
+    color: var(--primary-bg);
+}
+.logo-img{
+    
+}
+/* Mobile Menu Button */
+.navbar-toggler {
+    border: none;
+    padding: 0;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: var(--primary-bg);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        background-color: transparent;
+        border: none;
+        text-align: center;
+    }
+
+    .dropdown-item {
+        color: var(--text-color);
+        font-size: 0.85rem;  /* Consistent font size in mobile */
+    }
+
+    .dropdown-divider {
+        border-top-color: rgba(255,255,255,0.1);
+    }
+
+    .contact-btn {
+        margin: 1rem auto;
+        display: inline-block;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add active class to current nav item
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.closest('.nav-item').classList.add('active');
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navbarCollapse = document.getElementById('navbarNav');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        
+        // Check if menu is open and click is outside the navbar
+        if (navbarCollapse.classList.contains('show') && 
+            !event.target.closest('.navbar-collapse') && 
+            !event.target.closest('.navbar-toggler')) {
+            // Close the menu using Bootstrap's collapse API
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+            
+            // Also toggle the aria-expanded attribute
+            if (navbarToggler) {
+                navbarToggler.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+});
+
+// Add scrolled class on scroll
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+</script>

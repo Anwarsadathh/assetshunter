@@ -529,6 +529,14 @@ router.get("/privacy-policy", (req, res) => {
   });
 });
 
+// Privacy Policy Page
+router.get("/about-us", (req, res) => {
+  res.render("user/about", {
+    layout: "user-layout",
+    title: "Privacy Policy",
+    user: true,
+  });
+});
 
 
 module.exports = router;
