@@ -1,0 +1,158 @@
+<div class="faq-section">
+  <h2 class="faq-section-heading">FAQ</h2>
+  
+  <!-- Display all FAQ cards -->
+  {{#each faqs}}
+    <div class="faq-card">
+      <div class="faq-header">
+        <h6>{{this.question}}</h6>
+        <span class="faq-icon">→</span>
+      </div>
+      <div class="faq-content">
+        <p>{{this.answer}}</p>
+      </div>
+      <form action="/admin/faq-admin/delete/{{this._id}}" method="POST">
+        <button type="submit" class="delete-faq-btn">Delete</button>
+      </form>
+    </div>
+  {{/each}}
+
+  <!-- Form to add a new FAQ -->
+  <form action="/admin/faq-admin/add" method="POST" class="add-faq-form">
+    <div>
+      <label for="question">Question:</label>
+      <input type="text" name="question" id="question" required placeholder="Enter the question" />
+    </div>
+    <div>
+      <label for="answer">Answer:</label>
+      <textarea name="answer" id="answer" required placeholder="Enter the answer"></textarea>
+    </div>
+    <button type="submit" class="add-faq-btn">Add FAQ</button>
+  </form>
+</div>
+
+<style>
+  /* FAQ Section */
+  .faq-section {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Heading */
+  .faq-section-heading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #232f65;
+  }
+
+  /* FAQ Cards */
+  .faq-card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-card:hover {
+    transform: scale(1.03);
+  }
+
+  .faq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .faq-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-card.open .faq-icon {
+    transform: rotate(90deg);
+  }
+
+  .faq-content {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .faq-card.open .faq-content {
+    display: block;
+  }
+
+  .delete-faq-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .delete-faq-btn:hover {
+    background-color: #c0392b;
+  }
+
+  /* Add FAQ Form */
+  .add-faq-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+
+  .add-faq-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .add-faq-form input, .add-faq-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+
+  .add-faq-form button {
+    background-color: #232f65;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .add-faq-form button:hover {
+    background-color: #1a254e;
+  }
+</style>
+
+<script>
+  // Toggle FAQ content visibility
+  document.querySelectorAll('.faq-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+  });
+</script>

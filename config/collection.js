@@ -14,6 +14,7 @@ module.exports = {
   PROPERTY_FLOOR_PLANS_COLLECTION: "property_floor_plans",
   REAL_ESTATE_COLLECTION: "images",
   GALLERY_COLLECTION: "gallery",
+  FAQ_COLLECTION:"faq",
   // Location Related Collections
   LOCATION_COLLECTION: "locations",
   AREA_COLLECTION: "areas",

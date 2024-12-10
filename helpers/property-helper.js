@@ -65,6 +65,23 @@ module.exports = {
       }
     });
   },
+
+  // Helper to get all gallery images
+  getAllFaqs: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb(); // Connect to the database
+        const galleryImages = await database
+          .collection(collection.FAQ_COLLECTION) // Assuming collection name is GALLERY_COLLECTION
+          .find()
+          .sort({ createdAt: -1 }) // Sort images by creation date (most recent first)
+          .toArray();
+        resolve(galleryImages); // Return the gallery images array
+      } catch (error) {
+        reject(error); // Handle any errors
+      }
+    });
+  },
   // Get all properties
   getAllProperties: () => {
     return new Promise(async (resolve, reject) => {

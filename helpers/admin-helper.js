@@ -135,7 +135,62 @@ module.exports = {
       }
     });
   },
+  addBlog: (blogData) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const database = db.getDb();
+        blogData.createdAt = new Date(); // Add timestamp
+        await database
+          .collection(collection.BLOG_COLLECTION)
+          .insertOne(blogData);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
 
+  // Get all FAQs
+  getAllFaqs: async () => {
+    try {
+      const database = db.getDb(); // Assuming db.getDb() returns the database instance
+      const faqs = await database
+        .collection(collection.FAQ_COLLECTION) // Use the correct collection name for FAQs
+        .find()
+        .toArray();
+      return faqs;
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      throw error;
+    }
+  },
+
+  // Add a new FAQ to the database
+  addFaq: async (faqData) => {
+    try {
+      const database = db.getDb(); // Assuming db.getDb() returns the database instance
+      faqData.createdAt = new Date(); // Add timestamp if needed
+      await database
+        .collection(collection.FAQ_COLLECTION) // Use the correct collection name for FAQs
+        .insertOne(faqData);
+    } catch (error) {
+      console.error("Error adding FAQ:", error);
+      throw error;
+    }
+  },
+
+  // Delete an FAQ from the database
+  deleteFaq: async (id) => {
+    try {
+      const database = db.getDb(); // Assuming db.getDb() returns the database instance
+      await database
+        .collection(collection.FAQ_COLLECTION) // Use the correct collection name for FAQs
+        .deleteOne({ _id: new ObjectId(id) });
+    } catch (error) {
+      console.error("Error deleting FAQ:", error);
+      throw error;
+    }
+  },
   doLogin: (adminData) => {
     return new Promise(async (resolve, reject) => {
       try {

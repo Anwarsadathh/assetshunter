@@ -402,6 +402,51 @@ router.get("/dashboard", verifyAdmin, async (req, res) => {
   }
 });
 
+
+// Route to render the FAQ admin page
+router.get("/faq-admin", async (req, res) => {
+  try {
+    // Fetch all FAQs from the database
+    const faqs = await adminHelper.getAllFaqs();
+    res.render("admin/faq-admin", {
+      layout: "admin-layout",
+      title: "Manage FAQs",
+      faqs: faqs,
+      isFAQ:true
+    });
+  } catch (error) {
+    console.error("Error fetching FAQs:", error);
+    res.status(500).send("Error fetching FAQs");
+  }
+});
+
+// Route to handle adding a new FAQ
+router.post("/faq-admin/add", async (req, res) => {
+  const { question, answer } = req.body;
+  try {
+    await adminHelper.addFaq({ question, answer });
+    req.flash("success", "FAQ added successfully!");
+    res.redirect("/admin/faq-admin");
+  } catch (error) {
+    console.error("Error adding FAQ:", error);
+    req.flash("error", "Failed to add FAQ.");
+    res.redirect("/admin/faq-admin");
+  }
+});
+
+// Route to handle deleting an FAQ
+router.post("/faq-admin/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await adminHelper.deleteFaq(id);
+    req.flash("success", "FAQ deleted successfully!");
+    res.redirect("/admin/faq-admin");
+  } catch (error) {
+    console.error("Error deleting FAQ:", error);
+    req.flash("error", "Failed to delete FAQ.");
+    res.redirect("/admin/faq-admin");
+  }
+});
 // Properties list
 router.get("/properties", verifyAdmin, async (req, res) => {
   try {

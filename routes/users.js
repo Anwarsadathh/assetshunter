@@ -51,7 +51,10 @@ router.get("/", async (req, res) => {
     const locations = await propertyHelper.getAllLocations();
     const blogs = await propertyHelper.getAllBlogs(); // Fetch blogs from the database
     const gallery = await propertyHelper.getGallery(); // Fetch gallery images from the database
-console.log(gallery,"dd");
+    const faqs = await propertyHelper.getAllFaqs(); // Fetch FAQs from the database
+
+    console.log(gallery, "dd");
+
     res.render("user/home", {
       layout: "user-layout",
       title: "Assets Hunter",
@@ -61,6 +64,7 @@ console.log(gallery,"dd");
       locations,
       blogs, // Send blogs to the template
       gallery, // Send gallery images to the template
+      faqs, // Send FAQs to the template
     });
   } catch (error) {
     console.error(error);
@@ -70,32 +74,6 @@ console.log(gallery,"dd");
       user: true,
       error: "Failed to load properties",
     });
-  }
-});
-router.get("/blog/:id", async (req, res) => {
-  try {
-    const blogId = req.params.id;
-
-    // Fetch blog details and recent posts
-    const blog = await propertyHelper.getBlogById(blogId);
-    const recentPosts = await propertyHelper.getRecentPosts();
-
-    res.render("user/blog-detail", {
-      blog,
-      recentPosts,
-      layout: "user-layout",
-      title: `Blog: ${blog.title}`,
-      user: true,
-      helpers: {
-        formatDate: function (date) {
-          const moment = require("moment");
-          return moment(date).format("MMMM Do YYYY");
-        },
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching blog details:", error);
-    res.status(500).send("Server error");
   }
 });
 
