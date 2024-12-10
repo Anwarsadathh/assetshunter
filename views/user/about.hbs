@@ -1,99 +1,419 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Assets Hunter</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .about-section {
-      background: #f9f9f9;
-      padding: 60px 0;
-    }
-    .about-title {
-      font-size: 2.5rem;
-      color: #232f65;
-      margin-bottom: 20px;
-    }
-    .about-content {
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    .team-section {
-      background: #fff;
-      padding: 60px 0;
-    }
-    .team-member {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .team-member img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .team-member h5 {
-      margin-top: 15px;
-      font-size: 1.25rem;
-      color: #232f65;
-    }
-    .team-member p {
-      font-size: 0.9rem;
-      color: #666;
-    }
-  </style>
-</head>
-<body>
-  <div class="container-fluid about-section">
-    <div class="container text-center">
-      <h1 class="about-title">About Us</h1>
-      <p class="about-content">
-        Welcome to <strong>Assets Hunter</strong>, your trusted partner in real estate consultancy. 
-        With years of experience and a client-first approach, we aim to simplify your property search 
-        and investment journey. Whether you're looking for your dream home, a commercial space, or lucrative 
-        investment opportunities, our team is dedicated to providing personalised services tailored to your needs.
-      </p>
-      <p class="about-content">
-        At Assets Hunter, we pride ourselves on maintaining transparency, professionalism, and a deep 
-        understanding of market trends to deliver the best solutions for our clients.
-      </p>
+<!-- Hero Section with Parallax -->
+<div class="hero-about position-relative">
+    <div class="diagonal-overlay"></div>
+    <div class="container position-relative">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-lg-8">
+                <div class="reveal-content">
+                    <h1 class="mega-title">PRIME MERIDIAN</h1>
+                    <p class="lead-text">Crafting Luxury Living Spaces Since 2009</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <p>Scroll to Explore</p>
+    </div>
+</div>
 
-  <div class="container-fluid team-section">
+<!-- About Section -->
+<section class="about-section">
     <div class="container">
-      <h2 class="text-center mb-5">Meet Our Team</h2>
-      <div class="row">
-        <div class="col-md-4 team-member">
-          <img src="https://via.placeholder.com/150" alt="Team Member">
-          <h5>John Doe</h5>
-          <p>Founder & CEO</p>
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="about-image-container">
+                    <div class="image-frame">
+                        <img src="/api/placeholder/600/400" alt="About Us" class="main-image">
+                    </div>
+                    <div class="floating-stats">
+                        <div class="stat-box">
+                            <span class="number">15+</span>
+                            <span class="label">Years of Excellence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-content">
+                    <h2 class="section-title">Who We Are</h2>
+                    <p class="section-text">Creating extraordinary living spaces that redefine luxury and comfort. Our commitment to excellence and innovation has made us the leading name in premium real estate development.</p>
+                    <div class="achievement-grid">
+                        <div class="achievement-item">
+                            <span class="achievement-number">500+</span>
+                            <span class="achievement-label">Projects Delivered</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-number">1000+</span>
+                            <span class="achievement-label">Happy Families</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-number">50+</span>
+                            <span class="achievement-label">Awards Won</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 team-member">
-          <img src="https://via.placeholder.com/150" alt="Team Member">
-          <h5>Jane Smith</h5>
-          <p>Real Estate Consultant</p>
-        </div>
-        <div class="col-md-4 team-member">
-          <img src="https://via.placeholder.com/150" alt="Team Member">
-          <h5>Michael Johnson</h5>
-          <p>Marketing Head</p>
-        </div>
-      </div>
     </div>
-  </div>
+</section>
 
-  <div class="container text-center py-5">
-    <h2>Why Choose Us?</h2>
-    <p class="mt-3">
-      - Personalised Property Recommendations <br>
-      - Market Expertise & Insights <br>
-      - Transparent & Trustworthy Services <br>
-      - End-to-End Support in Property Transactions
-    </p>
-  </div>
+<!-- Mission Vision Section with Parallax Scrolling -->
+<section class="mission-vision-section">
+    <div class="container">
+        <div class="vision-mission-container">
+            <div class="vision-box reveal-box">
+                <div class="content-wrapper">
+                    <h3>Our Vision</h3>
+                    <div class="animated-border"></div>
+                    <p>To revolutionize urban living through innovative design and sustainable development, creating spaces that inspire and endure.</p>
+                </div>
+            </div>
+            <div class="mission-box reveal-box">
+                <div class="content-wrapper">
+                    <h3>Our Mission</h3>
+                    <div class="animated-border"></div>
+                    <p>Delivering exceptional living experiences through meticulous attention to detail and unwavering commitment to quality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Testimonial Section -->
+<section class="testimonial-section">
+    <div class="container">
+        <h2 class="text-center section-title mb-5">Client Stories</h2>
+        <div class="testimonial-carousel">
+            <div class="testimonial-track">
+                <!-- Testimonial Card 1 -->
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <div class="testimonial-content">
+                        <p>An absolute masterpiece of architecture and design. Prime Meridian has exceeded all our expectations.</p>
+                        <div class="client-info">
+                            <img src="/api/placeholder/60/60" alt="Client" class="client-image">
+                            <div>
+                                <h5>John Anderson</h5>
+                                <span>Villa Owner</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more testimonial cards as needed -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Partners Section -->
+<section class="partners-section">
+    <div class="container">
+        <h2 class="text-center section-title mb-5">Our Developer Partners</h2>
+        <div class="partners-grid">
+            <div class="partner-item">Provident</div>
+            <div class="partner-item">Prestige Group</div>
+            <div class="partner-item">Tata</div>
+            <div class="partner-item">Sobha</div>
+            <div class="partner-item">Casagrand</div>
+            <div class="partner-item">Godrej</div>
+        </div>
+        <div class="text-center mt-4">
+            <p class="rera-text">RERA Registered: ACK/KA/RERA/1251/472/AG/241120/005618</p>
+        </div>
+    </div>
+</section>
+
+
+<style>
+/* Core Styles */
+:root {
+    --primary-color: #DAA520;
+    --secondary-color: #2C3E50;
+    --text-color: #333;
+    --light-color: #fff;
+}
+* Partners Section */
+.partners-section {
+    padding: 100px 0;
+    background: #f8f9fa;
+}
+
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.partner-item {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.partner-item:hover {
+    transform: translateY(-5px);
+}
+
+.rera-text {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin-top: 30px;
+}
+
+/* Hero Section */
+.hero-about {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1920/1080');
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.diagonal-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: white;
+    transform: skewY(-3deg);
+    transform-origin: bottom left;
+}
+
+.mega-title {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--light-color);
+    letter-spacing: 8px;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 0.5s;
+}
+
+.lead-text {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 1s;
+}
+
+/* About Section */
+.about-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.about-image-container {
+    position: relative;
+}
+
+.image-frame {
+    position: relative;
+    padding: 20px;
+    background: linear-gradient(45deg, var(--primary-color) 0%, transparent 50%);
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.1);
+}
+
+.floating-stats {
+    position: absolute;
+    right: -50px;
+    bottom: -50px;
+    background: var(--secondary-color);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.achievement-item {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-10px);
+}
+
+.achievement-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Mission Vision Section */
+.mission-vision-section {
+    padding: 100px 0;
+    background: var(--secondary-color);
+    position: relative;
+}
+
+.vision-mission-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.reveal-box {
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 15px;
+    color: white;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.reveal-box.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.animated-border {
+    width: 50px;
+    height: 3px;
+    background: var(--primary-color);
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.animated-border::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    animation: borderSlide 2s linear infinite;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+    padding: 100px 0;
+    background: #f8f9fa;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 20px;
+    position: relative;
+}
+
+.quote-mark {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 100px;
+    color: var(--primary-color);
+    opacity: 0.1;
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.client-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes borderSlide {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .mega-title {
+        font-size: 3rem;
+    }
+
+    .vision-mission-container {
+        grid-template-columns: 1fr;
+    }
+
+    .floating-stats {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Reveal boxes on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const revealBoxes = document.querySelectorAll('.reveal-box');
+    
+    function revealOnScroll() {
+        revealBoxes.forEach(box => {
+            const boxTop = box.getBoundingClientRect().top;
+            const triggerBottom = window.innerHeight * 0.8;
+            
+            if(boxTop < triggerBottom) {
+                box.classList.add('active');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Initial check
+});
+
+// Parallax effect
+window.addEventListener('scroll', function() {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.parallax');
+    
+    parallaxElements.forEach(element => {
+        const speed = element.dataset.speed;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+});
+</script>
