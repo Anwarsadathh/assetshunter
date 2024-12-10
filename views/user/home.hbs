@@ -1140,18 +1140,20 @@ function closeBrochureModal() {
 
 </script>
 
-
 <div class="blog-section mt-5">
   <h2>BLOGS</h2>
   <p>Discover the latest trends, ideas, and inspirations from our blog collection.</p>
 
- <div class="blog-carousel">
+  <div class="blog-carousel">
     {{#each blogs}}
-      <div class="blog-card">
-        <img src="{{this.imagePath}}" alt="{{this.title}}" class="blog-image" />
-        <div class="blog-content">
+      <div class="blog-card border rounded shadow-sm mb-4">
+        <!-- Blog Image -->
+        <img src="{{this.imagePath}}" alt="{{this.title}}" class="blog-image w-100" style="height: 200px; object-fit: cover;" />
+
+        <!-- Blog Content -->
+        <div class="blog-content p-3">
           <h3>{{this.title}}</h3>
-          <p class="date">{{formatDate this.createdAt}}</p>
+          <p class="date text-muted">{{formatDate this.createdAt}}</p>
           <p class="description">
             {{#if this.description}}
               {{this.description}}
@@ -1159,24 +1161,62 @@ function closeBrochureModal() {
               No description provided.
             {{/if}}
           </p>
-          <div class="card-footer">
-            <div class="social-icons">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-whatsapp"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <button class="btn-read-more">
+
+       <div class="card-footer d-flex justify-content-between align-items-center">
+  <!-- Social Icons -->
+  <div class="social-icons d-flex">
+    <a href="#" onclick="shareBlog(event, 'facebook', '{{this.title}}', '{{this._id}}')" class="me-2 text-dark fs-5">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="#" onclick="shareBlog(event, 'twitter', '{{this.title}}', '{{this._id}}')" class="me-2 text-dark fs-5">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="#" onclick="shareBlog(event, 'whatsapp', '{{this.title}}', '{{this._id}}')" class="me-2 text-dark fs-5">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="#" onclick="shareBlog(event, 'linkedin', '{{this.title}}', '{{this._id}}')" class="text-dark fs-5">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+  </div>
+     <button class="btn-read-more ">
               <a href="/blog/{{this._id}}" class="read-more-link">Read More <i class="fas fa-arrow-right"></i></a> 
             </button>
-          </div>
+</div>
         </div>
       </div>
     {{/each}}
-    
   </div>
-  
 </div>
+
+
+<script>
+  function shareBlog(event, platform, title, blogId) {
+    event.preventDefault();
+    const url = encodeURIComponent(window.location.origin + '/blog/' + blogId);
+    const text = encodeURIComponent("Check out this blog post: " + title);
+
+    let shareUrl = '';
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://api.whatsapp.com/send?text=${text} ${url}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
+        break;
+    }
+
+    if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
+  }
+</script>
+
+<!-- Font Awesome -->
+
 <style>
    /* Blog Section Styles */
     .blog-section {
@@ -1348,7 +1388,7 @@ function closeBrochureModal() {
   /* Social icons */
   .social-icons a {
     color: #555;
-    font-size: 14px;
+    font-size: 13px !important;
     margin: 0 5px;
     transition: color 0.3s ease, transform 0.2s ease;
   }

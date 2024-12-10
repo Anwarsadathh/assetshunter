@@ -76,6 +76,32 @@ router.get("/", async (req, res) => {
     });
   }
 });
+router.get("/blog/:id", async (req, res) => {
+  try {
+    const blogId = req.params.id;
+
+    // Fetch blog details and recent posts
+    const blog = await propertyHelper.getBlogById(blogId);
+    const recentPosts = await propertyHelper.getRecentPosts();
+
+    res.render("user/blog-detail", {
+      blog,
+      recentPosts,
+      layout: "user-layout",
+      title: `Blog: ${blog.title}`,
+      user: true,
+      helpers: {
+        formatDate: function (date) {
+          const moment = require("moment");
+          return moment(date).format("MMMM Do YYYY");
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching blog details:", error);
+    res.status(500).send("Server error");
+  }
+});
 
 // Route to fetch gallery data and render the gallery page
 router.get("/gallery", async (req, res) => {
